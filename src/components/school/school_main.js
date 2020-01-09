@@ -11,9 +11,12 @@ export default class SchoolMain extends Component {
     constructor(props){
         super(props);
         this.state = {
-            isLoaded: false,
+            // NEED CHANGE
+            // isLoaded: false,
+            isLoaded: true,
+            
             data : [],
-            showPopup: false,
+            showPopup: true,
         };
 
         this.token = localStorage.getItem('token');
@@ -76,7 +79,45 @@ export default class SchoolMain extends Component {
 
                     ))}
 
+                    <div className="container d-flex justify-content-center mt-5">
+                            <div className="login-form col-lg-6 col-10  p-1">
+                                <div className="alert alert-success" role="alert">
+                                    Здравствуйте <strong>Школа № 34</strong> <br/> Вы успешно вошли в систему Дневник
+                                </div>
+                                <a href="classes.html" >
+                                <div className="card">
+                                <div className="">
+                                    <div className="row ">
+                                        <div className="col-8">
+                                            <h5 className="p-2">Классы</h5>
+                                            <p className="p-2">Ученики <br/> Расписание<br/> Предметы</p>
+                                        </div>
+                                        <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-address-book" aria-hidden="true"></i></h1></div>
+                                    
+                                    </div>
+                                    
+                                </div>
+                                </div>
+                                </a>
 
+                                <a href="teachers.html" >
+                                <div className="card mt-3">
+                                    <div className="">
+                                        <div className="row ">
+                                            <div className="col-8">
+                                                <h5 className="p-2">Учителя</h5>
+                                                <p className="p-2">Список <br/> Рейтинг</p>
+                                            </div>
+                                            <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" aria-hidden="true"></i></h1></div>
+                                        
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div>
+                                </a>
+                            </div>
+                        </div>
                 </div>
             )
         }

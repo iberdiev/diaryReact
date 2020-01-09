@@ -11,6 +11,10 @@ class Login extends React.Component{
         };
         this.error = false;
 
+        // NEED CHANGE
+        localStorage.setItem('token', "12340239530823045");
+        localStorage.setItem('user_role', 1);
+
     }
     // {"username":"admin", "password":"admin"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8080/api/v1/login/
 
@@ -41,34 +45,33 @@ class Login extends React.Component{
             )
         }
     }
-    // <Container>
-    //   <Row>
-    //     <Col sm={8}>sm=8</Col>
-    //     <Col sm={4}>sm=4</Col>
-    //   </Row>
-    //   <Row>
-    //     <Col sm>sm=true</Col>
-    //     <Col sm>sm=true</Col>
-    //     <Col sm>sm=true</Col>
-    //   </Row>
-    // </Container>
+
     render(){
         return(
             <div>
+                <div className="container d-flex justify-content-center mt-3">
+                    <div className="login-form col-lg-6 col-12  p-1">
+                        <div className="alert alert-success" role="alert">
+                        Добро пожаловать в онлайн дневник!
+                        </div>
+                        <div className="card p-3">
+                        <form action="" method="post">
+                            <h2 className="text-center">Вход</h2>       
+                            <div className="form-group">
+                                <input type="text" className="form-control" placeholder="Логин" required="required" onChange={e => this.setState({username: e.target.value})} />
+                            </div>
+                            <div className="form-group">
+                                <input type="password" className="form-control" placeholder="Пароль" required="required" onChange={e => this.setState({password: e.target.value})}/>
+                            </div>
+                            <div className="form-group">
+                                <button type='submit' className="btn btn-primary btn-block" disabled={this.state.isLoginDisabled} >{this.state.isLoginDisabled ? 'Подождите...' : 'Войти'}</button>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                </div>
                 <Container>
-                    <Row>
-
-                        <Col>
-                            <h1>Вход</h1>
-                            <form onSubmit={this.onSubmit}>
-                                <Input type='text' onChange={e => this.setState({username: e.target.value})} placeholder="Логин"/><br/>
-                                <Input type='password' onChange={e => this.setState({password: e.target.value})} placeholder="Пароль"/><br/>
-                                <Button block color="primary" size="lg" disabled={this.state.isLoginDisabled} type='submit'>{this.state.isLoginDisabled ? 'Подождите...' : 'Войти'}
-                                </Button>
-                                {this.wrongCredentials()}
-                            </form>
-                        </Col>
-                    </Row>
+                    
                 </Container>
             </div>
         )
