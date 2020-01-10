@@ -2,7 +2,7 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default class Shool_Teachers extends Component {
+export default class Cohort_Time_Table extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');

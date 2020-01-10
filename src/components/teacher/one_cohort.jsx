@@ -2,7 +2,7 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default class Shool_Teachers extends Component {
+export default class Teacher_One_Cohort extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');
@@ -23,7 +23,7 @@ export default class Shool_Teachers extends Component {
                         <strong>Анара Женишбекова</strong>
                     </div>
                     
-                    <Link to="/school/school_student_list"  style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to="/teacher/teacher_student_list" >
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Список Учеников</p>
@@ -31,7 +31,7 @@ export default class Shool_Teachers extends Component {
                         </div>
                     </Link>
 
-                    <Link to="/school/cohort_time_table" style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to="/teacher/cohort_time_table">
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Расписание</p>
@@ -39,10 +39,10 @@ export default class Shool_Teachers extends Component {
                         </div>
                     </Link>
 
-                    <Link to="/school/cohort_subjects" style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to="/teacher/journal_choose_subject">
                         <div className="card m-1">
                             <div className="p-3 text-center">
-                                <p>Предметы</p>
+                                <p>Журнал</p>
                             </div>
                         </div>
                     </Link>

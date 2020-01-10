@@ -2,7 +2,7 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default class Shool_Teachers extends Component {
+export default class Teacher_Choose_Subject extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');
@@ -17,36 +17,24 @@ export default class Shool_Teachers extends Component {
                     </h6>
                     <div className="alert alert-primary m-1 mb-3" role="alert">
                         <h6 className="m-2 text-center">
-                            10-А класс
+                            Выберите предмет
                         </h6>
-                        Классный руководитель: <br/>
-                        <strong>Анара Женишбекова</strong>
                     </div>
-                    
-                    <Link to="/school/school_student_list"  style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to="/teacher/journal">
                         <div className="card m-1">
                             <div className="p-3 text-center">
-                                <p>Список Учеников</p>
+                                <p>Русский</p>
                             </div>
                         </div>
                     </Link>
 
-                    <Link to="/school/cohort_time_table" style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to="/teacher/journal" >
                         <div className="card m-1">
                             <div className="p-3 text-center">
-                                <p>Расписание</p>
+                                <p>Кыргызский</p>
                             </div>
                         </div>
                     </Link>
-
-                    <Link to="/school/cohort_subjects" style={{color: 'inherit', textDecoration: 'none'}}>
-                        <div className="card m-1">
-                            <div className="p-3 text-center">
-                                <p>Предметы</p>
-                            </div>
-                        </div>
-                    </Link>
-                    
                 </div>
             </div>
         )
