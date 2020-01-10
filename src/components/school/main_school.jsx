@@ -21,7 +21,7 @@ export default class Main_School extends Component {
                         <div className="alert alert-success" role="alert">
                             Здравствуйте <strong>Школа № 34</strong> <br/> Вы успешно вошли в систему Дневник
                         </div>
-                        <Link to="school/school_cohorts/">
+                        <Link to="school/school_cohorts/" style={{color: 'inherit', textDecoration: 'none'}}>
                             <div className="card">
                                 <div className="">
                                     <div className="row ">
@@ -36,7 +36,7 @@ export default class Main_School extends Component {
                                 </div>
                             </div>
                         </Link>
-                        <Link to="school/teachers/">
+                        <Link to="school/teachers/" style={{color: 'inherit', textDecoration: 'none'}}>
                             <div className="card mt-3">
                                 <div className="">
                                     <div className="row ">

@@ -5,16 +5,14 @@ import { Link } from 'react-router-dom';
 class One_Cohort extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            
-        };
+
         this.classeID = this.props.cohort_ID;
         this.token = localStorage.getItem('token');
         
     }
     render() {
         return(
-            <div className="outer-card"><Link  to="/school/school_student_list"><div className="card">11-A ahfywepcrbq </div></Link></div>
+            <div className="outer-card"><Link  to="/school/cohort"><div className="card">11-A ahfywepcrbq </div></Link></div>
         )
     }
 }

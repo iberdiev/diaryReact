@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
+
 import Home from './components/Home';
 import About from './components/About';
 import Navbar from './components/CustomNavbar';
@@ -13,6 +14,9 @@ import GivenSubjectByTeacherStudent from './components/teacher/given_subject_by_
 // NEED CHANGE
 import Shool_Main from './components/school/main_school';
 import School_cohorts from './components/school/school_cohorts';
+import Cohort from './components/school/cohort';
+import Cohort_Time_Table from './components/school/cohort_time_table';
+import Cohort_Subjects from './components/school/cohort_subjects';
 import School_student_list from './components/school/school_student_list';
 import Student_Profile from './components/school/student_profile';
 import Student_Diary from './components/school/student_diary';
@@ -39,6 +43,9 @@ class App extends Component {
           {/* For shools */}
           <Route path='/school/' exact component={Shool_Main}/>
           <Route path='/school/school_cohorts/' exact component={School_cohorts}/>
+          <Route path='/school/cohort/' exact component={Cohort}/>
+          <Route path='/school/cohort_time_table/' exact component={Cohort_Time_Table}/>
+          <Route path='/school/cohort_subjects/' exact component={Cohort_Subjects}/>
           <Route path='/school/school_student_list/' exact component={School_student_list}/>
           <Route path='/school/student_profile/' exact component={Student_Profile}/>
           <Route path='/school/student-diary/' exact component={Student_Diary}/>
