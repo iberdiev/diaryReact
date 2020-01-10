@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 import Home from './components/Home';
-import About from './components/About';
+// import About from './components/About';
 import Navbar from './components/CustomNavbar';
-import ListOfStudents from './components/school/ListOfStudents';
-import SchoolSubjects from './components/school/schoolSubjects';
-import GivenSubjectByTeacher from './components/teacher/given_subject_by_teacher';
-import GivenSubjectByTeacherStudent from './components/teacher/given_subject_by_teacher_student';
+// import ListOfStudents from './components/school/ListOfStudents';
+// import SchoolSubjects from './components/school/schoolSubjects';
+// import GivenSubjectByTeacher from './components/teacher/given_subject_by_teacher';
+// import GivenSubjectByTeacherStudent from './components/teacher/given_subject_by_teacher_student';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 // NEED CHANGE
@@ -52,14 +52,28 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div>
-          <Navbar />
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path='/students/:number/' exact component={ListOfStudents}/>
-          <Route path='/subjects/:number/' exact component={SchoolSubjects}/>
-          <Route path='/teacher/givenSubjects/' exact component={GivenSubjectByTeacher}/>
-          <Route path='/teacher/givenSubjects/student/' exact component={GivenSubjectByTeacherStudent}/>
+          <div>
+              <Navbar />
+              <Route exact path="/" component={Home} />
+              {/* <Route path="/about" component={About} />
+                  <Route path='/students/:number/' exact component={ListOfStudents}/>
+                  <Route path='/subjects/:number/' exact component={SchoolSubjects}/>
+                  <Route path='/teacher/givenSubjects/' exact component={GivenSubjectByTeacher}/>
+                  <Route path='/teacher/givenSubjects/student/' exact component={GivenSubjectByTeacherStudent}/>
+              */}
+              {/* NEEDED CHANGE */}
+              {/* For shools */}
+              <Route path='/school/' exact component={Shool_Main}/>
+              <Route path='/school/school_cohorts/' exact component={School_cohorts}/>
+              <Route path='/school/cohort/' exact component={Cohort}/>
+              <Route path='/school/cohort_time_table/' exact component={Cohort_Time_Table}/>
+              <Route path='/school/cohort_subjects/' exact component={Cohort_Subjects}/>
+              <Route path='/school/school_student_list/' exact component={School_student_list}/>
+              <Route path='/school/student_profile/' exact component={Student_Profile}/>
+              <Route path='/school/student-diary/' exact component={Student_Diary}/>
+              <Route path='/school/teachers/' exact component={Shool_Teachers}/>
+              <Route path='/school/teacher_profile/' exact component={Shool_Teachers_Profile}/>
+              <Route path='/school/teacher_time_table/' exact component={Teacher_Time_Table}/>
 
           {/* NEEDED CHANGE */}
           {/* For shools */}

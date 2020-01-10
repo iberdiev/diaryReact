@@ -14,7 +14,7 @@ export default class SchoolMain extends Component {
             // NEED CHANGE
             // isLoaded: false,
             isLoaded: true,
-            
+
             data : [],
             showPopup: true,
         };
@@ -27,64 +27,54 @@ export default class SchoolMain extends Component {
     //     localStorage.removeItem('user_role');
     //     window.location.reload();
     // }
-    componentDidMount = () =>{
-
-        axios.get('http://192.168.0.55:8080/api/v1/get_cohorts/',{
-            headers:{
-                Authorization:'Token ' + this.token,
-            }
-        }).then(res => {
-            const data = res.data;
-            this.setState({
-                isLoaded: true,
-                data: data,
-            })
-        })
-        .catch(err =>{
-            console.log(err.error);
-        });
-    }
-    togglePopup() {
-        this.setState({
-          showPopup: !this.state.showPopup
-        });
-    }
+    // componentDidMount = () =>{
+    //
+    //     axios.get('http://192.168.0.55:8080/api/v1/get_cohorts/',{
+    //         headers:{
+    //             Authorization:'Token ' + this.token,
+    //         }
+    //     }).then(res => {
+    //         const data = res.data;
+    //         this.setState({
+    //             isLoaded: true,
+    //             data: data,
+    //         })
+    //     })
+    //     .catch(err =>{
+    //         console.log(err.error);
+    //     });
+    // }
+    // togglePopup() {
+    //     this.setState({
+    //       showPopup: !this.state.showPopup
+    //     });
+    // }
     render() {
         const {isLoaded, data} = this.state
-        if (!isLoaded){
-            return(
-                <div>
-                    <h1> Подождите, идет загрузка классов </h1>
-                </div>
-            )
-        } else {
             return (
                 <div>
-                    <h1>Школа</h1>
-                    <Button block color="primary" size="lg" onClick={this.togglePopup.bind(this)}>{this.state.showPopup ? 'Скрыть': 'Создать класс'}
-                    </Button>
-                    <Collapse isOpen={this.state.showPopup}>
+                    {/* <Button block color="primary" size="lg" onClick={this.togglePopup.bind(this)}>{this.state.showPopup ? 'Скрыть': 'Создать класс'}
+                    </Button> */}
+                    {/* <Collapse isOpen={this.state.showPopup}>
                         <Card>
-                          <CardBody>
-                                <Popup/>
-                          </CardBody>
+                            <CardBody>
+                        <Popup/>
+                            </CardBody>
                         </Card>
-                    </Collapse>
-                    <br />
-
-                    {data.map(cohort => (
+                    </Collapse> */}
+                    {/* {data.map(cohort => (
                         <Table><tbody>
                             <OneCohort key={cohort.pk} class_name={cohort.class_name} pk={cohort.pk} />
                         </tbody></Table>
 
-                    ))}
+                    ))} */}
 
                     <div className="container d-flex justify-content-center mt-5">
-                            <div className="login-form col-lg-6 col-10  p-1">
-                                <div className="alert alert-success" role="alert">
-                                    Здравствуйте <strong>Школа № 34</strong> <br/> Вы успешно вошли в систему Дневник
-                                </div>
-                                <a href="classes.html" >
+                        <div className="login-form col-lg-6 col-10  p-1">
+                            <div className="alert alert-success" role="alert">
+                                Здравствуйте <strong>Школа: {localStorage.getItem('school')}</strong> <br/> Вы успешно вошли в систему Дневник
+                            </div>
+                            <a href="school/school_cohorts/" >
                                 <div className="card">
                                 <div className="">
                                     <div className="row ">
@@ -93,9 +83,9 @@ export default class SchoolMain extends Component {
                                             <p className="p-2">Ученики <br/> Расписание<br/> Предметы</p>
                                         </div>
                                         <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-address-book" aria-hidden="true"></i></h1></div>
-                                    
+
                                     </div>
-                                    
+
                                 </div>
                                 </div>
                                 </a>
@@ -109,10 +99,10 @@ export default class SchoolMain extends Component {
                                                 <p className="p-2">Список <br/> Рейтинг</p>
                                             </div>
                                             <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" aria-hidden="true"></i></h1></div>
-                                        
+
                                         </div>
-                                        
-                                        
+
+
                                     </div>
                                 </div>
                                 </a>
@@ -120,7 +110,7 @@ export default class SchoolMain extends Component {
                         </div>
                 </div>
             )
-        }
+
 
     }
 }
