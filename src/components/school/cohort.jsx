@@ -1,5 +1,5 @@
 import React, {  Component } from 'react'
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 export default class Shool_Teachers extends Component {
@@ -11,19 +11,19 @@ export default class Shool_Teachers extends Component {
         return(
             <div className="container d-flex justify-content-center mt-2">
                 <div className="login-form col-lg-6 col-10  p-1">
-                    
+
                     <h6 className="m-2 text-center">
-                        
                     </h6>
+
                     <div className="alert alert-primary m-1 mb-3" role="alert">
                         <h6 className="m-2 text-center">
-                            10-А класс
+                            {this.props.location.state.className}
                         </h6>
                         Классный руководитель: <br/>
-                        <strong>Анара Женишбекова</strong>
+                        <strong>{this.props.location.state.mainTeacherName}</strong>
                     </div>
-                    
-                    <Link to="school_student_list"  style={{color: 'inherit', textDecoration: 'none'}}>
+
+                    <Link to={{pathname: "school_student_list", state: {className: this.props.location.state.className, cohortID: this.props.location.state.cohortID}}}  style={{color: 'inherit', textDecoration: 'none'}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Список Учеников</p>
@@ -31,7 +31,7 @@ export default class Shool_Teachers extends Component {
                         </div>
                     </Link>
 
-                    <Link to="cohort_time_table" style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to={{pathname: "cohort_time_table/" }} style={{color: 'inherit', textDecoration: 'none'}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Расписание</p>
@@ -39,14 +39,13 @@ export default class Shool_Teachers extends Component {
                         </div>
                     </Link>
 
-                    <Link to="cohort_subjects" style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to={{pathname: "cohort_subjects/", state: {className:  this.props.location.state.className, cohortID: this.props.location.state.cohortID}}}  style={{color: 'inherit', textDecoration: 'none'}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Предметы</p>
                             </div>
                         </div>
                     </Link>
-                    
                 </div>
             </div>
         )

@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 // import {Button} from 'react-bootstrap';
-import {Button, Container, Row, Col, Input} from 'reactstrap';
+import { Container } from 'reactstrap';
 class Login extends React.Component{
 
     constructor(props){
@@ -12,8 +12,8 @@ class Login extends React.Component{
         this.error = false;
 
         // NEED CHANGE
-        localStorage.setItem('token', "12340239530823045");
-        localStorage.setItem('user_role', 1);
+        // localStorage.setItem('token', "12340239530823045");
+        // localStorage.setItem('user_role', 1);
 
     }
     // {"username":"admin", "password":"admin"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8080/api/v1/login/
@@ -22,7 +22,7 @@ class Login extends React.Component{
         event.preventDefault();
         this.setState({ isLoginDisabled: true, })
         localStorage.setItem('school', this.state.username);
-        axios.post('http://192.168.0.55:8080/api/v1/login/', {"username": this.state.username, "password":this.state.password})
+        axios.post('http://127.0.0.1:8080/api/v1/login/', {"username": this.state.username, "password":this.state.password})
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user_role', res.data.user_role);
@@ -55,8 +55,8 @@ class Login extends React.Component{
                         Добро пожаловать в онлайн дневник!
                         </div>
                         <div className="card p-3">
-                        <form action="" method="post">
-                            <h2 className="text-center">Вход</h2>       
+                        <form onSubmit={this.onSubmit}>
+                            <h2 className="text-center">Вход</h2>
                             <div className="form-group">
                                 <input type="text" className="form-control" placeholder="Логин" required="required" onChange={e => this.setState({username: e.target.value})} />
                             </div>
@@ -71,7 +71,7 @@ class Login extends React.Component{
                     </div>
                 </div>
                 <Container>
-                    
+
                 </Container>
             </div>
         )

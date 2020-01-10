@@ -1,5 +1,5 @@
 import React, {  Component } from 'react'
-import axios from 'axios';
+// import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 
@@ -28,16 +28,16 @@ export default class Shool_Teachers_Profile extends Component {
                                 <h6 className="m-2">
                                 Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>077777777
                                 </h6>
-                                
+
                             </div>
                         </div>
                         <div className="card mt-2 p-4 center-items">
                             <Link to="/school/teacher_time_table/" className="btn btn-success">Посмотреть расписание преподователя</Link>
                         </div>
-                        
 
-                    
-                    
+
+
+
                 </div>
             </div>
         )
