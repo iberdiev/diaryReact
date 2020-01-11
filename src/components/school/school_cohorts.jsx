@@ -52,7 +52,7 @@ export default class Cohorts extends Component {
                 <div className="container d-flex justify-content-center mt-3">
                     <div className="login-form col-lg-6 col-12 text-center">
                         <h6 >
-                            Классы Школы № 34
+                            Классы Школы {localStorage.getItem('school')}
                         </h6>
                         <div className="centering">
                             <div className="row">

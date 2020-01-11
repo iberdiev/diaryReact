@@ -61,30 +61,17 @@ class App extends Component {
                   <Route path='/teacher/givenSubjects/' exact component={GivenSubjectByTeacher}/>
                   <Route path='/teacher/givenSubjects/student/' exact component={GivenSubjectByTeacherStudent}/>
               */}
-              {/* NEEDED CHANGE */}
-              {/* For shools */}
-              <Route path='/school/' exact component={Shool_Main}/>
-              <Route path='/school/school_cohorts/' exact component={School_cohorts}/>
-              <Route path='/school/cohort/' exact component={Cohort}/>
-              <Route path='/school/cohort_time_table/' exact component={Cohort_Time_Table}/>
-              <Route path='/school/cohort_subjects/' exact component={Cohort_Subjects}/>
-              <Route path='/school/school_student_list/' exact component={School_student_list}/>
-              <Route path='/school/student_profile/' exact component={Student_Profile}/>
-              <Route path='/school/student-diary/' exact component={Student_Diary}/>
-              <Route path='/school/teachers/' exact component={Shool_Teachers}/>
-              <Route path='/school/teacher_profile/' exact component={Shool_Teachers_Profile}/>
-              <Route path='/school/teacher_time_table/' exact component={Teacher_Time_Table}/>
+
 
           {/* NEEDED CHANGE */}
           {/* For shools */}
-          <Route path='/school/' exact component={Shool_Main}/>
           <Route path='/school/school_cohorts/' exact component={School_cohorts}/>
           <Route path='/school/cohort/' exact component={Cohort}/>
           <Route path='/school/cohort_time_table/' exact component={Cohort_Time_Table}/>
           <Route path='/school/cohort_subjects/' exact component={Cohort_Subjects}/>
           <Route path='/school/school_student_list/' exact component={School_student_list}/>
           <Route path='/school/student_profile/' exact component={Student_Profile}/>
-          <Route path='/school/student-diary/' exact component={Student_Diary}/>
+          <Route path='/school/student_diary/' exact component={Student_Diary} />
           <Route path='/school/teachers/' exact component={Shool_Teachers}/>
           <Route path='/school/teacher_profile/' exact component={Shool_Teachers_Profile}/>
           <Route path='/school/teacher_time_table/' exact component={Teacher_Time_Table}/>

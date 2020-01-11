@@ -6,7 +6,9 @@ import { Link } from 'react-router-dom';
 export default class School_Profile extends Component {
     constructor(props){
         super(props);
-        this.token = localStorage.getItem('token');
+        this.state = {
+            data : {studentCohort: "10-А", studentPhone: "07777777", parentName: "Айжана Алимбекова", parentPhone: "055555555"  },
+        };
     }
     render() {
         return(
@@ -15,28 +17,28 @@ export default class School_Profile extends Component {
                         <div className="card mt-2  center-items center-items">
                             <div className="alert alert-primary text-center mt-4 mb-0" id="profile-info" role="alert">
                                 <h5 className="m-1">
-                                    Мээрбек Акимжанов
+                                    {this.props.location.state.studentName}
                                 </h5>
                             </div>
                             <div className="m-2 text-center">
                                 <h6>
-                                Ученик 10-А класса
+                                Ученик {this.state.data.studentCohort} класса
                                 <br/>
-                                Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>077777777
+                                Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>{this.state.data.studentPhone}
                                 </h6>
                             </div>
                         </div>
                         <div className="card mt-2 p-4 center-items">
-                            <Link to="/shool/student-diary/" className="btn btn-success">Посмотреть дневник</Link>
+                            <Link to={{pathname:"/school/student_diary/", state:{pk: this.props.location.state.pk}}} className="btn btn-success">Посмотреть дневник</Link>
                         </div>
                         <div className="card mt-2 ">
                             <div className="m-2 p-2  text-left">
                                 <h6>
                                 Родители:
                                 <br/>
-                                Мама: Айжана Алимбекова
+                                {this.state.data.parentName}
                                 <br/>
-                                Контакты: <a href="tel:077777777" className="btn btn-success m-0 p-0 pr-1"> <i className="fa fa-phone p-1 mr-1"  aria-hidden="true"></i>077777777</a>
+                                Контакты: <a href={"tel:"+this.state.data.parentPhone} className="btn btn-success m-0 p-0 pr-1"> <i className="fa fa-phone p-1 mr-1"  aria-hidden="true"></i>{this.state.data.parentPhone}</a>
                                 </h6>
                             </div>
                         </div>

@@ -7,6 +7,9 @@ export default class Shool_Teachers_Profile extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');
+        this.state = {
+            data : [{class_name: "10-А", pk: 4},{class_name: "11-Б", pk: 4}],
+        };
     }
     render() {
         return(
