@@ -29,7 +29,7 @@ export default class Cohorts extends Component {
     }
     componentDidMount = () =>{
 
-        axios.get('http://127.0.0.1:8080/api/v1/get_cohorts/',{
+        axios.get('http://192.168.0.55:8080/api/v1/get_cohorts/',{
             headers:{
                 Authorization:'Token ' + this.token,
             }

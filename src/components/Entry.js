@@ -16,13 +16,13 @@ class Login extends React.Component{
         // localStorage.setItem('user_role', 1);
 
     }
-    // {"username":"admin", "password":"admin"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8080/api/v1/login/
+    // {"username":"admin", "password":"admin"}' -H "Content-Type: application/json" -X POST http://192.168.0.55:8080/api/v1/login/
 
     onSubmit = event =>{
         event.preventDefault();
         this.setState({ isLoginDisabled: true, })
         localStorage.setItem('school', this.state.username);
-        axios.post('http://127.0.0.1:8080/api/v1/login/', {"username": this.state.username, "password":this.state.password})
+        axios.post('http://192.168.0.55:8080/api/v1/login/', {"username": this.state.username, "password":this.state.password})
             .then(res => {
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user_role', res.data.user_role);

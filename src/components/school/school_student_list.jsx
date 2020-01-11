@@ -23,7 +23,7 @@ export default class School_student_list extends Component {
     }
     componentDidMount = () =>{
 
-        const url = "http://127.0.0.1:8080/api/v1/students/?cohort=" + this.props.location.state.cohortID;
+        const url = "http://192.168.0.55:8080/api/v1/students/?cohort=" + this.props.location.state.cohortID;
 
         axios.get(url,{
             headers:{
