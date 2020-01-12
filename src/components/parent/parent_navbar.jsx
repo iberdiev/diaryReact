@@ -1,17 +1,36 @@
 import React, { Component } from 'react'
-// import { Navbar, Nav, NavItem } from 'react-bootstrap';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-// import { Fragment } from 'react';
-// import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 
-export default class CustomNavbar extends Component {
+export default class SchoolNavbar extends Component {
     logout = event => {
         event.preventDefault();
         localStorage.removeItem('token');
         localStorage.removeItem('user_role');
         window.location.href = "/";
     }
+    constructor(props){
+      super(props);
+      this.state = {
+          data: [],
+      }
+  }
+  componentWillMount = () =>{
+      axios.get("http://192.168.0.55:8080/api/v1/getTheChild/",{
+          headers:{
+              Authorization:'Token ' + localStorage.getItem('token'),
+          }
+      }).then(res => {
+          const data = res.data[0];
+          this.setState({
+              data: data,
+          });
+      })
+      .catch(err =>{
+          console.log(err.error);
+      });
+  }
   render() {
     const token = localStorage.getItem('token');
     return (
@@ -26,12 +45,18 @@ export default class CustomNavbar extends Component {
               <div className="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
-                    <a className="nav-link" href="/">Главная</a>
+                    <Link to={{pathname:"/parent/student_diary/", state:{pk: this.state.data.pk}}}  className="nav-link">Главная</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/">Ссылка</a>
+                    <Link  className="nav-link">Дневник ученика</Link>
                   </li>
-                  <li><button onClick={this.logout} disabled={!token} >Выйти</button></li>
+                  <li className="nav-item">
+                    <Link to="/parent/student_statistics" className="nav-link">Успеваемость</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link to ="/parent/student_teachers" className="nav-link" href="/">Учителя</Link>
+                  </li>
+                  <li><a className="nav-link" onClick={this.logout} href="#" disabled={!token} >Выйти</a> </li>
                 </ul>
 
               </div>

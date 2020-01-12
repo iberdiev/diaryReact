@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
-// import { Navbar, Nav, NavItem } from 'react-bootstrap';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
-// import { Fragment } from 'react';
-// import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap';
 
-export default class CustomNavbar extends Component {
+export default class SchoolNavbar extends Component {
     logout = event => {
         event.preventDefault();
         localStorage.removeItem('token');
@@ -26,12 +23,15 @@ export default class CustomNavbar extends Component {
               <div className="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
-                    <a className="nav-link" href="/">Главная</a>
+                    <Link  to="/" className="nav-link">Главная</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/">Ссылка</a>
+                    <Link to="/school/school_cohorts/" className="nav-link">Классы</Link>
                   </li>
-                  <li><button onClick={this.logout} disabled={!token} >Выйти</button></li>
+                  <li className="nav-item">
+                    <Link to="/school/teachers/" className="nav-link">Учителя</Link>
+                  </li>
+                  <li><a className="nav-link" onClick={this.logout} href="#" disabled={!token} >Выйти</a> </li>
                 </ul>
 
               </div>
