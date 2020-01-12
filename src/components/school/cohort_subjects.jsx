@@ -10,7 +10,7 @@ export default class Shool_Teachers extends Component {
         };
     }
     componentDidMount = () =>{
-        const url = 'http://192.168.0.55:8080/api/v1/subjects/?cohort=' + this.props.location.state.cohortID;
+        const url = 'http://192.168.0.55:8080/api/v1/subjects/?cohortID=' + this.props.location.state.cohortID;
         axios.get(url,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),

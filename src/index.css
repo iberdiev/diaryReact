@@ -27,7 +27,9 @@ h3 {
     font-size: 1.6em;
     line-height: 1.4em;
 }
-
+h2{
+    font-size: 1.8em;
+}
 p {
     font-size: 13px;
     font-family: 'Noto Serif', serif;
@@ -215,4 +217,9 @@ a:hover{
     width: 130px;
     background: rgb(218, 218, 218);
     color: black;
+}
+
+.card{
+    box-shadow:0px 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
 }

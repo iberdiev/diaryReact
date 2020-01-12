@@ -18,6 +18,7 @@ export default class School_student_list extends Component {
     constructor(props){
         super(props);
         this.state = {
+            isLoaded: false,
             data: [],
         };
         this.token = localStorage.getItem('token');
@@ -48,6 +49,12 @@ export default class School_student_list extends Component {
         return(
             <div className="d-flex justify-content-center mt-2">
                 <div className="col-lg-6 col-12  p-1 ">
+                    {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""}
                     <h6 className="text-center m-2">
                         Ученики {this.props.location.state.className}
                     </h6>

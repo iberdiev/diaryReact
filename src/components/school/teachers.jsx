@@ -7,8 +7,8 @@ class OneTeacher extends Component {
         return(
             <tr>
                 <td>{this.props.number}</td>
-                <td><Link to = "/school/teacher_profile/">{this.props.name}</Link></td>
-                <td><Link to = "/school/teacher_profile/"><span className="star"><i className="fa fa-star" aria-hidden="true"></i>{this.props.overall}</span></Link></td>
+                <td><Link to ={{pathname:"/school/teacher_profile/", state:{teacherID:this.props.pk}}}>{this.props.name}</Link></td>
+                <td><Link to ={{pathname:"/school/teacher_profile/", state:{teacherID:this.props.pk}}} ><span className="star"><i className="fa fa-star" aria-hidden="true"></i>{this.props.overall}</span></Link></td>
 
             </tr>
         )
@@ -60,7 +60,7 @@ export default class Shool_Teachers extends Component {
                     </thead>
                     <tbody>
                     {teachers.map((teacher, i) => (
-                        <OneTeacher number={i+1} name={teacher.teacherName} overall="4.5"/>
+                        <OneTeacher number={i+1} name={teacher.teacherName} pk={teacher.pk} overall="4.5"/>
                     ))}
 
 

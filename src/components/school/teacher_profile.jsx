@@ -35,7 +35,7 @@ export default class Shool_Teachers_Profile extends Component {
                             </div>
                         </div>
                         <div className="card mt-2 p-4 center-items">
-                            <Link to={{pathname:"/school/teacher_time_table/"}}  className="btn btn-success">Посмотреть расписание преподователя</Link>
+                            <Link to={{pathname:"/school/teacher_time_table/",state:{teacherID:this.props.location.state.teacherID}}}  className="btn btn-success">Посмотреть расписание преподователя</Link>
                         </div>
 
 
