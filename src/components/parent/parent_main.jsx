@@ -19,7 +19,6 @@ export default class Parent_Main extends Component {
             this.setState({
                 data: data,
             });
-            console.log(data)
         })
         .catch(err =>{
             console.log(err.error);
@@ -65,12 +64,12 @@ export default class Parent_Main extends Component {
                         </div>
                     </div>
                     </Link>
-                    <Link to ="/parent/student_teachers">
+                    <Link to={{pathname:"/parent/student_teachers", state:{pk: data.pk, cohortID: data.cohort}}}>
                     <div className="card mt-3">
                         <div className="">
                             <div className="row ">
                                 <div className="col-8">
-                                    <h5 className="p-2">Учителя</h5>
+                                    <h5 className="p-2">Предметы</h5>
                                     <p className="p-2">Рейтиннги <br/> Оценивания учителей</p>
                                 </div>
                                 <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" aria-hidden="true"></i></h1></div>
