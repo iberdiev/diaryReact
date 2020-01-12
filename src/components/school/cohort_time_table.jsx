@@ -102,19 +102,18 @@ export default class Student_Diary extends Component {
         return(
             <div className="d-flex justify-content-center mt-2">
                 <div className="col-lg-6 col-12  p-1 ">
-                    {/* {!this.state.isLoaded ?
+                    {!this.state.isLoaded ?
                         <div>
                             <div className="preloader center-items">
                             <div className="lds-dual-ring"></div>
                         </div>
-                    </div> : ""} */}
+                    </div> : ""}
                     <div className="owl-carousel owlExample">
                         <div className="item">
                             <div className="p-1 row">
-                                <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><input id="date" onChange={e => this.setState({chosenDate: new Date(e.target.value)})} type="date" value={this.formatDate(this.state.chosenDate)}/><span  id="datepicker">Date</span></span></div>
+                            <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)}/></span></span></div>
                                 <div className="date-picker">
                                     <span className="btn-link">{this.props.istoday}</span>
-                                    <span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)}/></span>
                                 </div>
                             </div>
                             <div className="col-12">
