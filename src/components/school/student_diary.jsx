@@ -42,6 +42,7 @@ export default class Student_Diary extends Component {
     getTable(date) {
         this.setState({
             isLoaded: false,
+            timeTable: [],
         })
         const url = `http://192.168.0.55:8080/api/v1/timetableByCohort/?studentID=${this.props.location.state.pk}&cohortID=3&date=${this.formatDate(date)}`;
         axios.get(url,{
@@ -87,6 +88,11 @@ export default class Student_Diary extends Component {
         return (dd+'/'+mm+'/'+yyyy);
 
     }
+    onChosenDate = event => {
+        var chosenDate = new Date(event.target.value);
+        this.setState({chosenDate: chosenDate});
+        this.getTable(chosenDate);
+    }
 
     componentWillMount = () => {
         var tempcurrentTime = new Date();
@@ -107,7 +113,7 @@ export default class Student_Diary extends Component {
                                 <div className="col-8">{this.getWeekDay(this.state.chosenDate)} - {this.convertToDDMMYYYY(this.state.chosenDate)}</div>
                                 <div className="date-picker">
                                     <span className="btn-link">{this.props.istoday}</span>
-                                    <span><input id="date" onChange={e => this.setState({chosenDate: new Date(e.target.value)})} type="date" value={this.formatDate(this.state.chosenDate)}/></span>
+                                    <span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)}/></span>
                                 </div>
                             </div>
                             <div className="col-12">
