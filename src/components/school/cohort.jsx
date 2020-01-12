@@ -31,7 +31,7 @@ export default class Shool_Teachers extends Component {
                         </div>
                     </Link>
 
-                    <Link to={{pathname: "cohort_time_table/" }} style={{color: 'inherit', textDecoration: 'none'}}>
+                    <Link to={{pathname: "cohort_time_table/", state: {className: this.props.location.state.className, cohortID: this.props.location.state.cohortID}}} style={{color: 'inherit', textDecoration: 'none'}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Расписание</p>

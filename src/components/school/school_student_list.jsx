@@ -8,7 +8,7 @@ class OneStudent extends Component {
             <tr>
                 <td>{this.props.number}</td>
                 
-                <td><Link to={{pathname: '/school/student_profile/', state: { studentName: this.props.name, pk: this.props.pk}}}>{this.props.name}</Link></td>
+                <td><Link to={{pathname: '/school/student_profile/', state: { studentName: this.props.name, pk: this.props.pk, cohortID: this.props.cohortID}}}>{this.props.name}</Link></td>
             </tr>
         )
     }
@@ -62,7 +62,7 @@ export default class School_student_list extends Component {
                         </thead>
                         <tbody>
                             {data.map((student, i) => (
-                                <OneStudent number={i+1} name={student.studentName} pk={student.pk} />
+                                <OneStudent number={i+1} name={student.studentName} pk={student.pk} cohortID={this.props.location.state.cohortID} />
                             ))}
 
 

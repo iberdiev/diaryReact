@@ -44,7 +44,7 @@ export default class Student_Diary extends Component {
             isLoaded: false,
             timeTable: [],
         })
-        const url = `http://192.168.0.55:8080/api/v1/timetableByCohort/?studentID=${this.props.location.state.pk}&cohortID=3&date=${this.formatDate(date)}`;
+        const url = `http://192.168.0.55:8080/api/v1/timetableByCohortWithOneStudentsGrades/?studentID=${this.props.location.state.pk}&cohortID=${this.props.location.state.cohortID}&date=${this.formatDate(date)}`;
         axios.get(url,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),

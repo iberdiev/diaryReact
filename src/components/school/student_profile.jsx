@@ -29,7 +29,7 @@ export default class School_Profile extends Component {
                             </div>
                         </div>
                         <div className="card mt-2 p-4 center-items">
-                            <Link to={{pathname:"/school/student_diary/", state:{pk: this.props.location.state.pk}}} className="btn btn-success">Посмотреть дневник</Link>
+                            <Link to={{pathname:"/school/student_diary/", state:{pk: this.props.location.state.pk, cohortID: this.props.location.state.cohortID}}} className="btn btn-success">Посмотреть дневник</Link>
                         </div>
                         <div className="card mt-2 ">
                             <div className="m-2 p-2  text-left">
