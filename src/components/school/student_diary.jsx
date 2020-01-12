@@ -96,23 +96,28 @@ export default class Student_Diary extends Component {
         });
     }
     componentDidMount = () =>{
-        this.getTable(this.state.chosenDate)
+        this.getTable(this.state.chosenDate);
     }
     render() {
         return(
             <div className="d-flex justify-content-center mt-2">
                 <div className="col-lg-6 col-12  p-1 ">
+                    {/* {!this.state.isLoaded ? 
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""} */}
                     <div className="owl-carousel owlExample">
                         <div className="item">
                             <div className="p-1 row">
-                                <div className="col-8">{this.getWeekDay(this.state.chosenDate)} - {this.convertToDDMMYYYY(this.state.chosenDate)}</div>
+                                <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><input id="date" onChange={e => this.setState({chosenDate: new Date(e.target.value)})} type="date" value={this.formatDate(this.state.chosenDate)}/><span  id="datepicker">Date</span></span></div>
                                 <div className="date-picker">
-                                    <span className="btn-link">{this.props.istoday}</span>
-                                    <span><input id="date" onChange={e => this.setState({chosenDate: new Date(e.target.value)})} type="date" value={this.formatDate(this.state.chosenDate)}/></span>
+                                    <span className="btn-link">Сегодня</span>
                                 </div>
                             </div>
                             <div className="col-12">
-                                <h2 className="text-center mt-3 mb-4 btn-link"> <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() - 1) ) }} className="btn btn-success"><i className="fa fa-arrow-left p-1 mr-1"></i></button> {this.props.day_of_week}<button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() + 1) ) }} className="btn btn-success"><i className="fa fa-arrow-right p-1 mr-1"></i></button></h2>
+                                <h2 className="text-center mt-3 mb-4 btn-link"> <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() - 1) ) }} className="btn btn-primary float-left ml-3"><i className="fa fa-arrow-left p-1 mr-1"></i></button> {this.getWeekDay(this.state.chosenDate)} <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() + 1) ) }} className="btn btn-primary float-right mr-3"><i className="fa fa-arrow-right p-1 mr-1"></i></button></h2>
                             </div>
                             <div className="pl-3 p-2">
                                 <div className="row">
@@ -127,7 +132,7 @@ export default class Student_Diary extends Component {
                                     </div>
                                 </div>
                             </div>
-                            {!this.state.isLoaded ? <div>Загрузка</div> : ""}
+                            
                             {this.state.timeTable.map(subject => (
                                 <One_Class subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
                             ))}
