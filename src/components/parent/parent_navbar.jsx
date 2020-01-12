@@ -22,6 +22,7 @@ export default class SchoolNavbar extends Component {
               Authorization:'Token ' + localStorage.getItem('token'),
           }
       }).then(res => {
+
           const data = res.data[0];
           this.setState({
               data: data,
@@ -54,7 +55,7 @@ export default class SchoolNavbar extends Component {
                     <Link to="/parent/student_statistics" className="nav-link">Успеваемость</Link>
                   </li>
                   <li className="nav-item">
-                    <Link to ="/parent/student_teachers" className="nav-link" href="/">Учителя</Link>
+                    <Link to={{pathname:"/parent/student_teachers", state:{cohortID: this.state.data.cohort}}} className="nav-link" href="/">Учителя</Link>
                   </li>
                   <li><a className="nav-link" onClick={this.logout} href="#" disabled={!token} >Выйти</a> </li>
                 </ul>
