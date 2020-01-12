@@ -107,7 +107,7 @@ export default class Student_Diary extends Component {
         return(
             <div className="d-flex justify-content-center mt-2">
                 <div className="col-lg-6 col-12  p-1 ">
-                    {/* {!this.state.isLoaded ? 
+                    {/* {!this.state.isLoaded ?
                         <div>
                             <div className="preloader center-items">
                             <div className="lds-dual-ring"></div>
@@ -138,7 +138,7 @@ export default class Student_Diary extends Component {
                                     </div>
                                 </div>
                             </div>
-                            
+
                             {this.state.timeTable.map(subject => (
                                 <One_Class subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
                             ))}
