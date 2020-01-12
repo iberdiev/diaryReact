@@ -55,8 +55,6 @@ export default class Teacher_Journal extends Component {
                                                 </a>
                                             </td>
                                         </tr>
-                                        
-
                                     </tbody>
                                 </table>
                             </div>

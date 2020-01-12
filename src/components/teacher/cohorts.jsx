@@ -9,6 +9,22 @@ export default class Teacher_Cohorts extends Component {
             data : [{class_name: "10-А", pk: 4},{class_name: "11-Б", pk: 4}],
         };
     }
+    componentWillMount = () =>{
+        axios.get("http://192.168.0.55:8080/api/v1/getUniqueCohortsByTaught/",{
+            headers:{
+                Authorization:'Token ' + localStorage.getItem('token'),
+            }
+        }).then(res => {
+            const data = res.data;
+            this.setState({
+                data: data,
+            });
+            console.log(data)
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+    }
     render() {
         return (
             <div className="container d-flex justify-content-center mt-5">
@@ -19,10 +35,10 @@ export default class Teacher_Cohorts extends Component {
                 </h6>
 
                 {this.state.data.map(cohort => (
-                    <Link to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.pk, className: cohort.class_name}}}>
+                    <Link to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, className: cohort.cohortName}}}>
                         <div className="card m-2 p-3 ">
                             <h5 className="">
-                               {cohort.class_name}
+                               {cohort.cohortName}
                             </h5>
                         </div>
                     </Link>

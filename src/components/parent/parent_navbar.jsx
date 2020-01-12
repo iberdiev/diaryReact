@@ -45,10 +45,10 @@ export default class SchoolNavbar extends Component {
               <div className="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
-                    <Link to={{pathname:"/parent/student_diary/", state:{pk: this.state.data.pk}}}  className="nav-link">Главная</Link>
+                    <Link to="/"  className="nav-link">Главная</Link>
                   </li>
                   <li className="nav-item">
-                    <Link  className="nav-link">Дневник ученика</Link>
+                    <Link to = {{pathname:"/parent/student_diary/", state:{pk: this.state.data.pk, cohortID: this.state.data.cohort}}}  className="nav-link">Дневник ученика</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/parent/student_statistics" className="nav-link">Успеваемость</Link>

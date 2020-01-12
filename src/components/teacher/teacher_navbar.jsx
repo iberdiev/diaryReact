@@ -1,5 +1,29 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+
 export default class SchoolNavbar extends Component {
+      constructor(props){
+        super(props);
+        this.state = {
+            teacherID: null,
+        }
+    }
+    componentWillMount = () =>{
+        axios.get("http://192.168.0.55:8080/api/v1/getTeacherID/",{
+            headers:{
+                Authorization:'Token ' + localStorage.getItem('token'),
+            }
+        }).then(res => {
+            const data = res.data;
+            this.setState({
+                teacherID: res.data,
+            });
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+    }
     logout = event => {
         event.preventDefault();
         localStorage.removeItem('token');
@@ -16,14 +40,16 @@ export default class SchoolNavbar extends Component {
               <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
-
               <div className="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
-                    <a className="nav-link" href="/">Главная</a>
+                    <Link to='/' className="nav-link" >Главная</Link>
                   </li>
                   <li className="nav-item">
-                    <a className="nav-link" href="/">Ссылка</a>
+                    <Link to = {{pathname:"/teacher/teacher_time_table/", state:{teacherID:this.state.teacherID}}} className="nav-link" >Расписание</Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link  to="/teacher/cohorts" className="nav-link" >Классы</Link>
                   </li>
                   <li><a className="nav-link" onClick={this.logout} href="#" disabled={!token} >Выйти</a> </li>
                 </ul>

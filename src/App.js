@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import './App.css';
 
-import Home from './components/Home';
 import Login from './components/Entry';
 
 
@@ -73,6 +72,7 @@ class App extends Component {
           <Route path='/school/teachers/' exact component={Shool_Teachers}/>
           <Route path='/school/teacher_profile/' exact component={Shool_Teachers_Profile}/>
           <Route path='/school/teacher_time_table/' exact component={Teacher_Time_Table}/>
+
         </Router>
       )
     }

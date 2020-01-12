@@ -25,17 +25,17 @@ export default class Teacher_One_Cohort extends Component {
                         <h6 className="m-2 text-center">
                             {this.props.location.state.className} класс
                         </h6>
-                        Классный руководитель: <br/>
-                        <strong>Анара Женишбекова</strong>
+                        {/* Классный руководитель: <br/>
+                        <strong>Анара Женишбекова</strong> */}
                     </div>
-                    <Link to="/teacher/teacher_student_list" >
+                    <Link to={{pathname:"/teacher/teacher_student_list", state:{cohortID:this.props.location.state.cohortID}}} >
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Список Учеников</p>
                             </div>
                         </div>
                     </Link>
-                    <Link to="/teacher/cohort_time_table">
+                    <Link to={{pathname:"/teacher/cohort_time_table", state:{cohortID:this.props.location.state.cohortID}}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Расписание</p>
@@ -43,7 +43,7 @@ export default class Teacher_One_Cohort extends Component {
                         </div>
                     </Link>
 
-                    <Link to="/teacher/journal_choose_subject">
+                    <Link to={{pathname:"/teacher/journal_choose_subject", state:{cohortID:this.props.location.state.cohortID}}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Журнал</p>
