@@ -24,6 +24,7 @@ class Login extends React.Component{
         localStorage.setItem('school', this.state.username);
         axios.post('http://192.168.0.55:8080/api/v1/login/', {"username": this.state.username, "password":this.state.password})
             .then(res => {
+                console.log(res.data)
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user_role', res.data.user_role);
                 window.location.reload();

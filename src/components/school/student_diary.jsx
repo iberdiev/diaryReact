@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 
 class One_Class extends Component {
-  
+
     render(){
         return(
             <div className="card p-2 ">
@@ -23,7 +23,7 @@ class One_Class extends Component {
                 </div>
             </div>
         )
-                
+
     }
 }
 
@@ -39,18 +39,18 @@ export default class Student_Diary extends Component {
     }
 
 
-    getTable(date) { 
+    getTable(date) {
         this.setState({
             isLoaded: false,
+            timeTable: [],
         })
-        const url = `http://192.168.0.55:8080/api/v1/timetableByCohort/?studentID=${this.props.location.state.pk}&cohortID=3&date=${this.formatDate(date)}`; 
+        const url = `http://192.168.0.55:8080/api/v1/timetableByCohort/?studentID=${this.props.location.state.pk}&cohortID=3&date=${this.formatDate(date)}`;
         axios.get(url,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
         }).then(res => {
             const data = res.data;
-            console.log(data);
             this.setState({
                 timeTable: data,
                 isLoaded: true,
@@ -68,9 +68,9 @@ export default class Student_Diary extends Component {
             day = '' + d.getDate(),
             year = d.getFullYear();
 
-        if (month.length < 2) 
+        if (month.length < 2)
             month = '0' + month;
-        if (day.length < 2) 
+        if (day.length < 2)
             day = '0' + day;
 
         return [year, month, day].join('-');
@@ -83,14 +83,19 @@ export default class Student_Diary extends Component {
 
     convertToDDMMYYYY(date){
         var dd = date.getDate();
-        var mm = date.getMonth()+1; 
+        var mm = date.getMonth()+1;
         var yyyy = date.getFullYear();
         return (dd+'/'+mm+'/'+yyyy);
 
     }
+    onChosenDate = event => {
+        var chosenDate = new Date(event.target.value);
+        this.setState({chosenDate: chosenDate});
+        this.getTable(chosenDate);
+    }
 
     componentWillMount = () => {
-        var tempcurrentTime = new Date(); 
+        var tempcurrentTime = new Date();
         this.setState({
             chosenDate: tempcurrentTime,
         });
@@ -113,7 +118,8 @@ export default class Student_Diary extends Component {
                             <div className="p-1 row">
                                 <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><input id="date" onChange={e => this.setState({chosenDate: new Date(e.target.value)})} type="date" value={this.formatDate(this.state.chosenDate)}/><span  id="datepicker">Date</span></span></div>
                                 <div className="date-picker">
-                                    <span className="btn-link">Сегодня</span>
+                                    <span className="btn-link">{this.props.istoday}</span>
+                                    <span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)}/></span>
                                 </div>
                             </div>
                             <div className="col-12">
