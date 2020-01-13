@@ -7,8 +7,8 @@ class One_Student_Name extends Component{
         return(
             <tr>
                 <td className="p-0">
-                    <a href="./teacher/student_profile">
-                        <p className="mt-1 mb-1"><input type="checkbox" id={this.props.studentID} className="mr-1"/>{this.props.name}</p>
+                    <a >
+                        <p className="mt-1 mb-1"><input type="checkbox" data-student_id={this.props.studentID} className="mr-1"/>{this.props.name}</p>
                     </a>
                 </td>
             </tr>
@@ -18,7 +18,63 @@ class One_Student_Name extends Component{
 
 
 export default class Teacher_Journal extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            data:{
+                "grades": [
+                    {
+                        "regularGrades": [
+                            {
+                                "mark": "",
+                                "lesson": {
+                                    "id": 13,
+                                    "date": "2020-01-13",
+                                }
+                            },
+                        ]
+                    }
+                ],
+                "timetables": [
+                    {
+                        "date": "0",
+                    }
+                ]
+            },
+        }
+    }
+    componentWillMount = () =>{
+        axios.get("http://192.168.0.55:8080/api/v1/cohortRegularGradesOneSubjectView/?subjectID=31&cohortID=5&type=6",{
+            headers:{
+                Authorization:'Token ' + localStorage.getItem('token'),
+            }
+        }).then(res => {
+            const data = res.data;
+            this.setState({
+                data: data,
+            });
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+        
+    }
+    changeDateFormat(inputDate){  // expects Y-m-d
+        var splitDate = inputDate.split('-');
+        if(splitDate.count == 0){
+            return null;
+        }
+    
+        var year = splitDate[0];
+        var month = splitDate[1];
+        var day = splitDate[2]; 
+    
+        return  day + '/' + month
+    }
+    
     render() {
+        
+
         return (
             <div>
                 <div className="mt-2 center-items">
@@ -46,15 +102,9 @@ export default class Teacher_Journal extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <One_Student_Name name="Meerbek Akimzhanov" studentID="15"/>
 
-                                        <tr>
-                                            <td className="p-0">
-                                                <a href="student-profile.html">
-                                                    <p className="mt-1 mb-1"><input type="checkbox" className="mr-1"/>Meerbek Akimzhanov</p>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                        {this.state.data.grades.map(student => (<One_Student_Name name={student.studentName} studentID={student.pk}/>))}
+
                                     </tbody>
                                 </table>
                             </div>
@@ -63,73 +113,46 @@ export default class Teacher_Journal extends Component {
                                 <table id="" className="table table-striped table-bordered display " style={{width:'100%'}}>
                                     <thead>
                                         <tr>
-                                            <th className="p-1">05.07</th>
-                                            <th className="p-1">06.07</th>
-                                            <th className="p-1">07.07</th>
-                                            <th className="p-1">08.07</th>
-                                            <th className="p-1">09.07</th>
-                                            <th className="p-1">10.07</th>
-                                            <th className="p-1">11.07</th>
-                                            <th className="p-1">12.07</th>
+                                            
+                                            {
+                                                this.state.data.timetables.map(one_date => (
+                                                    <th className="p-1 text-center">{this.changeDateFormat(one_date.date)}</th>
+                                                ))
+                                            }
+                                            <th className="p-1 text-center">Сегодня</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                             {/* Количество tr зависит от количество имён */}
 
-                                        <tr>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center"><a data-toggle="modal" data-target="#exampleModal"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить</a></p>
-                                            </td>
-                                            
-                                        </tr>
-                                        <tr>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center">5</p>
-                                            </td>
-                                            <td className="p-0">
-                                                <p className="mt-1 mb-1 text-center"><a data-toggle="modal" data-target="#exampleModal"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить</a></p>
-                                            </td>
-                                            
-                                        </tr>
+                                            {
+                                                this.state.data.grades.map(student=>(
+                                                    <tr>
+                                                    {this.state.data.timetables.map(one_date => (
+                                                        <td className="p-0"> 
+                                                        <p className="mt-1 mb-1 text-center">{
+                                                            student.regularGrades.map(grade=>{
+                                                                if (grade.lesson.id==one_date.pk){
+                                                                    return(
+                                                                    <span> {grade.mark} </span>
+                                                                    )
+                                                                }
+                                                            }
+                                                                
+                                                            )}
+                                                        </p>
+                                                        </td>
+                                                        
+                                                        
+                                                        ))}
+                                                        <td className="p-0">
+                                                            <p className="mt-1 mb-1 text-center"><a data-toggle="modal" data-target="#exampleModal"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить</a></p>
+                                                        </td>
+                                                        </tr> 
+                                                    
+                                                ))
+                                            }
+                                        
 
                                     </tbody>
                                 </table>
@@ -147,20 +170,22 @@ export default class Teacher_Journal extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                Ученику - Акимжанов Мээрбек
+                                Ученику - <span id="modal-name">Акимжанов Мээрбек</span> 
+                                <br/>
+                                
                                 <br/> Оценка - Ещё не выбрано
                                 <div>
-                                    <button className="btn btn-success">
-                                        5
+                                    <button className="btn btn-danger col-5 m-1">
+                                        2
                                     </button>
-                                    <button className="btn btn-primary">
-                                        4
-                                    </button>
-                                    <button className="btn btn-warning">
+                                    <button className="btn btn-warning col-5 m-1">
                                         3
                                     </button>
-                                    <button className="btn btn-danger">
-                                        2
+                                    <button className="btn btn-primary col-5 m-1">
+                                        4
+                                    </button>
+                                    <button className="btn btn-success col-5 m-1">
+                                        5
                                     </button>
                                 </div>
 

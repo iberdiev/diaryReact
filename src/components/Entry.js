@@ -50,7 +50,7 @@ class Login extends React.Component{
     render(){
         return(
             <div>
-                <div className="container d-flex justify-content-center mt-3">
+                <div className="container d-flex justify-content-center mt-5">
                     <div className="login-form col-lg-6 col-12  p-1">
                         <div className="alert alert-success" role="alert">
                         Добро пожаловать в онлайн дневник!
