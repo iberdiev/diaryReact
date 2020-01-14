@@ -1,12 +1,14 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { Input } from 'reactstrap';
 
 export default class Parent_Main extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: [],
+            data: [[],[]],
+            chosenStudent: 0,
         }
     }
     componentWillMount = () =>{
@@ -15,24 +17,45 @@ export default class Parent_Main extends Component {
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
         }).then(res => {
-            const data = res.data[0];
+            // const data = res.data[0];
+            console.log(res);
+            const data = res.data;
+
             this.setState({
                 data: data,
+
             });
         })
         .catch(err =>{
             console.log(err.error);
         });
     }
+    changeStudent = event => {
+        // event.preventDefault();
+
+        this.setState({
+            chosenStudent: event.target.value,
+        });
+    }
     render() {
-        const {data} = this.state;
+        const data = this.state.data;
+        const index = this.state.chosenStudent;
+
         return (
             <div className="container d-flex justify-content-center mt-3">
                 <div className="login-form col-lg-6 col-10  p-1" >
                     <div className="alert alert-success" role="alert">
-                        Здравствуйте, родитель ученика {data.studentName}
+                        Здравствуйте, родитель ученика {data[index].studentName}
                     </div>
-                    <Link to={{pathname:"/parent/student_diary/", state:{pk: data.pk, cohortID: data.cohort}}}>
+
+                    <Input type="select" onChange={this.changeStudent}>
+                        {this.state.data.map(function(student, i){
+                            return (
+                                <option value={i}>{student.studentName} </option>)
+                        })}
+                    </Input>
+
+                    <Link to={{pathname:"/parent/student_diary/", state:{pk: data[index].pk, cohortID: data[index].cohort}}}>
                      <div className="card">
                     <div className="">
                         <div className="row ">
@@ -64,7 +87,7 @@ export default class Parent_Main extends Component {
                         </div>
                     </div>
                     </Link>
-                    <Link to={{pathname:"/parent/student_teachers", state:{pk: data.pk, cohortID: data.cohort}}}>
+                    <Link to={{pathname:"/parent/student_teachers", state:{pk: data[index].pk, cohortID: data[index].cohort}}}>
                     <div className="card mt-3">
                         <div className="">
                             <div className="row ">

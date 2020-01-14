@@ -30,7 +30,7 @@ export default class Teacher_Main extends Component {
             <div className="container d-flex justify-content-center mt-5">
                 <div className="login-form col-lg-6 col-10  p-1">
                     <div className="alert alert-success" role="alert">
-                        Здравствуйте, <strong>Марина Александровна</strong> 
+                        Здравствуйте, <strong>Марина Александровна</strong>
                     </div>
                     <Link to={{pathname:"/teacher/teacher_time_table/", state:{teacherID:teacherID}}}>
                         <div className="card">

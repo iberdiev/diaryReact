@@ -20,32 +20,32 @@ export default class Teachers_Cohort_List extends Component {
                             <tr>
                                 <th>№</th>
                                 <th>ФИО</th>
-                                
+
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                
+
                                 <td>1</td>
                                 <td><a href="/teacher/student-profile/">Meerbek Akimzhanov</a></td>
-                                
+
                             </tr>
                             <tr>
-                                
+
                                 <td>2</td>
                                 <td><a href="/teacher/student-profile/">Айгерим Артыкова</a></td>
-                                
+
                             </tr>
                             <tr>
-                                
+
                                 <td>3</td>
                                 <td><a href="/teacher/student-profile/">Айгерим Артыкова</a></td>
-                                
+
                             </tr>
-                            
+
                         </tbody>
                     </table>
-                </div>           
+                </div>
                 </div>
             </div>
         )
