@@ -106,38 +106,28 @@ export default class Teacher_Journal_Grade extends Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            {/* Количество tr зависит от количество имён */}
-
+                                        
                                             {
                                                 this.state.data.map(student=>
                                                     
-                                                        {
-                                                            var newarray = [];
-                                                            for (let index = 0; index < 5; index++) {
-                                                                if (typeof student.finalGrades[index] === 'undefined'){
-                                                                    newarray.push({mark:'-'})
-                                                                }else{
-                                                                    newarray.push(student.finalGrades[index])
+                                                    {
+                                                        var dict = ['-','-','-','-','-'];
+                                                        student.finalGrades.map(grade=>{
+                                                            dict[grade.type-1] = grade.mark
+                                                        })
+                                                        return(
+                                                            <tr>
+                                                                {
+                                                                    dict.map(grade => (
+                                                                        <td className="p-0">
+                                                                            <p className="mt-1 mb-1 text-center">{grade}</p>
+                                                                        </td>
+                                                                    ))
                                                                 }
-                                                            }
-                                                            return(
-                                                                <tr>
-                                                                    {
-                                                                        newarray.map(grade=>(
-                                                                            <td className="p-0">  
-                                                                                <p className="mt-1 mb-1 text-center"> {grade.mark}</p>
-                                                                            </td>
-                                                                        ))
-                                                                    }
-                                                                </tr>
-                                                            )
-                                                        
-
-                                                    }
-                                                    )
+                                                            </tr>
+                                                        )
+                                                    })
                                             }
-                                        
-
                                     </tbody>
                                 </table>
                             </div>

@@ -2,49 +2,156 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-
-export default class School_Profile extends Component {
+export default class Teacher_Journal_Grade extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');
         this.state = {
-            subjects : [],
-        }
+            cohortID: this.props.location.state.cohortID,
+            subjectID: this.props.location.state.subjectID,
+            data : [],
+            finalGrades: ['-','-','-','-','-'],
+            regularGrades: [
+                {
+                    "mark": '-',
+                    "lesson": '-',
+                    "date": "-"
+                }],
+            subjectName: ""
+        };
     }
     componentDidMount = () =>{
-        axios.get("http://192.168.0.55:8080/api/v1/subjects/?cohortID=" + this.props.location.state.cohortID,{
+
+        // Axios for student list
+
+        axios.get('http://192.168.0.55:8080/api/v1/studentIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
             headers:{
-                Authorization:'Token ' + localStorage.getItem('token'),
+                Authorization:'Token ' + this.token,
             }
         }).then(res => {
             const data = res.data;
             this.setState({
-                subjects: data,
-            });
+                data: data
+            })
+            this.getStudentGrades(data[0].subjectName, data[0].regularGrades, data[0].finalGrades)
         })
         .catch(err =>{
             console.log(err.error);
         });
     }
+    // Function for final grades of particular student
+
+    getStudentGrades(subjectName,regularGrades,finalGrades){
+        var dict = ['-','-','-','-','-'];
+        finalGrades.map(grade=>{
+            dict[grade.type-1] = grade.mark
+        })
+        this.setState({
+            finalGrades: dict,
+            regularGrades: regularGrades
+        })
+    }
+
+    // Changing date format function from database
+    changeDateFormat(inputDate){  // expects Y-m-d
+        var splitDate = inputDate.split('-');
+        if(splitDate.count == 0){
+            return null;
+        }
+    
+        var year = splitDate[0];
+        var month = splitDate[1];
+        var day = splitDate[2]; 
+    
+        return  day + '/' + month
+    }
+
+
+    
     render() {
-        const {subjects} = this.state;
-        return(
-            <div className="d-flex justify-content-center mt-2">
-                <div className="col-lg-6 col-12  p-1 ">
-                    <h6 className="text-center">
-                        Учителя 10-А класса
+        
+        return (
+            <div className="mt-2 center-items">
+                <div className="col-12 col-lg-10  p-1 ">
+                    <h6 className="text-center m-2">
+                        Журнал ученика {this.props.location.state.studentName}
                     </h6>
-                    <div className="pl-3 pr-3 mt-2 mb-1">
-                        <div className="row"><div className="col-4  text-center btn-link" ><h6>Предметы</h6></div><div className="col-8 text-center btn-link"><h6>Преподователи</h6></div></div>
-                    </div>
+                    
+                    <p className="text-center">Оценки</p>
 
-                    {subjects.map((subject) => (
-                        <div className="card p-2 ">
-                            <div className="row"><div className="col-4 ml-1 text-center" >{subject.subjectName}</div><div className="col-7 text-center">{subject.teacherID.teacherName}</div></div>
+                    
+                    <div className="journal mt-2">
+                        <div className="names nav flex-column nav-pills card" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            <a  className="nav-link p-1" ><h6>Предметы:</h6></a>
+                            {this.state.data.map((subject,i)=>{
+                                if (i==0){
+                                    return(
+                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)}  className="nav-link active p-1" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><p>{subject.subjectName}</p></a>
+                                )}
+                                else{
+                                    return(
+                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)} className="nav-link p-1" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false"><p>{subject.subjectName}</p></a>
+                                )
+                                }
+                            })}
+
                         </div>
-                    ))}
-                </div>
+                        <div className="osenki card">
+                            <h6 className="text-center">Предмет: </h6>
 
+                        <a  className="nav-link p-1" ><h6>Четвертные оценки</h6></a>
+
+                            <table id="" className="table table-striped table-bordered " style={{width:"100%"}}>
+                                <thead>
+                                    <tr className="bg-success text-white">
+                                        <th className="p-1 text-center">I</th>
+                                        <th className="p-1 text-center">II</th>
+                                        <th className="p-1 text-center">III</th>
+                                        <th className="p-1 text-center">IV</th>
+                                        <th className="p-1 text-center">Итог</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        {
+                                            this.state.finalGrades.map(grade => (
+                                                <td className="p-0">
+                                                    <p className="mt-1 mb-1 text-center">{grade}</p>
+                                                </td>
+                                            ))
+                                        }
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h6>Регулярные Оценки</h6>
+                            <table id="" className="table table-striped table-bordered  " style={{width:"100%"}}>
+                                <thead>
+                                    <tr>
+                                        <th className="p-1 text-center bg-success text-white">Дата</th>
+                                        <th className="p-1 text-center bg-success text-white">Оценка</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                        
+                                        {this.state.regularGrades.map(grade=>(
+                                            <tr>
+                                                <td className="p-0">
+                                                    <p className="mt-1 mb-1 text-center">{this.changeDateFormat(grade.date)}</p>
+                                                </td>
+                                                <td className="p-0">
+                                                    <p className="mt-1 mb-1 text-center">{grade.mark}</p>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }
