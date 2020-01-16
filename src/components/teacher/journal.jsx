@@ -21,6 +21,10 @@ export default class Teacher_Journal extends Component {
     constructor(props){
         super(props);
         this.state = {
+            subjectName: this.props.location.state.subjectName,
+            cohortName: this.props.location.state.cohortName,
+            cohortID: this.props.location.state.cohortID,
+            subjectID: this.props.location.state.subjectID,
             data:{
                 "grades": [
                     {
@@ -44,7 +48,7 @@ export default class Teacher_Journal extends Component {
         }
     }
     componentWillMount = () =>{
-        axios.get("http://192.168.0.55:8080/api/v1/cohortRegularGradesOneSubjectView/?subjectID=31&cohortID=5&type=6",{
+        axios.get(`http://192.168.0.55:8080/api/v1/cohortRegularGradesOneSubjectView/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}&type=6`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -78,19 +82,19 @@ export default class Teacher_Journal extends Component {
         return (
             <div>
                 <div className="mt-2 center-items">
-                    <div className="col-12  p-1 ">
+                    <div className="col-12 col-lg-10  p-1 ">
                         <h6 className="text-center m-2">
-                            Журнал 10-А класса
+                            Журнал {this.state.cohortName} класса 
                         </h6>
                         <h6 className="text-center m-2">
-                            Предмет: Русский язык
+                            Предмет: {this.state.subjectName}
                         </h6>
                         <p className="text-center">Оценки</p>
 
                         <div className="contaner center-items m-3">
                             <div className="swipe center-items">
-                                <Link to="journal" className="swipe-button grades bg-success center-items text-white">Повседневные</Link>
-                                <Link to="journal_grades" className="swipe-button grades center-items">Итоговые</Link>
+                                <Link to={{pathname:"journal", state:{cohortID: this.state.cohortID, subjectID:this.state.subjectID, cohortName:this.state.cohortName, subjectName:this.state.subjectName}}} className="swipe-button grades bg-success center-items text-white">Повседневные</Link>
+                                <Link to={{pathname:"journal_grades", state:{cohortID: this.state.cohortID, subjectID:this.state.subjectID, cohortName:this.state.cohortName, subjectName:this.state.subjectName}}} className="swipe-button grades center-items">Итоговые</Link>
                             </div>
                         </div>
                         <div className="journal">
@@ -134,7 +138,7 @@ export default class Teacher_Journal extends Component {
                                                             student.regularGrades.map(grade=>{
                                                                 if (grade.lesson.id==one_date.pk){
                                                                     return(
-                                                                    <span> {grade.mark} </span>
+                                                                    <span id="mark"> {grade.mark} </span>
                                                                     )
                                                                 }
                                                             }

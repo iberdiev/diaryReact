@@ -16,10 +16,19 @@ export default class Teacher_Cohorts extends Component {
             }
         }).then(res => {
             const data = res.data;
+            let filteredData = []; 
+            let uniqueObject = {}; 
+            for (var i in data) { 
+                var objTitle = data[i]['cohortName']; 
+                uniqueObject[objTitle] = data[i]; 
+            }
+            for (i in uniqueObject) { 
+                filteredData.push(uniqueObject[i]); 
+            } 
             this.setState({
-                data: data,
+                data: filteredData,
             });
-            console.log(data)
+
         })
         .catch(err =>{
             console.log(err.error);
@@ -35,7 +44,7 @@ export default class Teacher_Cohorts extends Component {
                 </h6>
 
                 {this.state.data.map(cohort => (
-                    <Link to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, className: cohort.cohortName}}}>
+                    <Link to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, cohortName: cohort.cohortName}}}>
                         <div className="card m-2 p-3 ">
                             <h5 className="">
                                {cohort.cohortName}

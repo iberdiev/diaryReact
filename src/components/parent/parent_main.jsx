@@ -23,7 +23,6 @@ export default class Parent_Main extends Component {
 
             this.setState({
                 data: data,
-
             });
         })
         .catch(err =>{
@@ -36,10 +35,11 @@ export default class Parent_Main extends Component {
         this.setState({
             chosenStudent: event.target.value,
         });
+        localStorage.setItem('studentIndex', event.target.value);
     }
     render() {
         const data = this.state.data;
-        const index = this.state.chosenStudent;
+        const index = localStorage.getItem('studentIndex');
 
         return (
             <div className="container d-flex justify-content-center mt-3">
@@ -48,12 +48,12 @@ export default class Parent_Main extends Component {
                         Здравствуйте, родитель ученика {data[index].studentName}
                     </div>
 
-                    <Input type="select" onChange={this.changeStudent}>
+                    <select class="custom-select mb-3"  onChange={this.changeStudent}>
                         {this.state.data.map(function(student, i){
                             return (
-                                <option value={i}>{student.studentName} </option>)
+                                <option  selected={i==index} value={i}>{student.studentName} </option>)
                         })}
-                    </Input>
+                    </select>
 
                     <Link to={{pathname:"/parent/student_diary/", state:{pk: data[index].pk, cohortID: data[index].cohort}}}>
                      <div className="card">

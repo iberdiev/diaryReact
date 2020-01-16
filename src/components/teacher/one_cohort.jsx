@@ -43,7 +43,7 @@ export default class Teacher_One_Cohort extends Component {
                         </div>
                     </Link>
 
-                    <Link to={{pathname:"/teacher/journal_choose_subject", state:{cohortID:this.props.location.state.cohortID}}}>
+                    <Link to={{pathname:"/teacher/journal_choose_subject", state:{cohortID:this.props.location.state.cohortID, cohortName: this.props.location.state.cohortName}}}>
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Журнал</p>

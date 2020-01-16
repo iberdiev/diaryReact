@@ -6,6 +6,27 @@ export default class Teacher_Choose_Subject extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');
+        this.state = {
+            cohortID: this.props.location.state.cohortID,
+            data : [],
+        };
+    }
+    componentDidMount = () =>{
+
+        axios.get('http://192.168.0.55:8080/api/v1/subjects/?cohortID='+ this.props.location.state.cohortID,{
+            headers:{
+                Authorization:'Token ' + this.token,
+            }
+        }).then(res => {
+            const data = res.data;
+            this.setState({
+                data: data,
+            })
+            console.log(data)
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
     }
     render() {
         return(
@@ -20,21 +41,15 @@ export default class Teacher_Choose_Subject extends Component {
                             Выберите предмет
                         </h6>
                     </div>
-                    <Link to="/teacher/journal">
-                        <div className="card m-1">
-                            <div className="p-3 text-center">
-                                <p>Русский</p>
+                    {this.state.data.map(subject=>(
+                        <Link to = {{pathname :"/teacher/journal", state: {cohortID:this.state.cohortID, cohortName:this.props.location.state.cohortName, subjectID: subject.pk, subjectName: subject.subjectName}}}>
+                            <div className="card m-2">
+                                <div className="p-3 text-center">
+                                    <p>{subject.subjectName}</p>
+                                </div>
                             </div>
-                        </div>
-                    </Link>
-
-                    <Link to="/teacher/journal" >
-                        <div className="card m-1">
-                            <div className="p-3 text-center">
-                                <p>Кыргызский</p>
-                            </div>
-                        </div>
-                    </Link>
+                        </Link>
+                    ))}
                 </div>
             </div>
         )
