@@ -27,11 +27,10 @@ class Login extends React.Component{
                 console.log(res.data)
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user_role', res.data.user_role);
+                localStorage.setItem('name',res.data.name);
                 if (res.data.user_role == 3){
                     localStorage.setItem('studentIndex', 0);
                 }
-                
-                
                 window.location.reload();
 
             }).catch(err => {

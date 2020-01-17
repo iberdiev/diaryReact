@@ -49,6 +49,51 @@ export default class Shool_Teachers extends Component {
                 Учителя Школы {localStorage.getItem('school')}
             </h6>
             <div className="card p-3">
+                <div className="text-center m-3">
+
+                    {/* Вызов Модального окна */}
+                    <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить нового учителья</button>
+                    <div className="modal" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+                        <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalCenteredLabel">Добавление нового учителя</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                            <form className="form-signin">
+
+                                
+                                <div class="mb-4 text-left">
+                                    <label for="name">ФИО учителя</label>
+                                    <input type="text" className="form-control" id="name" placeholder="Например: Жанетта Октямжонавна" required=""/>
+                                </div>
+                                <div class="mb-4 text-left">
+                                    <label for="phone">Номер телефона</label>
+                                    <input type="text" className="form-control" id="phone" placeholder="Например: 0777123456" required=""/>
+                                </div>
+                                <div class="mb-4 text-left">
+                                    <label for="name">Пароль</label>
+                                    <input type="password" className="form-control" id="password" placeholder="Придумайте пароль" required=""/>
+                                </div>
+                                <div class="mb-4 text-left">
+                                    <label for="name">Подтвердите пароль</label>
+                                    <input type="password" className="form-control" id="password" placeholder="Подтвердите пароль" required=""/>
+                                </div>
+
+                                <button className="btn btn-lg btn-primary btn-block" type="submit"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить</button>
+                            </form>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <table id="table_id" className="table table-striped table-bordered display" style={{width:'100%'}}>
                     <thead>
                         <tr>
