@@ -40,6 +40,23 @@ export default class Shool_Teachers extends Component {
             console.log(err.error);
         });
     }
+    addNewTeacher(){
+        var data = { "name": this.state.name, "username": this.state.username, "user_role": 2, "password1": "qwe1r", "password2":"qwers"}
+        axios.post('http://192.168.0.55:8080/api/v1/registration/',data,{
+            headers:{
+                Authorization:'Token ' + this.token,
+            }
+        }).then(res => {
+            const data = res.data;
+            console.log(data)
+            this.setState({
+                teachers: data,
+            })
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+    }
     render() {
         const {teachers} = this.state
         return(
@@ -63,24 +80,24 @@ export default class Shool_Teachers extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                            <form className="form-signin">
+                            <form className="form-signin" onSubmit={()=>this.addNewTeacher()}>
 
                                 
                                 <div class="mb-4 text-left">
                                     <label for="name">ФИО учителя</label>
-                                    <input type="text" className="form-control" id="name" placeholder="Например: Жанетта Октямжонавна" required=""/>
+                                    <input type="text" className="form-control" id="name" placeholder="Например: Жанетта Октямжонавна" required="" onChange={e => this.setState({name: e.target.value})} />
                                 </div>
                                 <div class="mb-4 text-left">
                                     <label for="phone">Номер телефона</label>
-                                    <input type="text" className="form-control" id="phone" placeholder="Например: 0777123456" required=""/>
+                                    <input type="text" className="form-control" id="phone" placeholder="Например: 0777123456" required="" onChange={e => this.setState({username: e.target.value})}/>
                                 </div>
                                 <div class="mb-4 text-left">
                                     <label for="name">Пароль</label>
-                                    <input type="password" className="form-control" id="password" placeholder="Придумайте пароль" required=""/>
+                                    <input type="password" className="form-control" id="password" placeholder="Придумайте пароль" required="" onChange={e => this.setState({password: e.target.value})}/>
                                 </div>
                                 <div class="mb-4 text-left">
                                     <label for="name">Подтвердите пароль</label>
-                                    <input type="password" className="form-control" id="password" placeholder="Подтвердите пароль" required=""/>
+                                    <input type="password" className="form-control" id="password" placeholder="Подтвердите пароль" required="" onChange={e => this.setState({password2: e.target.value})}/>
                                 </div>
 
                                 <button className="btn btn-lg btn-primary btn-block" type="submit"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить</button>

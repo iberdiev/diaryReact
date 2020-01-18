@@ -11,8 +11,8 @@ export default class Teacher_Journal extends Component {
             cohortName: this.props.location.state.cohortName,
             cohortID: this.props.location.state.cohortID,
             subjectID: this.props.location.state.subjectID,
-            isLoaded: false,
-            checkedStudents: [12,13],
+            isLoaded: true,
+            checkedStudents: [],
             data:{
                 "grades": [
                     {
@@ -33,10 +33,12 @@ export default class Teacher_Journal extends Component {
                 ]
             },
 
-            oneStudentGrading:{name: 'Meerbek', id: 15, grades: [{mark:5,id:1},{mark:4,id:12}]},
-            temprGrades: [{mark:5,id:1},{mark:4,id:12}],
+            oneStudentGrading:{name: '', id: null, grades: [{mark:null,id:null}]},
+            temprGrades: [{mark:null,id:null}],
 
-            otsenka: []
+            otsenka: [],
+            sendingGrades:[],
+            chosenLessonID: 10,
         }
     }
     componentWillMount = () =>{
@@ -77,52 +79,140 @@ export default class Teacher_Journal extends Component {
                 checkboxes[i].checked = event.target.checked;
         }
 }
-
     
+    changeOtsenka(number){
+        var markArray = [];
+        for (let i = 0; i < this.state.checkedStudents.length; i++){
+            markArray.push({"lesson": this.state.chosenLessonID, "studentID": this.state.checkedStudents[i], "mark": number})
+        }
+        this.setState({
+            otsenka: [...this.state.otsenka, number],
+            sendingGrades: this.state.sendingGrades.concat(markArray)
+        })     
+        
+    }
+    grade(lessonID, studentID, studentName, grades){
+        this.setState({
+            oneStudentGrading:{name: studentName, id: studentID, grades: grades},
+            temprGrades: grades,
+            checkedStudents: [studentID],
+            otsenka: [],
+            chosenLessonID: lessonID,
+            sendingGrades: [],
+        })
 
-    printChecked(){
-		var items=document.getElementsByName('studentcheckbox');
+    }
+
+    gradeAll(lessonID){
+        var items=document.getElementsByName('studentcheckbox');
 		var selectedItems=[];
 		for(var i=0; i<items.length; i++){
 			if(items[i].checked==true)
 				selectedItems.push(items[i].id);
         }
         this.setState({
+            sendingGrades:[],
             otsenka: [],
             checkedStudents:selectedItems,
+            chosenLessonID:lessonID
         });
-        
-		console.log(selectedItems);}
-    
-    changeOtsenka(number){
-        this.setState({
-            otsenka: [...this.state.otsenka, number]
-        })
-        console.log(this.state.otsenka)
     }
-    grade(lessonID, studentID, studentName, grades){
-        this.setState({
-            oneStudentGrading:{name: studentName, id: studentID, grades: grades},
-            temprGrades: grades,
-        })
 
-    }
 
     changeMark(e,id){
-        console.log(this.state.temprGrades)
         var newmark = e.target.value;
         var newarray = []
         this.state.temprGrades.map((grade)=>{
-            if (grade.id==id){
-                newarray.push({id:grade.id, mark: parseInt(newmark)})
+            if (grade.gradeID==id){
+                newarray.push({gradeID:grade.gradeID, mark: parseInt(newmark)})
             }
             else{
-                newarray.push({id:grade.id, mark: grade.mark})
+                newarray.push({gradeID:grade.gradeID, mark: grade.mark})
             }
     })
         this.setState({
             temprGrades: newarray
         })
+        console.log(this.state.temprGrades)
+        console.log(this.state.oneStudentGrading)
+    }
+    
+
+
+    // Adding grade to database function
+    sendGrade(){
+        var sendingArray = []
+
+        function postGrades(data) {
+            return axios.post('http://192.168.0.55:8080/api/v1/regularGrades/', data,{
+                headers:{
+                    Authorization:'Token ' + localStorage.getItem('token'),
+                }
+            })
+            
+            .catch(err =>{
+                console.log("Not good")
+            });
+          }
+        
+        this.state.sendingGrades.map(studentGrade=>{
+            sendingArray.push(postGrades(studentGrade))
+        })
+        
+        axios.all(sendingArray)
+        .then(axios.spread(function (acct, perms) {
+            window.location.reload();
+          }))
+        .catch(err =>{
+            console.log(err.error);
+        });
+        
+    }
+
+    // Sending Change grade
+    confirmChange(id,mark){
+        let data = {"pk":id,"mark":mark}
+        axios.put('http://192.168.0.55:8080/api/v1/regularGrades/', data,{
+                headers:{
+                    Authorization:'Token ' + localStorage.getItem('token'),
+                }
+            })
+            .then(res => {
+                const data = res.data;
+                console.log(data)
+                if (data=="OK"){
+                    console.log("Good")
+                }else{
+                    console.log("Not good")
+                }
+                window.location.reload();
+            })
+            .catch(err =>{
+                console.log("Not good")
+            });
+            
+    }
+    confirmDelete(id){
+        axios.delete(`http://192.168.0.55:8080/api/v1/regularGrades/?pk=${id}`,{
+                headers:{
+                    Authorization:'Token ' + localStorage.getItem('token'),
+                }
+            })
+            .then(res => {
+                const data = res.data;
+                console.log(data)
+                if (data=="OK"){
+                    console.log("Good")
+                }else{
+                    console.log("Not good")
+                }
+                window.location.reload();
+            })
+            
+            .catch(err =>{
+                console.log("Not good")
+            });
+            
     }
 
     render() {
@@ -136,8 +226,6 @@ export default class Teacher_Journal extends Component {
                             <div className="lds-dual-ring"></div>
                         </div>
                     </div> : ""}
-                    {this.state.checkedStudents}
-                    <button onClick={this.printChecked.bind(this)}>Helo</button>
                         <h6 className="text-center m-2">
                             Журнал {this.state.cohortName} класса 
                         </h6>
@@ -162,7 +250,7 @@ export default class Teacher_Journal extends Component {
                                     
                                     <thead>
                                         <tr>
-                                            <th  className="p-1"> ФИО</th>
+                                            <th  className="p-1"><label htmlFor="all_check" className="m-0 d-block" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> ФИО</label> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -170,7 +258,7 @@ export default class Teacher_Journal extends Component {
                                         {this.state.data.grades.map(student => (
                                             <tr>
                                                 <td className="p-0">
-                                                    <label htmlFor={student.pk} className="d-block"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/>{student.studentName}</p></label>
+                                                    <label htmlFor={student.pk} className="d-block m-0"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/>{student.studentName}</p></label>
                                                 </td>
                                             </tr>
                                             ))}
@@ -186,10 +274,9 @@ export default class Teacher_Journal extends Component {
                                             
                                             {
                                                 this.state.data.timetables.map(one_date => (
-                                                    <th className="p-1 text-center">{this.changeDateFormat(one_date.date)}</th>
+                                                    <th className="p-1 text-center" data-toggle="modal" data-target="#exampleModal"  onClick={()=>this.gradeAll(one_date.pk)} >  {this.changeDateFormat(one_date.date)}</th>
                                                 ))
                                             }
-                                            <th className="p-1 text-center">Сегодня</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -207,11 +294,11 @@ export default class Teacher_Journal extends Component {
                                                             var gradearray = []
                                                             student.regularGrades.map(grade=>{
                                                                 if (grade.lesson.id==one_date.pk){
-                                                                    gradearray.push({gradeID:grade.lesson.id, mark: grade.mark})
+                                                                    gradearray.push({lessonID:grade.lesson.id, gradeID:grade.pk, mark: grade.mark})
                                                                 }
                                                             })
                                                             return(
-                                                                <td className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(one_date.pk, student.studentName, student.pk, gradearray)}>
+                                                                <td className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(one_date.pk, student.pk, student.studentName, gradearray)}>
                                                                 <p className="mt-1 mb-1 text-center" >{
                                                                     gradearray.map(grade=>{
                                                                         return(
@@ -223,9 +310,7 @@ export default class Teacher_Journal extends Component {
                                                                 </td>
                                                             )
                                                         } )}
-                                                        <td className="p-0">
-                                                            <p className="mt-1 mb-1 text-center"><a href="" data-toggle="modal" data-target="#exampleModal" onClick={this.printChecked.bind(this)}><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить</a></p>
-                                                        </td>
+                                                        
                                                         </tr> 
                                                     
                                                 ))
@@ -238,6 +323,10 @@ export default class Teacher_Journal extends Component {
                         </div>
                     </div>
                 </div>
+
+
+                {/* Modal for all students grading */}
+
                 <div className="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
@@ -251,7 +340,7 @@ export default class Teacher_Journal extends Component {
                                 Ученику - <span id="modal-name">Акимжанов Мээрбек</span> 
                                 <br/>
                                 
-                                <br/> Оценка - {this.state.otsenka.map(otsenka=>
+                                <br/> Оценка для всех - {this.state.otsenka.map(otsenka=>
                                     (<span> {otsenka} </span> )
                                 )}
                                 <div>
@@ -272,14 +361,13 @@ export default class Teacher_Journal extends Component {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                <button type="button" className="btn btn-primary">Сохранить</button>
+                                <button type="button" className="btn btn-primary" onClick={()=>this.sendGrade()} >Сохранить</button>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 {/* Modal for one student grading */}
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#oneStudentModal">Open Modal</button>
 
                 <div id="oneStudentModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
@@ -294,31 +382,43 @@ export default class Teacher_Journal extends Component {
                         <br/>
                         <br/> Оценки на этот день - 
                             {this.state.oneStudentGrading.grades.map((otsenka, index)=>
-                                    (<h6 className="mb-2"> <select onChange={(event)=>{ this.changeMark(event, otsenka.id) }} >
+                                    (<h6 className="mb-2"> 
+                                    <select onChange={(event)=>{ this.changeMark(event, otsenka.gradeID) }} >
                                     <option selected={otsenka.mark==5} value="5">5</option>
                                     <option selected={otsenka.mark==4} value="4">4</option>
                                     <option selected={otsenka.mark==3} value="3">3</option>
                                     <option selected={otsenka.mark==2} value="2">2</option>
-                                  </select>   <button className="fa fa-trash btn btn-primary text-white" disabled={otsenka.mark==this.state.temprGrades[index].mark} > Сохранить</button> <a className="fa fa-trash btn btn-danger text-white"> Удалить</a>  </h6> )
-                                )}
-                        <div>
-                            <button className="btn btn-danger col-5 m-1" onClick={()=>this.changeOtsenka(2)}>
-                                2
-                            </button>
-                            <button className="btn btn-warning col-5 m-1" onClick={()=>this.changeOtsenka(3)}>
-                                3
-                            </button>
-                            <button className="btn btn-primary col-5 m-1" onClick={()=>this.changeOtsenka(4)}>
-                                4
-                            </button>
-                            <button className="btn btn-success col-5 m-1" onClick={()=>this.changeOtsenka(5)}>
-                                5
-                            </button>
+                                  </select>   <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark==this.state.temprGrades[index].mark} > Сохранить</button> <a onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</a>  </h6> )
+                                )}                        
+                        <div className="p-2">
+                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                            Добавить новую оценку
+                        </a>
                         </div>
+                        <div className="collapse" id="collapseExample">
+                        <h5>Новая оценка - {this.state.otsenka.map(otsenka=>(<span> {otsenka} </span> ))}</h5>
+                        
+                            <div className="p-2">
+                                
+                                <button className="btn btn-danger col-5 m-1" onClick={()=>this.changeOtsenka(2)}>
+                                    2
+                                </button>
+                                <button className="btn btn-warning col-5 m-1" onClick={()=>this.changeOtsenka(3)}>
+                                    3
+                                </button>
+                                <button className="btn btn-primary col-5 m-1" onClick={()=>this.changeOtsenka(4)}>
+                                    4
+                                </button>
+                                <button className="btn btn-success col-5 m-1" onClick={()=>this.changeOtsenka(5)}>
+                                    5
+                                </button>
+                            </div>
+                        </div>
+                        
                     </div>
                     <div class="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                        <button type="button" className="btn btn-primary">Сохранить</button>
+                        <button type="button" className="btn btn-primary" onClick={()=>this.sendGrade()} >Сохранить</button>
                     </div>
                     </div>
 

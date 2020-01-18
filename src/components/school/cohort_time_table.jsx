@@ -134,6 +134,37 @@ export default class Student_Diary extends Component {
                                 <One_Class subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)}/>
                             ))}
 
+                            <div className="center-items m-3"><a className="btn d-block btn-primary text-white " data-toggle="modal" data-target="#exampleModal">Добавить новый урок</a></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                {/* Modal for adding new subject */}
+                <div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document" >
+                        <div class="modal-content" style={{backgroundColor:'#F4F4F4'}}>
+                        <div class="modal-header ">
+                            <h5 class="modal-title" id="exampleModalLabel">Добавление урока</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div className="card p-2 ">
+                                <div className="row">
+                                    <div className="col-6 center-items text-center">
+                                        Время
+                                    </div>
+                                    <div className="col-6 center-items">Класс</div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
                         </div>
                     </div>
                 </div>
