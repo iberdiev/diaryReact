@@ -25,7 +25,7 @@ export default class Shool_Teachers extends Component {
     }
     componentDidMount = () =>{
 
-        axios.get('http://192.168.0.55:8080/api/v1/teachers/?school='+ localStorage.getItem('school'),{
+        axios.get('http://192.168.0.55:8080/api/v1/teachers/',{
             headers:{
                 Authorization:'Token ' + this.token,
             }
