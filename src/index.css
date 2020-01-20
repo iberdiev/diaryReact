@@ -1,0 +1,230 @@
+@import url('https://fonts.googleapis.com/css?family=Noto+Serif&display=swap');
+
+body {
+    font-family: 'Noto Serif', serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
+    overflow-x: hidden;
+    background-color: #f4f4f4
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-family: 'Noto Serif', serif;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+h3 {
+    font-size: 1.6em;
+    line-height: 1.4em;
+}
+h2{
+    font-size: 1.8em;
+}
+p {
+    font-size: 13px;
+    font-family: 'Noto Serif', serif;
+    margin: 0;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+a {
+    color: inherit;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    list-style: none;
+    margin: 0;
+}
+
+ol {
+    list-style: none;
+}
+
+
+header{
+    box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+}
+
+.centering{
+    margin: auto;
+}
+.centering .outer-card{
+    width: 33%;
+}
+.centering .card{
+    display: flex;
+    justify-content: center;
+    height: 80px;
+    margin: 3px;
+    overflow: hidden;
+}
+.center-items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.owl-nav{
+    font-size: 30px;
+}
+.owl-prev,
+.owl-next {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+}
+
+.owl-prev {
+  left: 10%;
+}
+
+.owl-next {
+  right: 10%;
+}
+
+
+.owl-carousel input[type=date]{
+    outline: none;
+    display: inline;
+    border: none;
+}
+
+
+
+.star .fa{
+    margin: 5px;
+    color: rgb(211, 211, 0);
+}
+
+.journal{
+    width: 100%;
+    display: flex;
+}
+
+.journal .osenki {
+    width: 50%;
+    overflow: scroll;
+}
+.journal .names {
+    width: 50%;
+    overflow: scroll;
+}
+.journal p {
+    white-space: nowrap;
+}
+.journal .nav-link {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.journal .nav-link.active {
+    background: #28a745!important
+}
+.journal table {
+    border: 0;
+}
+.center-items .swipe{
+    width: 300px;
+    height: 30px;
+    border: black solid 1px;
+    border-radius: 20px;
+}
+.center-items .swipe .swipe-button{
+    width: 150px;
+    height: 30px;
+    border-radius: 21px;
+
+}
+
+.line{
+    background: black;
+    width:1px
+}
+
+a:hover{
+  text-decoration: none;
+}
+
+.btn-link:hover{
+    text-decoration: none;
+}
+
+.preloader{
+    z-index: 99;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+  }
+  .lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid black;
+    border-color: black transparent black transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+  }
+  @keyframes lds-dual-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+#date{
+    width: 130px;
+    background: rgb(218, 218, 218);
+    color: black;
+}
+
+.card{
+    box-shadow:0px 2px 12px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+td:hover,th:hover{
+    cursor: pointer;
+}
