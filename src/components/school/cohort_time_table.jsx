@@ -30,7 +30,10 @@ export default class Student_Diary extends Component {
             chosenDate: null,
             timeTable: [],
             isLoaded: false,
-            teachers:[{name:"olga"}]
+            teachers:[{name:"olga"}],
+            chosenSubject: null,
+            chosenTeacherName:  "Выберите учителя",
+            chosenTeacherID: null,
         }
     }
 
@@ -109,12 +112,27 @@ export default class Student_Diary extends Component {
         .catch(err =>{
             console.log(err.error);
         });
+
+        axios.get('http://192.168.0.55:8080/api/v1/get_cohorts/',{
+            headers:{
+                Authorization:'Token ' + this.token,
+            }
+        }).then(res => {
+            const data = res.data;
+            console.log(data)
+            this.setState({
+                isLoaded: true,
+                subjects: data,
+            })
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
     }
     componentDidMount = () => {
         this.getTable(this.state.chosenDate);
         
     }
-
     filterFunction(){
         var input, filter, a, i;
             input = document.getElementById("myInput");
@@ -130,7 +148,37 @@ export default class Student_Diary extends Component {
               }
             }
           }
+    
+    ifOther(value){
+        if(value=="Другое..."){
+            var element = document.getElementById('otherinput')
+            element.style.display='block';
             
+        }
+        else{
+            this.setState({
+                chosenSubject:value
+            })
+        }
+    }
+
+    changeTeacherValue(name,id){
+        var teacherInput = document.getElementById("teacherID");
+        var teacherButton = document.getElementById("teacherButton");
+        this.setState({
+            teacherID:id
+        })
+        teacherButton.innerHTML = (name);
+    }
+
+    changeTimeValue(subject){
+        var subjectInput = document.getElementById("subjectInput");
+        subjectInput.value = subject;
+        this.setState({
+            subjectName:subject
+        })
+    }
+
     render() {
         return (
             <div className="d-flex justify-content-center mt-2">
@@ -187,16 +235,41 @@ export default class Student_Diary extends Component {
                                     <div className="row">
                                     <div className="input-group mb-3 col-12 m-0 p-0">
                                             <div className="input-group-prepend">
-                                                <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
+                                                <button type="button" className="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Имя предмета &nbsp;
                                                 </button>
                                                 <div className="dropdown-menu">
-                                                    <a className="dropdown-item" href="#">8:30-9:15</a>
-                                                    <a className="dropdown-item" href="#">8:30-9:15</a>
-                                                    <a className="dropdown-item" href="#">8:30-9:15</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Математика')}>Математика</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Русский-яз.')}>Русский-яз.</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Английский-яз.')}>Английский-яз.</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('История')}>История</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('География')}>География</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Биология')}>Биология</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Информатика')}>Информатика</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Обществознание')}>Обществознание</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Алгебра')}>Алгебра</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Геометрия')}>Геометрия</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Физика')}>Физика</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Химия')}>Химия</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Черчение')}>Черчение</a>
                                                 
                                                 </div>
                                             </div>
-                                            <input type="text" className="form-control" aria-label="Text input with segmented dropdown button"/>
+                                            
+                                            </div>
+
+                                        
+                                    <div className="input-group mb-3 col-12 m-0 p-0">
+                                            <div className="input-group-prepend">
+                                                <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
+                                                </button>
+                                                <div className="dropdown-menu">
+                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('Математика')}>8:30-9:15</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('9:15')}>9:15</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('фыва')}>8:30-9:15</a>
+                                                
+                                                </div>
+                                            </div>
+                                            <input type="text" id="subjectInput" name="subject" onChange={e => this.setState({subjectStarttime: e.target.value})} className="form-control" required/>
                                             </div>
                                             <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
                                             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
@@ -204,26 +277,35 @@ export default class Student_Diary extends Component {
                                             <div className="input-group-prepend">
                                                 <label className="input-group-text" for="inputGroupSelect01">Предмет</label>
                                             </div>
-                                            <select className="custom-select" id="inputGroupSelect01">
+                                            <select className="custom-select" id="inputGroupSelect01" onChange={e => this.ifOther(e.target.value)}>
                                                 <option selected>Веберите Предмет</option>
-                                                <option value="1">Матем</option>
-                                                <option value="2">Англ</option>
-                                                <option value="3">Русский</option>
+                                                <option value="Матем">Матем</option>
+                                                <option value="Англ">Англ</option>
+                                                <option value="Другое...">Другое...</option>
                                             </select>
+                                            
+
                                         </div>
+                                        <input type="text" style={{display:'none'}} onChange={e => this.setState({chosenSubject: e.target.value})} id="otherinput" className="form-control mt-1" placeholder="Пишите название нового предмета"/>
                                         <div className="input-group col-12 m-0 p-0 mt-3">
                                             <div className="input-group-prepend">
                                                 <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
                                             </div>
-                                            <div className="dropdown">
-                                                <button className="btn btn-outline-info dropdown-toggle"
-                                                        type="button" id="dropdownMenu1" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">Выберите учителя</button>
-                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                                <input type="text" className="dropdown-item" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/>
-
+                                            <div className="dropdown form-control center-items p-0" id="inputGroupSelect01">
+                                                <button className="btn dropdown-toggle w-100"
+                                                        type="button" id="teacherButton" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">{this.state.chosenTeacherName}</button>
+                                                <input type="hidden" id="teacherID" name="teacherID" value={this.state.chosenTeacherID}/>
+                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="teacherButton">
+                                                    <div className="p-1 input-group">
+                                                    <div className="input-group-prepend ">
+                                                    <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>
+                                                    
+                                            </div>
+                                                <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
+                                 
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect">{teacher.teacherName}</a>
+                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
                                                     ))}
                                                     
                                                     
