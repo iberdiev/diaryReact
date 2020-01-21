@@ -1,22 +1,15 @@
+
 import React, { Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import DatePicker from 'react-date-picker'  
 
 
 
 
 
 class One_Class extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            changeTime: null,
-            changesubject: null,
-            changeTeacherID: null,
-            changeTeacherName: null,
-        }
-    }
     deleteSubject(id,subjectname){
         if (window.confirm("Вы уверены что хотите удалить урок: " + subjectname + "?")){
             axios.delete(`http://192.168.0.55:8080/api/v1/timetableByCohort/?pk=${id}`,{
@@ -43,83 +36,8 @@ class One_Class extends Component {
                     </div>
                     <div className="col-5 center-items">{this.props.subject}</div>
                     <div className="col-2 text-left center-items">
-                        <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={this.setstate({changeTime: this.props.time, changesubject: this.props.subject, changeTeacherID: this.props.teacherID, changeTeacherName: this.props.teacherName})} ><i className="fa fa-pencil"></i></div>
+                        <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={() => this.props.changeValue(this.props.time, this.props.subject, this.props.teacherID, this.props.teacherName, this.props.subjectID)} ><i className="fa fa-pencil"></i></div>
                         <div className="btn btn-danger m-1 p-1" onClick={()=>this.deleteSubject(this.props.subjectID,this.props.subject)} ><i className="fa fa-trash"></i></div>
-                    </div>
-
-                </div>
-
-
-                
-                {/* Modal for changing */}
-
-
-
-                <div className="modal fade" id="ChangeModal" tabindex="-1" role="dialog" aria-labelledby="ChangeModal" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered" role="document">
-                        <form className="modal-content" onSubmit={this.submitNewSubject}>
-                            <div className="modal-header">
-                                <h5 className="modal-title" id="exampleModalLongTitle">Добавление предемета</h5>
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="p-2 ">
-                                    <div className="row">
-                                        <div className="form-group">
-                                            <div className="input-group date" id="datetimepicker13" data-target-input="nearest">
-                                                <input type="text" className="form-control datetimepicker-input" data-target="#datetimepicker13"/>
-                                                <div className="input-group-append" data-target="#datetimepicker13" data-toggle="datetimepicker">
-                                                    <div className="input-group-text"><i className="fa fa-clock-o"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <div className="input-group mb-3 col-12 m-0 p-0">
-                                            <div className="input-group-prepend">
-                                                <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('8:00-8:45')}>8:00-8:45</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('8:55-9:40')}>8:55-9:40</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('9:50-10:35')}>9:50-10:35</a>
-                                                </div>
-                                            </div>
-                                            <input type="text" id="subjectInput" name="subject" onChange={e => this.setState({subjectStarttime: e.target.value})} className="form-control" required/>
-                                            </div>
-                                        <input type="text" style={{display:'none'}} onChange={e => this.setState({chosenSubject: e.target.value})} id="otherinput" className="form-control mt-1" placeholder="Пишите название нового предмета"/>
-                                        <div className="input-group col-12 m-0 p-0 mt-3">
-                                            <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
-                                            </div>
-                                            <div className="dropdown form-control center-items p-0" id="inputGroupSelect01">
-                                                <button className="btn dropdown-toggle w-100"
-                                                        type="button" id="teacherButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">{this.state.chosenTeacherName}</button>
-                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="teacherButton">
-                                                    <div className="p-1 input-group">
-                                                    <div className="input-group-prepend ">
-                                                    <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>
-                                                    
-                                            </div>
-                                                <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
-                                 
-                                                    {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
-                                                    ))}
-                                                    
-                                                    
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                                <button type="submit" className="btn btn-primary">Добавить урок</button>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -141,7 +59,16 @@ export default class Student_Diary extends Component {
             chosenTeacherName:  "Выберите учителя",
             chosenTeacherID: null,
             subjectStarttime: null,
+
+
+            // For changing modal
+            changeTime: null,
+            changesubject: null,
+            changeTeacherID: null,
+            changeTeacherName: null,
+            changeIndex: null,
         }
+        this.changeValue = this.changeValue.bind(this)
     }
 
 
@@ -188,6 +115,12 @@ export default class Student_Diary extends Component {
         return days[day];
     }
 
+    getMonth(date){
+        var months = ['Январь', 'Февраль', 'Март', 'Апрель','Май', 'Июнь', 'Июль', 'Август','Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+        var month = date.getMonth();
+        return months[month];
+    }
+
     convertToDDMMYYYY(date) {
         var dd = date.getDate();
         var mm = date.getMonth() + 1;
@@ -201,7 +134,15 @@ export default class Student_Diary extends Component {
         this.getTable(chosenDate);
     }
 
+    onChange = date => {
+        var chosenDate = date;
+        this.setState({ chosenDate: chosenDate });
+        this.getTable(chosenDate);
+    }
+
+
     componentWillMount = () => {
+        
         
         var tempcurrentTime = new Date();
         this.setState({
@@ -239,6 +180,8 @@ export default class Student_Diary extends Component {
         });
     }
     componentDidMount = () => {
+
+        
         
         this.getTable(this.state.chosenDate);
         var data = {"subjectName": this.state.subjectName, "cohortID": this.props.location.state.cohortID, "teacherID": this.state.chosenTeacherID}
@@ -292,6 +235,8 @@ export default class Student_Diary extends Component {
         })
     }
 
+    
+
     submitNewSubject = event =>{
         event.preventDefault();
         var isAvailable = false;
@@ -333,14 +278,80 @@ export default class Student_Diary extends Component {
             });
         }
 
+    }
 
+
+    changeTeacher(name,id){
+        var teacherButton = document.getElementById("changeTeacherButton");
+        this.setState({
+            changeTeacherID:id
+        })
+
+        teacherButton.innerHTML = (name);
+    }
+
+    changeTime(subject){
+        var subjectInput = document.getElementById("changesubjectInput");
+        subjectInput.value = subject;
+        this.setState({
+            changeTime:subject
+        })
+    }
+    changeValue(time,endtime,subject,teacherID,teacherName,subjectID, index){
+        console.log(time, subject, teacherID, teacherName)
+        this.setState({
+            changeTime:time,
+            changeEndTime: endtime,
+            changesubject:subject, 
+            changesubjectID:subjectID, 
+            changeTeacherID:teacherID, 
+            changeTeacherName:teacherName,
+            changeIndex:index,
+        })
+        
+    }
+
+    submitChangeSubject = event =>{
+        event.preventDefault();
+        var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID}
+        axios.put('http://192.168.0.55:8080/api/v1/timetableByCohort/',data,{
+        headers:{
+            Authorization:'Token ' + localStorage.getItem('token'),
+        }
+        }).then(res => {
+            const data = res.data;
+            window.location.reload()
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+    }
+
+    deleteSubject(id,subjectname){
+        if (window.confirm("Вы уверены что хотите удалить урок: " + subjectname + "?")){
+            axios.delete(`http://192.168.0.55:8080/api/v1/timetableByCohort/?pk=${id}`,{
+            headers:{
+                Authorization:'Token ' + localStorage.getItem('token'),
+            }
+            }).then(res => {
+                const data = res.data;
+                window.location.reload()
+            })
+            .catch(err =>{
+                console.log(err.error);
+            });
+        }
         
     }
 
     render() {
+        
+        
         return (
             <div className="d-flex justify-content-center mt-2">
                 <div className="col-lg-6 col-12  p-1 ">
+                <div id="datepicker-demo"></div>
+                
                     
                     {/* {!this.state.isLoaded ?
                         <div>
@@ -352,20 +363,13 @@ export default class Student_Diary extends Component {
                         
                         <div className="item">
                             <div className="p-1 row">
-                                
-                                <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)} /></span></span></div>
-                                <div className="date-picker">
-                                    <span className="btn-link">{this.props.istoday}</span>
-                                </div>
+                            
+                                <div className="col-8"><label htmlFor="date">{this.getMonth(this.state.chosenDate)}</label> - <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
                             </div>
-                            <div class="form-group col-6">
-                                <div class="input-group date" id="datetimepicker4" data-target-input="nearest">
-                                    <input onChange={(e)=>this.getTable(e.target.value)} type="text" class="form-control datetimepicker-input" data-target="#datetimepicker4"/>
-                                    <div class="input-group-append" data-target="#datetimepicker4" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                    </div>
-                                </div>
-                            </div>
+                            
+
+
+
                             <div className="col-12">
                                 <h2 className="text-center mt-3 mb-4 btn-link"> <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() - 1)) }} className="btn btn-primary float-left ml-3"><i className="fa fa-arrow-left p-1 mr-1"></i></button> {this.getWeekDay(this.state.chosenDate)} <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() + 1)) }} className="btn btn-primary float-right mr-3"><i className="fa fa-arrow-right p-1 mr-1"></i></button></h2>
                             </div>
@@ -380,8 +384,20 @@ export default class Student_Diary extends Component {
                                 </div>
                             </div>
 
-                            {this.state.timeTable.map(subject => (
-                                <One_Class subjectID={subject.pk} subject={subject.subjectName} time={subject.startTime.slice(0, -3) + '-' + subject.endTime.slice(0, -3)} />
+                            {this.state.timeTable.map((subject, index) => (
+
+                                <div className="card">
+                                    <div className="row">
+                                        <div className="col-5 center-items text-center">
+                                            {index+1}
+                                        </div>
+                                        <div className="col-5 center-items">{subject.subjectName}</div>
+                                        <div className="col-2 text-left center-items">
+                                            <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={() => this.changeValue(subject.startTime.slice(0, -3), subject.endTime.slice(0, -3), subject.subjectName, subject.teacher, subject.teacherName, subject.pk, index+1)} ><i className="fa fa-pencil"></i></div>
+                                            <div className="btn btn-danger m-1 p-1" onClick={()=>this.deleteSubject(subject.pk,subject.subjectName)} ><i className="fa fa-trash"></i></div>
+                                        </div>
+                                    </div>
+                                </div>
                             ))}
 
                             <div className="center-items m-3"><button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Добавить новый урок</button></div>
@@ -401,16 +417,8 @@ export default class Student_Diary extends Component {
                             <div className="modal-body">
                                 <div className="p-2 ">
                                     <div className="row">
-                                        <div className="form-group">
-                                            <div className="input-group date" id="datetimepicker13" data-target-input="nearest">
-                                                <input type="text" className="form-control datetimepicker-input" data-target="#datetimepicker13"/>
-                                                <div className="input-group-append" data-target="#datetimepicker13" data-toggle="datetimepicker">
-                                                    <div className="input-group-text"><i className="fa fa-clock-o"></i></div>
-                                                </div>
-                                            </div>
-                                        </div>
                                     <div className="input-group mb-3 col-12 m-0 p-0">
-                                            <div className="input-group-prepend">
+                                            {/* <div className="input-group-prepend">
                                                 <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
                                                 </button>
                                                 <div className="dropdown-menu">
@@ -418,8 +426,25 @@ export default class Student_Diary extends Component {
                                                     <a className="dropdown-item" onClick={()=>this.changeTimeValue('8:55-9:40')}>8:55-9:40</a>
                                                     <a className="dropdown-item" onClick={()=>this.changeTimeValue('9:50-10:35')}>9:50-10:35</a>
                                                 </div>
+                                            </div> 
+                                            <input type="text" id="subjectInput" name="subject" onChange={e => this.setState({subjectStarttime: e.target.value.slice(0, -3)})} className="form-control" />
+
+                                            */}
+
+                                            <div className="input-group-prepend">
+                                                <label className="input-group-text" for="inputGroupSelect01">Урок</label>
                                             </div>
-                                            <input type="text" id="subjectInput" name="subject" onChange={e => this.setState({subjectStarttime: e.target.value})} className="form-control" required/>
+                                            <select className="custom-select" id="input" onChange={e => this.setState({subjectStarttime: e.target.value})} required>
+                                                <option selected disabled>Веберите урок</option>
+                                                <option value="8:00">1</option>
+                                                <option value="9:00">2</option>
+                                                <option value="10:00">3</option>
+                                                <option value="11:00">4</option>
+                                                <option value="12:00">5</option>
+                                                <option value="13:00">6</option>
+                                                <option value="14:00">7</option>
+                                                <option value="15:00">8</option>
+                                            </select>
                                             </div>
                                             <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
                                             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
@@ -482,7 +507,83 @@ export default class Student_Diary extends Component {
                         </form>
                     </div>
                 </div>
-
+                
+                
+                {/* Modal for changing */}
+                <div className="modal fade" id="ChangeModal" tabindex="-1" role="dialog" aria-labelledby="ChangeModal" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <form className="modal-content" onSubmit={this.submitChangeSubject}>
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalLongTitle">Добавление предемета</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <div className="p-2 ">
+                                    <div className="row">
+                                        
+                                    <div className="input-group mb-3 col-12 m-0 p-0">
+                                            {/* <div className="input-group-prepend">
+                                                <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
+                                                </button>
+                                                <div className="dropdown-menu">
+                                                    <a className="dropdown-item" onClick={()=>this.changeTime('8:00-8:45')}>8:00-8:45</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changeTime('8:55-9:40')}>8:55-9:40</a>
+                                                    <a className="dropdown-item" onClick={()=>this.changeTime('9:50-10:35')}>9:50-10:35</a>
+                                                </div>
+                                            </div>
+                                            <input type="text" id="changesubjectInput" name="subject" onChange={e => this.setState({changeTime: e.target.value})} className="form-control" value={this.state.changeTime} required/>
+                                             */}
+                                        <div className="input-group-prepend">
+                                                <label className="input-group-text" for="inputGroupSelect01">Урок</label>
+                                            </div>
+                                            <select className="custom-select text-center" id="input" onChange={e => this.setState({changeTime: e.target.value})} required>
+                                                <option value="8:00" selected={this.state.changeIndex==1} disabled={this.state.changeIndex==1}>1</option>
+                                                <option value="9:00" selected={this.state.changeIndex==2} disabled={this.state.changeIndex==2}>2</option>
+                                                <option value="10:00" selected={this.state.changeIndex==3} disabled={this.state.changeIndex==3}>3</option>
+                                                <option value="11:00" selected={this.state.changeIndex==4} disabled={this.state.changeIndex==4}>4</option>
+                                                <option value="12:00" selected={this.state.changeIndex==5} disabled={this.state.changeIndex==5}>5</option>
+                                                <option value="13:00" selected={this.state.changeIndex==6} disabled={this.state.changeIndex==6}>6</option>
+                                                <option value="14:00" selected={this.state.changeIndex==7} disabled={this.state.changeIndex==7}>7</option>
+                                                <option value="15:00" selected={this.state.changeIndex==8} disabled={this.state.changeIndex==8}>8</option>
+                                            </select>
+                                    </div>
+                                        <input type="text" style={{display:'none'}} onChange={e => this.setState({chosenSubject: e.target.value})} id="otherinput" className="form-control mt-1" placeholder="Пишите название нового предмета"/>
+                                        <div className="input-group col-12 m-0 p-0 mt-3">
+                                            <div className="input-group-prepend">
+                                                <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
+                                            </div>
+                                            <div className="dropdown form-control center-items p-0" id="inputGroupSelect01">
+                                                <button className="btn dropdown-toggle w-100"
+                                                        type="button" id="changeTeacherButton" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">{this.state.changeTeacherName}</button>
+                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="changeTeacherButton">
+                                                    <div className="p-1 input-group">
+                                                    <div className="input-group-prepend ">
+                                                    <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>
+                                                    
+                                            </div>
+                                                <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
+                                
+                                                    {this.state.teachers.map(teacher=>(
+                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                    ))}
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+                                <button type="submit" className="btn btn-primary">Сохранить изменения</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
 
                 

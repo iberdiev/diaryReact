@@ -15,8 +15,8 @@ export default class Teacher_Journal_Grade extends Component {
             data:[
                 {
                     "studentName": "",
-                    "pk": 5,
-                    "cohort": 2,
+                    "pk": "",
+                    "cohort": "",
                     "finalGrades": [
                         {
                             "type": 1,
