@@ -28,8 +28,8 @@ export default class SchoolNavbar extends Component {
               </button>
               <div className={this.state.collapsed?"collapse navbar-collapse show":"collapse navbar-collapse"} id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
-                  <li className="nav-item">
-                    <Link to = {{pathname:"/parent/student_diary/", state:{pk: this.state.data.pk, cohortID: this.state.data.cohort}}}  className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Дневник ученика</Link>
+                  <li className="nav-item active">
+                    <Link to="/"  className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Главная</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/school/school_cohorts/" className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Классы</Link>
