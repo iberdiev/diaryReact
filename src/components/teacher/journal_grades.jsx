@@ -222,23 +222,25 @@ export default class Teacher_Journal_Grade extends Component {
                             <Link to={{pathname:"journal_grades", state:{cohortID: this.state.cohortID, subjectID:this.state.subjectID, cohortName:this.state.cohortName, subjectName:this.state.subjectName}}} className="swipe-button grades bg-success center-items text-white">Итоговые</Link>
                         </div>
                         </div>
-                        <label htmlFor="all_check">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> </label>
+                        <div className="col-5">
+                            <label htmlFor="all_check" className="singleLabel">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span class="checkmark checkmark-all ml-3"></span> </label>
 
+                        </div>
                         <div className="journal">
                             <div className="names p-0 ">
                                 <table id="" className="table table-striped table-bordered display " style={{width:'100%'}}>
                                     <thead>
                                         <tr>
-                                            <th className="p-1 bg-secondary text-white"><label htmlFor="all_check" className="m-0 d-block" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> ФИО</label></th>
+                                            <th className="p-1 bg-secondary text-white"><label htmlFor="all_check" className="m-0 d-block singleLabel" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span class="checkmark"></span> ФИО</label></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {this.state.data.map(student => (
                                             <tr>
-                                                <td className="p-0">
-                                                    <label htmlFor={student.pk} className="d-block m-0"><p className="mt-1 mb-1 p-2"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/>{student.studentName}</p></label>
-                                                </td>
-                                            </tr>
+                                            <td className="p-2">
+                                                <label htmlFor={student.pk} className="d-block m-0 singleLabel"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/><span class="checkmark"></span>{student.studentName}</p></label>
+                                            </td>
+                                        </tr>
                                             ))}
                                     </tbody>
                                 </table>

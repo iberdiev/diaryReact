@@ -2,6 +2,9 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import DatePicker from 'react-date-picker'
+import ReadMoreReact from 'read-more-react';
+
 
 
 class One_Class extends Component {
@@ -11,7 +14,7 @@ class One_Class extends Component {
             <div className="card p-2 ">
                 <div className="row">
                     <div className="col-4 center-items text-center">
-                        <p>{this.props.className}
+                    <p>{this.props.className}
                         <br/>
                         {this.props.time}
                         </p>
@@ -81,6 +84,12 @@ export default class Student_Diary extends Component {
         return days[day];
     }
 
+    getMonth(date){
+        var months = ['Января', 'Февраля', 'Марта', 'Апреля','Майа', 'Июня', 'Июля', 'Августа','Сентября', 'Октября', 'Ноября', 'Декабря']
+        var month = date.getMonth();
+        return months[month];
+    }
+
     convertToDDMMYYYY(date){
         var dd = date.getDate();
         var mm = date.getMonth()+1;
@@ -103,6 +112,12 @@ export default class Student_Diary extends Component {
     componentDidMount = () =>{
         this.getTable(this.state.chosenDate);
     }
+
+    onChange = date => {
+        var chosenDate = date;
+        this.setState({ chosenDate: chosenDate });
+        this.getTable(chosenDate);
+    }
     render() {
         return(
             <div className="d-flex justify-content-center mt-2">
@@ -115,11 +130,9 @@ export default class Student_Diary extends Component {
                     </div> : ""}
                     <div className="owl-carousel owlExample">
                         <div className="item">
-                            <div className="p-1 row">
-                                <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)}/></span></span></div>
-                                <div className="date-picker">
-                                    <span className="btn-link">{this.props.istoday}</span>
-                                </div>
+                            <div className="p-1 row text-center">
+                                
+                                <div className="col-12 center-items"><label htmlFor="date" className="m-0"> {this.state.chosenDate.getDate()} {this.getMonth(this.state.chosenDate)}</label> <span className="p-1"> - </span> <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
                             </div>
                             <div className="col-12">
                                 <h2 className="text-center mt-3 mb-4 btn-link"> <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() - 1) ) }} className="btn btn-primary float-left "><i className="fa fa-arrow-left p-1 mr-1"></i></button> {this.getWeekDay(this.state.chosenDate)} <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() + 1) ) }} className="btn btn-primary float-right"><i className="fa fa-arrow-right p-1 mr-1"></i></button></h2>

@@ -23,7 +23,7 @@ export default class SchoolNavbar extends Component {
               <div className="collapse navbar-collapse " id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item active">
-                    <Link  to="/" className="nav-link">Главная</Link>
+                    <Link  to="/" className="nav-link" data-toggle="collapse">Главная</Link>
                   </li>
                   <li className="nav-item">
                     <Link to="/school/school_cohorts/" className="nav-link">Классы</Link>

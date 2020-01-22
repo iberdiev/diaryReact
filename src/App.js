@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { Redirect } from 'react-router-dom';
 import './App.css';
+import axios from 'axios';
+
 
 import Login from './components/Entry';
 
@@ -56,6 +58,7 @@ class App extends Component {
     };
 }
   render() {
+    
     const userToken = localStorage.getItem('token');
     const userRole = localStorage.getItem('user_role');
     if (userRole==1){
@@ -108,18 +111,45 @@ class App extends Component {
         <Router>
           {/* For parents */}
           <ParentNavbar/>
+          <Switch>
           <Route path='/' exact component={Parent_Main}/>
           <Route path='/parent/' exact component={Parent_Main}/>
           <Route path='/parent/student_diary' exact component={Student_Diary_For_Parent}/>
           <Route path='/parent/student_statistics' exact component={Student_Statistics}/>
           <Route path='/parent/student_subjects' exact component={Student_Subjects}/>
+          </Switch>
         </Router>
       )
     }
     else{
-      return(
-        <Login/>
-      )
+      var token = null
+      const search = window.location.search;
+      const params = new URLSearchParams(search);
+      token = params.get('token');
+      if (token!=null){
+        console.log(token)
+        axios.get("http://192.168.0.55:8080/api/v1/getToken/"
+        ).then(res => {
+            const data = res.data;
+
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+      }
+      
+      else{
+        return(
+          <Router>
+          <Switch>
+            <Route path='/' exact component={Login}/>
+            <Route path='*' exact component={Login}/>
+          </Switch>
+          </Router>
+          
+        )
+      }
+      
     }
   }
 }

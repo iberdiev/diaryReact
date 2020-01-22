@@ -54,14 +54,14 @@ class Login extends React.Component{
     render(){
         return(
             <div>
-                <div className="container d-flex justify-content-center mt-5">
+                <div className="container center-items mt-5">
                     <div className="login-form col-lg-6 col-12  p-1">
                         <div className="alert alert-success" role="alert">
                         Добро пожаловать в онлайн дневник!
                         </div>
                         <div className="card p-3">
                         <form onSubmit={this.onSubmit}>
-                            <h2 className="text-center">Вход</h2>
+                            <h1 className="text-center m-2">Вход</h1>
                             <div className="form-group">
                                 <input type="text" className="form-control" placeholder="Логин" required="required" onChange={e => this.setState({username: e.target.value})} />
                             </div>
@@ -71,6 +71,8 @@ class Login extends React.Component{
                             <div className="form-group">
                                 <button type='submit' className="btn btn-primary btn-block" disabled={this.state.isLoginDisabled} >{this.state.isLoginDisabled ? 'Подождите...' : 'Войти'}</button>
                             </div>
+
+                            <div><a style={{color:'blue'}} href="fasfsd">Ссылка</a> </div>
                         </form>
                         </div>
                     </div>
