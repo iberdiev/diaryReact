@@ -299,7 +299,7 @@ export default class Teacher_Journal extends Component {
                                                             })
                                                             return(
                                                                 <td className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(one_date.pk, student.pk, student.studentName, gradearray)}>
-                                                                <p className="mt-1 mb-1 text-center" >{
+                                                                <p className="mt-1 mb-1 text-center" >&nbsp; {
                                                                     gradearray.map(grade=>{
                                                                         return(
                                                                             <span id="mark"> {grade.mark} </span>

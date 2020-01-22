@@ -464,3 +464,19 @@ a:hover{
 td:hover,th:hover{
     cursor: pointer;
 }
+
+.rc-time-picker-clear{
+  right: 15px !important;
+}
+
+.read-more-button{
+  color:rgba(0, 0, 255, 0.767);
+}
+.read-more-button:hover{
+  color:rgb(0, 0, 180);
+  cursor: pointer;
+}
+
+.react-date-picker__clear-button{
+  display: none;
+}

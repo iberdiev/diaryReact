@@ -3,49 +3,11 @@ import React, { Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-import DatePicker from 'react-date-picker'  
-
-
-
-
-
-class One_Class extends Component {
-    deleteSubject(id,subjectname){
-        if (window.confirm("Вы уверены что хотите удалить урок: " + subjectname + "?")){
-            axios.delete(`http://192.168.0.55:8080/api/v1/timetableByCohort/?pk=${id}`,{
-            headers:{
-                Authorization:'Token ' + localStorage.getItem('token'),
-            }
-            }).then(res => {
-                const data = res.data;
-                window.location.reload()
-            })
-            .catch(err =>{
-                console.log(err.error);
-            });
-        }
-        
-    }
-
-    render() {
-        return (
-            <div className="card">
-                <div className="row">
-                    <div className="col-5 center-items text-center">
-                        {this.props.time}
-                    </div>
-                    <div className="col-5 center-items">{this.props.subject}</div>
-                    <div className="col-2 text-left center-items">
-                        <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={() => this.props.changeValue(this.props.time, this.props.subject, this.props.teacherID, this.props.teacherName, this.props.subjectID)} ><i className="fa fa-pencil"></i></div>
-                        <div className="btn btn-danger m-1 p-1" onClick={()=>this.deleteSubject(this.props.subjectID,this.props.subject)} ><i className="fa fa-trash"></i></div>
-                    </div>
-                </div>
-            </div>
-        )
-
-    }
-}
-
+import DatePicker from 'react-date-picker'
+import moment from 'moment';
+import TimePicker from 'rc-time-picker';
+import 'rc-time-picker/assets/index.css';
+import ReadMoreReact from 'read-more-react';
 
 export default class Student_Diary extends Component {
     constructor(props) {
@@ -59,17 +21,21 @@ export default class Student_Diary extends Component {
             chosenTeacherName:  "Выберите учителя",
             chosenTeacherID: null,
             subjectStarttime: null,
+            subjectEndTime: null,
 
 
             // For changing modal
-            changeTime: null,
+            changeTime: 'null',
+            changeEndtime: "null",
             changesubject: null,
             changeTeacherID: null,
             changeTeacherName: null,
             changeIndex: null,
+            changeHomeWork: null,
         }
         this.changeValue = this.changeValue.bind(this)
     }
+    
 
 
     getTable(date) {
@@ -116,10 +82,12 @@ export default class Student_Diary extends Component {
     }
 
     getMonth(date){
-        var months = ['Январь', 'Февраль', 'Март', 'Апрель','Май', 'Июнь', 'Июль', 'Август','Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь']
+        var months = ['Января', 'Февраля', 'Марта', 'Апреля','Майа', 'Июня', 'Июля', 'Августа','Сентября', 'Октября', 'Ноября', 'Декабря']
         var month = date.getMonth();
         return months[month];
     }
+
+    
 
     convertToDDMMYYYY(date) {
         var dd = date.getDate();
@@ -250,7 +218,7 @@ export default class Student_Diary extends Component {
         }
         if (isAvailable){
             console.log('Есть')
-            var data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": "15:45:00"}
+            var data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
             axios.post('http://192.168.0.55:8080/api/v1/timetableByCohort/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
@@ -264,7 +232,7 @@ export default class Student_Diary extends Component {
             });
         }else{
             console.log('Нет')
-            var data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": "15:45:00"}
+            var data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
             axios.post('http://192.168.0.55:8080/api/v1/createSubjectAndTimetable/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
@@ -297,7 +265,7 @@ export default class Student_Diary extends Component {
             changeTime:subject
         })
     }
-    changeValue(time,endtime,subject,teacherID,teacherName,subjectID, index){
+    changeValue(time,endtime,subject,teacherID,teacherName,subjectID, index, homework){
         console.log(time, subject, teacherID, teacherName)
         this.setState({
             changeTime:time,
@@ -307,13 +275,13 @@ export default class Student_Diary extends Component {
             changeTeacherID:teacherID, 
             changeTeacherName:teacherName,
             changeIndex:index,
-        })
-        
+            changeHomeWork:homework,
+        })        
     }
 
     submitChangeSubject = event =>{
         event.preventDefault();
-        var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID}
+        var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID, "endTime": this.state.changeEndTime}
         axios.put('http://192.168.0.55:8080/api/v1/timetableByCohort/',data,{
         headers:{
             Authorization:'Token ' + localStorage.getItem('token'),
@@ -362,9 +330,10 @@ export default class Student_Diary extends Component {
                     <div className="owl-carousel owlExample">
                         
                         <div className="item">
-                            <div className="p-1 row">
                             
-                                <div className="col-8"><label htmlFor="date">{this.getMonth(this.state.chosenDate)}</label> - <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
+                            <div className="p-1 row text-center">
+                            
+                                <div className="col-12"><label htmlFor="date">{this.state.chosenDate.getDate()} {this.getMonth(this.state.chosenDate)}</label> - <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
                             </div>
                             
 
@@ -375,10 +344,13 @@ export default class Student_Diary extends Component {
                             </div>
                             <div className="pl-3 p-2">
                                 <div className="row">
-                                    <div className="col-6 btn-link center-items">
+                                    <div className="col-3 btn-link center-items">
                                         <h6>Время</h6>
                                     </div>
-                                    <div className="col-6 btn-link center-items">
+                                    <div className="col-3 btn-link center-items">
+                                        <h6>Д/З</h6>
+                                    </div>
+                                    <div className="col-4 btn-link center-items">
                                         <h6>Урок</h6>
                                     </div>
                                 </div>
@@ -388,12 +360,20 @@ export default class Student_Diary extends Component {
 
                                 <div className="card">
                                     <div className="row">
-                                        <div className="col-5 center-items text-center">
-                                            {index+1}
+                                        <div className="col-3 center-items text-center">
+                                        {subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)}
                                         </div>
-                                        <div className="col-5 center-items">{subject.subjectName}</div>
+                                        <div className="col-3 center-items text-center">
+                                            <ReadMoreReact text={subject.homework}
+                                                min={10}
+                                                ideal={20}
+                                                max={200}
+                                                readMoreText={'Читать далее...'}
+                                                />
+                                        </div>
+                                        <div className="col-4 center-items">{subject.subjectName}</div>
                                         <div className="col-2 text-left center-items">
-                                            <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={() => this.changeValue(subject.startTime.slice(0, -3), subject.endTime.slice(0, -3), subject.subjectName, subject.teacher, subject.teacherName, subject.pk, index+1)} ><i className="fa fa-pencil"></i></div>
+                                            <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={() => this.changeValue(subject.startTime.slice(0, -3), subject.endTime.slice(0, -3), subject.subjectName, subject.teacher, subject.teacherName, subject.pk, index+1, subject.homework)} ><i className="fa fa-pencil"></i></div>
                                             <div className="btn btn-danger m-1 p-1" onClick={()=>this.deleteSubject(subject.pk,subject.subjectName)} ><i className="fa fa-trash"></i></div>
                                         </div>
                                     </div>
@@ -418,6 +398,15 @@ export default class Student_Diary extends Component {
                                 <div className="p-2 ">
                                     <div className="row">
                                     <div className="input-group mb-3 col-12 m-0 p-0">
+                                            <div className="input-group-prepend">
+                                                Начало:
+                                            </div>
+                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4"  showSecond={false} onChange={e => this.setState({subjectStarttime: e.format("HH:mm")})} />
+                                            <div className="input-group-prepend">
+                                                Конец:
+                                            </div>
+                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4"  showSecond={false} onChange={e => this.setState({subjectEndTime: e.format("HH:mm")})} />
+                                    </div>
                                             {/* <div className="input-group-prepend">
                                                 <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
                                                 </button>
@@ -431,21 +420,9 @@ export default class Student_Diary extends Component {
 
                                             */}
 
-                                            <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Урок</label>
-                                            </div>
-                                            <select className="custom-select" id="input" onChange={e => this.setState({subjectStarttime: e.target.value})} required>
-                                                <option selected disabled>Веберите урок</option>
-                                                <option value="8:00">1</option>
-                                                <option value="9:00">2</option>
-                                                <option value="10:00">3</option>
-                                                <option value="11:00">4</option>
-                                                <option value="12:00">5</option>
-                                                <option value="13:00">6</option>
-                                                <option value="14:00">7</option>
-                                                <option value="15:00">8</option>
-                                            </select>
-                                            </div>
+                                            
+                                            
+                                            
                                             <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
                                             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
                                         <div className="input-group col-12 m-0 p-0">
@@ -522,34 +499,24 @@ export default class Student_Diary extends Component {
                             <div className="modal-body">
                                 <div className="p-2 ">
                                     <div className="row">
-                                        
                                     <div className="input-group mb-3 col-12 m-0 p-0">
-                                            {/* <div className="input-group-prepend">
-                                                <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" onClick={()=>this.changeTime('8:00-8:45')}>8:00-8:45</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changeTime('8:55-9:40')}>8:55-9:40</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changeTime('9:50-10:35')}>9:50-10:35</a>
-                                                </div>
+                                            <div className="input-group-prepend">
+                                                Начало:
                                             </div>
-                                            <input type="text" id="changesubjectInput" name="subject" onChange={e => this.setState({changeTime: e.target.value})} className="form-control" value={this.state.changeTime} required/>
-                                             */}
-                                        <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Урок</label>
+                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4" value={moment().hour(this.state.changeTime.slice(0,2)).minute(this.state.changeTime.slice(3,5))}  showSecond={false} onChange={e => this.setState({changeTime: e.format("HH:mm")})} />
+                                            <br/>
+                                            <div className="input-group-prepend">
+                                                Конец:
                                             </div>
-                                            <select className="custom-select text-center" id="input" onChange={e => this.setState({changeTime: e.target.value})} required>
-                                                <option value="8:00" selected={this.state.changeIndex==1} disabled={this.state.changeIndex==1}>1</option>
-                                                <option value="9:00" selected={this.state.changeIndex==2} disabled={this.state.changeIndex==2}>2</option>
-                                                <option value="10:00" selected={this.state.changeIndex==3} disabled={this.state.changeIndex==3}>3</option>
-                                                <option value="11:00" selected={this.state.changeIndex==4} disabled={this.state.changeIndex==4}>4</option>
-                                                <option value="12:00" selected={this.state.changeIndex==5} disabled={this.state.changeIndex==5}>5</option>
-                                                <option value="13:00" selected={this.state.changeIndex==6} disabled={this.state.changeIndex==6}>6</option>
-                                                <option value="14:00" selected={this.state.changeIndex==7} disabled={this.state.changeIndex==7}>7</option>
-                                                <option value="15:00" selected={this.state.changeIndex==8} disabled={this.state.changeIndex==8}>8</option>
-                                            </select>
+                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4" value={moment().hour(this.state.changeEndtime.slice(0,2)).minute(this.state.changeEndtime.slice(3,5))}  showSecond={false} onChange={e => this.setState({changeEndtime: e.format("HH:mm")})} />
                                     </div>
-                                        <input type="text" style={{display:'none'}} onChange={e => this.setState({chosenSubject: e.target.value})} id="otherinput" className="form-control mt-1" placeholder="Пишите название нового предмета"/>
+                                    
+                                    <div className="input-group col-12 m-0 p-0">
+                                        <div className="input-group-prepend">
+                                                <label className="input-group-text" for="inputGroupSelect01">Д/З</label>
+                                        </div>
+                                        <input type="text" className="form-control" value={this.state.changeHomeWork} onChange={e => this.setState({changeTime: e.target.value})}/>
+                                    </div>
                                         <div className="input-group col-12 m-0 p-0 mt-3">
                                             <div className="input-group-prepend">
                                                 <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
