@@ -87,7 +87,7 @@ export default class Parent_Main extends Component {
                         </div>
                     </div>
                     </Link>
-                    <Link to={{pathname:"/parent/student_teachers", state:{studentID: data[index].pk, cohortID: data[index].cohort, studentName: data[index].studentName}}}>
+                    <Link to={{pathname:"/parent/student_subjects", state:{studentID: data[index].pk, cohortID: data[index].cohort, studentName: data[index].studentName}}}>
                     <div className="card mt-3">
                         <div className="">
                             <div className="row ">

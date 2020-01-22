@@ -227,10 +227,10 @@ export default class Teacher_Journal extends Component {
                         </div>
                     </div> : ""}
                         <h6 className="text-center m-2">
-                            Журнал {this.state.cohortName} класса 
+                            <strong>Журнал:</strong> {this.state.cohortName}  
                         </h6>
                         <h6 className="text-center m-2">
-                            Предмет: {this.state.subjectName}
+                             <strong>Предмет:</strong> {this.state.subjectName}
                         </h6>
                         <p className="text-center">Оценки</p>
 
@@ -250,14 +250,14 @@ export default class Teacher_Journal extends Component {
                                     
                                     <thead>
                                         <tr>
-                                            <th  className="p-1"><label htmlFor="all_check" className="m-0 d-block" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> ФИО</label> </th>
+                                            <th  className="p-1 bg-secondary text-white"><label htmlFor="all_check" className="m-0 d-block" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> ФИО</label> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         {this.state.data.grades.map(student => (
                                             <tr>
-                                                <td className="p-0">
+                                                <td className="p-2">
                                                     <label htmlFor={student.pk} className="d-block m-0"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/>{student.studentName}</p></label>
                                                 </td>
                                             </tr>
@@ -274,7 +274,7 @@ export default class Teacher_Journal extends Component {
                                             
                                             {
                                                 this.state.data.timetables.map(one_date => (
-                                                    <th className="p-1 text-center" data-toggle="modal" data-target="#exampleModal"  onClick={()=>this.gradeAll(one_date.pk)} >  {this.changeDateFormat(one_date.date)}</th>
+                                                    <th className="p-1 text-center bg-secondary text-white" data-toggle="modal" data-target="#exampleModal"  onClick={()=>this.gradeAll(one_date.pk)} >  {this.changeDateFormat(one_date.date)}</th>
                                                 ))
                                             }
                                         </tr>
@@ -299,7 +299,7 @@ export default class Teacher_Journal extends Component {
                                                             })
                                                             return(
                                                                 <td className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(one_date.pk, student.pk, student.studentName, gradearray)}>
-                                                                <p className="mt-1 mb-1 text-center" >&nbsp; {
+                                                                <p className="mt-1 mb-1 p-2 text-center" >&nbsp; {
                                                                     gradearray.map(grade=>{
                                                                         return(
                                                                             <span id="mark"> {grade.mark} </span>

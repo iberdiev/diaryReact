@@ -1,6 +1,7 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 
 class OneTeacher extends Component {
     render() {
@@ -8,7 +9,6 @@ class OneTeacher extends Component {
             <tr>
                 <td>{this.props.number}</td>
                 <td><Link to ={{pathname:"/school/teacher_profile/", state:{teacherID:this.props.pk}}}>{this.props.name}</Link></td>
-                <td><Link to ={{pathname:"/school/teacher_profile/", state:{teacherID:this.props.pk}}} ><span className="star"><i className="fa fa-star" aria-hidden="true"></i>{this.props.overall}</span></Link></td>
 
             </tr>
         )
@@ -24,6 +24,40 @@ export default class Shool_Teachers extends Component {
         this.token = localStorage.getItem('token');
     }
     componentDidMount = () =>{
+
+        $(document).ready(function() {
+            var table = $('#table_id').DataTable( {
+                "bPaginate": false,
+                "bLengthChange": false,
+                "bFilter": true,
+                "bInfo": false,
+                "bAutoWidth": false,
+                language:{
+                    "decimal":        "",
+                    "emptyTable":     "Нет данных",
+                    "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
+                    "infoEmpty":      "Showing 0 to 0 of 0 entries",
+                    "infoFiltered":   "(filtered from _MAX_ total entries)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Show _MENU_ entries",
+                    "loadingRecords": "Loading...",
+                    "processing":     "Processing...",
+                    "search":         "Искать: ",
+                    "zeroRecords":    "No matching records found",
+                    "paginate": {
+                        "first":      "First",
+                        "last":       "Last",
+                        "next":       "Next",
+                        "previous":   "Previous"
+                    },
+                    "aria": {
+                        "sortAscending":  ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+                }
+                        } );
+                    } );
 
         axios.get('http://192.168.0.55:8080/api/v1/teachers/',{
             headers:{
@@ -116,7 +150,6 @@ export default class Shool_Teachers extends Component {
                         <tr>
                             <th>№</th>
                             <th>ФИО</th>
-                            <th>Рейтинг</th>
 
                         </tr>
                     </thead>

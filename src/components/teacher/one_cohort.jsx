@@ -23,12 +23,12 @@ export default class Teacher_One_Cohort extends Component {
                     </h6>
                     <div className="alert alert-primary m-1 mb-3" role="alert">
                         <h6 className="m-2 text-center">
-                            {this.props.location.state.className} класс
+                            {this.props.location.state.cohortName} класс
                         </h6>
                         {/* Классный руководитель: <br/>
                         <strong>Анара Женишбекова</strong> */}
                     </div>
-                    <Link to={{pathname:"/teacher/teacher_student_list", state:{cohortID:this.props.location.state.cohortID}}} >
+                    <Link to={{pathname:"/teacher/teacher_student_list", state:{cohortID:this.props.location.state.cohortID, cohortName:this.props.location.state.cohortName}}} >
                         <div className="card m-1">
                             <div className="p-3 text-center">
                                 <p>Список Учеников</p>

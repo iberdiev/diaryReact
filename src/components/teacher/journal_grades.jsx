@@ -209,10 +209,10 @@ export default class Teacher_Journal_Grade extends Component {
                                 </div>
                             </div> : ""}
                         <h6 className="text-center m-2">
-                            Журнал {this.state.cohortName} класса 
+                            <strong>Журнал:</strong> {this.state.cohortName}  
                         </h6>
                         <h6 className="text-center m-2">
-                            Предмет: {this.state.subjectName}
+                             <strong>Предмет:</strong> {this.state.subjectName}
                         </h6>
                         <p className="text-center">Оценки</p>
 
@@ -229,14 +229,14 @@ export default class Teacher_Journal_Grade extends Component {
                                 <table id="" className="table table-striped table-bordered display " style={{width:'100%'}}>
                                     <thead>
                                         <tr>
-                                            <th className="p-1"><label htmlFor="all_check" className="m-0 d-block" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> ФИО</label></th>
+                                            <th className="p-1 bg-secondary text-white"><label htmlFor="all_check" className="m-0 d-block" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> ФИО</label></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     {this.state.data.map(student => (
                                             <tr>
                                                 <td className="p-0">
-                                                    <label htmlFor={student.pk} className="d-block m-0"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/>{student.studentName}</p></label>
+                                                    <label htmlFor={student.pk} className="d-block m-0"><p className="mt-1 mb-1 p-2"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/>{student.studentName}</p></label>
                                                 </td>
                                             </tr>
                                             ))}
@@ -246,7 +246,7 @@ export default class Teacher_Journal_Grade extends Component {
                             <div className="line"></div>
                             <div className="osenki ">
                                 <table id="" className="table table-striped table-bordered display " style={{width:'100%'}}>
-                                    <thead>
+                                    <thead className={"bg-secondary text-white"}>
                                         <tr>
                                         <th className="p-1 text-center" data-toggle="modal" data-target="#exampleModal"  onClick={()=>this.gradeAll(1)}>I</th>
                                         <th className="p-1 text-center" data-toggle="modal" data-target="#exampleModal"  onClick={()=>this.gradeAll(2)}>II</th>
@@ -271,7 +271,7 @@ export default class Teacher_Journal_Grade extends Component {
                                                                 {
                                                                     dict.map(grade => (
                                                                         <td className="p-0" className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(grade.type, student.pk, student.studentName, [{gradeID:grade.pk, mark: grade.mark}])} >
-                                                                            <p className="mt-1 mb-1 text-center">{grade.mark}</p>
+                                                                            <p className="mt-1 mb-1 p-2 text-center">{grade.mark}</p>
                                                                         </td>
                                                                     ))
                                                                 }

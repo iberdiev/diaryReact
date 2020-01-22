@@ -19,13 +19,14 @@ import Student_Diary from './components/school/student_diary';
 import Shool_Teachers from './components/school/teachers';
 import Shool_Teachers_Profile from './components/school/teacher_profile';
 import Teacher_Time_Table from './components/school/teacher_time_table';
+import School_Student_Subjects from './components/school/student_subjects';
 
 // For parents
 import ParentNavbar from './components/parent/parent_navbar';
 import Parent_Main from './components/parent/parent_main';
 import Student_Diary_For_Parent from './components/parent/student_diary';
 import Student_Statistics from './components/parent/student_statistics';
-import Student_Teachers from './components/parent/student_teachers';
+import Student_Subjects from './components/parent/student_subjects';
 
 // For teachers
 import TeacherNavbar from './components/teacher/teacher_navbar';
@@ -41,6 +42,7 @@ import Teacher_Journal_Grade from './components/teacher/journal_grades';
 import Teacher_Journal from './components/teacher/journal';
 import Teacher_Student_Diary from './components/teacher/student_diary';
 import Teachers_Student_Profile from './components/teacher/student_profile';
+import Teachers_Student_Subjects from './components/teacher/student_subjects';
 
 
 
@@ -72,6 +74,7 @@ class App extends Component {
           <Route path='/school/teachers/' exact component={Shool_Teachers}/>
           <Route path='/school/teacher_profile/' exact component={Shool_Teachers_Profile}/>
           <Route path='/school/teacher_time_table/' exact component={Teacher_Time_Table}/>
+          <Route path='/school/student_subjects/' exact component={School_Student_Subjects}/>
 
         </Router>
       )
@@ -94,6 +97,8 @@ class App extends Component {
           <Route path='/teacher/journal' exact component={Teacher_Journal}/>
           <Route path='/teacher/student_diary' exact component={Teacher_Student_Diary}/>
           <Route path='/teacher/student_profile' exact component={Teachers_Student_Profile}/>
+          <Route path='/teacher/student_subjects/' exact component={Teachers_Student_Subjects}/>
+
         </Router>
       )
     }
@@ -107,7 +112,7 @@ class App extends Component {
           <Route path='/parent/' exact component={Parent_Main}/>
           <Route path='/parent/student_diary' exact component={Student_Diary_For_Parent}/>
           <Route path='/parent/student_statistics' exact component={Student_Statistics}/>
-          <Route path='/parent/student_teachers' exact component={Student_Teachers}/>
+          <Route path='/parent/student_subjects' exact component={Student_Subjects}/>
         </Router>
       )
     }

@@ -8,7 +8,7 @@ export default class School_Profile extends Component {
         super(props);
         this.state = {
             isLoaded: false,
-            data : {studentCohort: "10-А", studentPhone: "07777777", parentName: "Айжана Алимбекова", parentPhone: "055555555"  },
+            data : {studentCohort: "", studentPhone: "", parentName: "", parentPhone: ""  },
         };
     }
     componentDidMount = () =>{
@@ -43,12 +43,17 @@ export default class School_Profile extends Component {
                                 <h6>
                                 Ученик {this.state.data.className} класса
                                 <br/>
-                                Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>{this.state.data.phoneNumber}
                                 </h6>
                             </div>
                         </div>
-                        <div className="card mt-2 p-4 center-items">
-                            <Link to={{pathname:"/teacher/student_diary/", state:{pk: this.props.location.state.pk, cohortID: this.props.location.state.cohortID}}} className="btn btn-success">Посмотреть дневник</Link>
+                        <div className="card mt-2 p-4 ">
+                            <div className="center-items">
+                                <Link to={{pathname:"/teacher/student_diary/", state:{pk: this.props.location.state.pk, cohortID: this.props.location.state.cohortID}}} className="btn btn-success p-3">Посмотреть дневник</Link>
+                            </div>
+                            <div className="center-items mt-2">
+                                <Link to={{pathname:"/teacher/student_subjects/", state:{studentID: this.props.location.state.pk, cohortID: this.props.location.state.cohortID, studentName: this.state.data.studentName}}} className="btn btn-success p-3">Посмотреть оценки по предметам</Link>
+                            </div>
+
                         </div>
                         <div className="card mt-2 ">
                             <div className="m-2 p-2  text-left">

@@ -11,9 +11,10 @@ class One_Class extends Component {
             <div className="card p-2 ">
                 <div className="row">
                     <div className="col-4 center-items text-center">
-                        {this.props.className}
+                        <p>{this.props.className}
                         <br/>
                         {this.props.time}
+                        </p>
                     </div>
                     <div className="col-5 center-items">{this.props.homework}</div>
                     <div className="col-3 center-items">{this.props.subject}</div>

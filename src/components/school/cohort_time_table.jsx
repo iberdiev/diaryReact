@@ -281,7 +281,7 @@ export default class Student_Diary extends Component {
 
     submitChangeSubject = event =>{
         event.preventDefault();
-        var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID, "endTime": this.state.changeEndTime}
+        var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID, "endTime": this.state.changeEndTime, "homework": this.state.changeHomeWork}
         axios.put('http://192.168.0.55:8080/api/v1/timetableByCohort/',data,{
         headers:{
             Authorization:'Token ' + localStorage.getItem('token'),
@@ -321,19 +321,19 @@ export default class Student_Diary extends Component {
                 <div id="datepicker-demo"></div>
                 
                     
-                    {/* {!this.state.isLoaded ?
+                    {!this.state.isLoaded ?
                         <div>
                             <div className="preloader center-items">
                                 <div className="lds-dual-ring"></div>
                             </div>
-                        </div> : ""} */}
+                        </div> : ""}
                     <div className="owl-carousel owlExample">
                         
                         <div className="item">
                             
                             <div className="p-1 row text-center">
                             
-                                <div className="col-12"><label htmlFor="date">{this.state.chosenDate.getDate()} {this.getMonth(this.state.chosenDate)}</label> - <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
+                                <div className="col-12 center-items"><label htmlFor="date" className="m-0"> {this.state.chosenDate.getDate()} {this.getMonth(this.state.chosenDate)}</label> <span className="p-1"> - </span> <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
                             </div>
                             
 
@@ -368,7 +368,7 @@ export default class Student_Diary extends Component {
                                                 min={10}
                                                 ideal={20}
                                                 max={200}
-                                                readMoreText={'Читать далее...'}
+                                                readMoreText={'Развернуть...'}
                                                 />
                                         </div>
                                         <div className="col-4 center-items">{subject.subjectName}</div>
@@ -458,18 +458,17 @@ export default class Student_Diary extends Component {
                                                 <button className="btn dropdown-toggle w-100"
                                                         type="button" id="teacherButton" data-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">{this.state.chosenTeacherName}</button>
-                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="teacherButton">
+                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="teacherButton" style={{maxHeight:'400px', overflow:'scroll'}}>
                                                     <div className="p-1 input-group">
                                                     <div className="input-group-prepend ">
                                                     <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>
                                                     
-                                            </div>
+                                                    </div>
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                  
                                                     {this.state.teachers.map(teacher=>(
                                                         <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
                                                     ))}
-                                                    
                                                     
                                                 </div>
                                             </div>
@@ -515,7 +514,7 @@ export default class Student_Diary extends Component {
                                         <div className="input-group-prepend">
                                                 <label className="input-group-text" for="inputGroupSelect01">Д/З</label>
                                         </div>
-                                        <input type="text" className="form-control" value={this.state.changeHomeWork} onChange={e => this.setState({changeTime: e.target.value})}/>
+                                        <input type="text" className="form-control" value={this.state.changeHomeWork} onChange={e => this.setState({changeHomeWork: e.target.value})}/>
                                     </div>
                                         <div className="input-group col-12 m-0 p-0 mt-3">
                                             <div className="input-group-prepend">
@@ -525,7 +524,7 @@ export default class Student_Diary extends Component {
                                                 <button className="btn dropdown-toggle w-100"
                                                         type="button" id="changeTeacherButton" data-toggle="dropdown"
                                                         aria-haspopup="true" aria-expanded="false">{this.state.changeTeacherName}</button>
-                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="changeTeacherButton">
+                                                <div id="myDropdown" className="dropdown-menu" aria-labelledby="changeTeacherButton" style={{maxHeight:'400px', overflow:'scroll'}}>
                                                     <div className="p-1 input-group">
                                                     <div className="input-group-prepend ">
                                                     <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>

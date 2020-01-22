@@ -39,16 +39,16 @@ export default class Teacher_Cohorts extends Component {
             <div className="container d-flex justify-content-center mt-5">
                 
                 <div className="login-form col-lg-6 col-10  p-1 text-center">
-                <h6 >
+                <h2 >
                             Мои классы
-                </h6>
+                </h2>
 
                 {this.state.data.map(cohort => (
                     <Link to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, cohortName: cohort.cohortName}}}>
-                        <div className="card m-2 p-3 ">
-                            <h5 className="">
+                        <div className="card m-3 p-5 ">
+                            <h4 className="">
                                {cohort.cohortName}
-                            </h5>
+                            </h4>
                         </div>
                     </Link>
                 ))}

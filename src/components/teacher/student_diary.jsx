@@ -2,20 +2,31 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import DatePicker from 'react-date-picker'
+import ReadMoreReact from 'read-more-react';
 
 
 class One_Class extends Component {
 
     render(){
         return(
-            <div className="card p-2 ">
+            <div className="card p-2 mt-1 ">
                 <div className="row">
                     <div className="col-4 center-items text-center">
                         {this.props.subject}
                         <br/>
                         {this.props.time}
                     </div>
-                    <div className="col-5 center-items">{this.props.task}</div>
+                    <div className="col-5 center-items">
+                        <div className="text-center">
+                            <ReadMoreReact text={this.props.task}
+                            min={10}
+                            ideal={20}
+                            max={200}
+                            readMoreText={'Читать далее...'}
+                            /></div>
+                        
+                    </div>
                     <div className="col-3 center-items">{this.props.grades.map(function(mark){
                         return (mark.mark+ ' ')
                     })}</div>
@@ -60,6 +71,18 @@ export default class Student_Diary extends Component {
             console.log(err.error);
         });
     };
+
+    getMonth(date){
+        var months = ['Января', 'Февраля', 'Марта', 'Апреля','Майа', 'Июня', 'Июля', 'Августа','Сентября', 'Октября', 'Ноября', 'Декабря']
+        var month = date.getMonth();
+        return months[month];
+    }
+
+    onChange = date => {
+        var chosenDate = date;
+        this.setState({ chosenDate: chosenDate });
+        this.getTable(chosenDate);
+    }
 
     // Functions for dates
     formatDate(date) {
@@ -115,14 +138,12 @@ export default class Student_Diary extends Component {
                     </div> : ""}
                     <div className="owl-carousel owlExample">
                         <div className="item">
-                            <div className="p-1 row">
-                                <div className="col-8"><label htmlFor="date">{this.getWeekDay(this.state.chosenDate)}</label> - <span><span><input id="date" onChange={this.onChosenDate} type="date" value={this.formatDate(this.state.chosenDate)}/></span></span></div>
-                                <div className="date-picker">
-                                    <span className="btn-link">{this.props.istoday}</span>
-                                </div>
-                            </div>
+                            <div className="p-1 row text-center">
+                            
+                            <div className="col-12 center-items"><label htmlFor="date" className="m-0"> {this.state.chosenDate.getDate()} {this.getMonth(this.state.chosenDate)}</label> <span className="p-1"> - </span> <span><span><DatePicker  clearIcon=""  onChange={this.onChange} value={this.state.chosenDate} /></span></span></div>
+                        </div>
                             <div className="col-12">
-                                <h2 className="text-center mt-3 mb-4 btn-link"> <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() - 1) ) }} className="btn btn-primary float-left "><i className="fa fa-arrow-left p-1 mr-1"></i></button> {this.getWeekDay(this.state.chosenDate)} <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() + 1) ) }} className="btn btn-primary float-right "><i className="fa fa-arrow-right p-1 mr-1"></i></button></h2>
+                                <h2 className="text-center mt-3 mb-4 btn-link"> <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() - 1) ) }} className="btn btn-primary float-left ml-3"><i className="fa fa-arrow-left p-1 mr-1"></i></button> {this.getWeekDay(this.state.chosenDate)} <button onClick={() => { this.getTable(this.state.chosenDate.setDate(this.state.chosenDate.getDate() + 1) ) }} className="btn btn-primary float-right mr-3"><i className="fa fa-arrow-right p-1 mr-1"></i></button></h2>
                             </div>
                             <div className="pl-3 p-2">
                                 <div className="row">

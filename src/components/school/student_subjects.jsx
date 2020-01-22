@@ -2,7 +2,7 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-export default class Teacher_Journal_Grade extends Component {
+export default class Student_Subjects extends Component {
     constructor(props){
         super(props);
         this.token = localStorage.getItem('token');
@@ -24,7 +24,7 @@ export default class Teacher_Journal_Grade extends Component {
 
         // Axios for student list
 
-        axios.get('http://192.168.0.55:8080/api/v1/studentIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
+        axios.get('http://192.168.0.55:8080/api/v1/studedntIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
             headers:{
                 Authorization:'Token ' + this.token,
             }
@@ -48,7 +48,8 @@ export default class Teacher_Journal_Grade extends Component {
         })
         this.setState({
             finalGrades: dict,
-            regularGrades: regularGrades
+            regularGrades: regularGrades,
+            subjectName: subjectName
         })
     }
 
@@ -86,20 +87,20 @@ export default class Teacher_Journal_Grade extends Component {
                             {this.state.data.map((subject,i)=>{
                                 if (i==0){
                                     return(
-                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)}  className="nav-link active p-1" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><p>{subject.subjectName}</p></a>
+                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)}  className="nav-link active p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><p>{subject.subjectName}</p></a>
                                 )}
                                 else{
                                     return(
-                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)} className="nav-link p-1" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false"><p>{subject.subjectName}</p></a>
+                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)} className="nav-link p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false"><p>{subject.subjectName}</p></a>
                                 )
                                 }
                             })}
 
                         </div>
                         <div className="osenki card">
-                            <h6 className="text-center">Предмет: </h6>
-
-                        <a  className="nav-link p-1" ><h6>Четвертные оценки</h6></a>
+                        <h6 className="text-center"><strong>Предмет:</strong>  {this.state.subjectName}</h6>
+                        <br/>
+                        <a  className="nav-link p-1" ><h6><strong>Четвертные оценки:</strong></h6></a>
 
                             <table id="" className="table table-striped table-bordered " style={{width:"100%"}}>
                                 <thead>
@@ -125,7 +126,7 @@ export default class Teacher_Journal_Grade extends Component {
                                 </tbody>
                             </table>
 
-                            <h6>Регулярные Оценки</h6>
+                            <h6> <strong>Регулярные Оценки:</strong></h6>
                             <table id="" className="table table-striped table-bordered  " style={{width:"100%"}}>
                                 <thead>
                                     <tr>
