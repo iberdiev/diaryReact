@@ -18,6 +18,7 @@ export default class SchoolNavbar extends Component {
             const data = res.data;
             this.setState({
                 teacherID: res.data,
+                collapsed: false
             });
         })
         .catch(err =>{
@@ -38,13 +39,13 @@ export default class SchoolNavbar extends Component {
           <nav className="navbar navbar-dark navbar-expand-lg bg-primary text-white p-0">
               <a className="navbar-brand p-2 center-items" href="/"><i className="fa fa-book ml-4 ml-1" style={{fontSize:"40px"}}></i> Дневник
               </a>
-              <button className="navbar-toggler m-2" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <button className="navbar-toggler m-2" type="button" onClick={()=>this.setState({collapsed:true})} data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
-              <div className="collapse navbar-collapse " id="navbarSupportedContent">
+              <div className={this.state.collapsed?"collapse navbar-collapse show":"collapse navbar-collapse"} id="navbarSupportedContent">
                 <ul className="navbar-nav mr-auto">
                   <li className="nav-item">
-                    <Link to='/' className="nav-link p-3" data-toggle="collapse" data-target="#navbarSupportedContent" >Главная</Link>
+                    <Link to='/' className="nav-link p-3" onClick={()=>this.setState({collapsed:false})} >Главная</Link>
                   </li>
                   <li className="nav-item">
                     <Link to = {{pathname:"/teacher/teacher_time_table/", state:{teacherID:this.state.teacherID}}}  className="nav-link p-3" data-toggle="collapse" data-target="#navbarSupportedContent" >Расписание</Link>
