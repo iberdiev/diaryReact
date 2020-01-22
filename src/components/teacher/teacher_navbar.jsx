@@ -7,6 +7,7 @@ export default class SchoolNavbar extends Component {
         super(props);
         this.state = {
             teacherID: null,
+            collapsed: false
         }
     }
     componentWillMount = () =>{
@@ -18,7 +19,7 @@ export default class SchoolNavbar extends Component {
             const data = res.data;
             this.setState({
                 teacherID: res.data,
-                collapsed: false
+                
             });
         })
         .catch(err =>{
@@ -48,10 +49,10 @@ export default class SchoolNavbar extends Component {
                     <Link to='/' className="nav-link p-3" onClick={()=>this.setState({collapsed:false})} >Главная</Link>
                   </li>
                   <li className="nav-item">
-                    <Link to = {{pathname:"/teacher/teacher_time_table/", state:{teacherID:this.state.teacherID}}}  className="nav-link p-3" data-toggle="collapse" data-target="#navbarSupportedContent" >Расписание</Link>
+                    <Link to = {{pathname:"/teacher/teacher_time_table/", state:{teacherID:this.state.teacherID}}}  className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Расписание</Link>
                   </li>
                   <li className="nav-item ">
-                    <Link  to="/teacher/cohorts" className="nav-link p-3" data-toggle="collapse" data-target="#navbarSupportedContent">Классы</Link>
+                    <Link  to="/teacher/cohorts" className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Классы</Link>
                   </li>
                   <li className="nav-item "><a className="nav-link p-3" onClick={this.logout} href="#" disabled={!token} >Выйти</a> </li>
                 </ul>
