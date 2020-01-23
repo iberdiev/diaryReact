@@ -52,7 +52,7 @@ export default class SchoolNavbar extends Component {
                     <Link to = {{pathname:"/parent/student_diary/", state:{pk: this.state.data.pk, cohortID: this.state.data.cohort}}}  className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Дневник ученика</Link>
                   </li>
                   <li className="nav-item">
-                    <Link to="/parent/student_statistics" className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Успеваемость</Link>
+                    <Link to={{pathname:"/parent/student_statistics/", state:{pk: this.state.data.pk, cohortID: this.state.data.cohort}}}  className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Успеваемость</Link>
                   </li>
                   <li className="nav-item">
                     <Link to={{pathname:"/parent/student_subjects", state:{cohortID: this.state.data.cohort}}} className="nav-link p-3" onClick={()=>this.setState({collapsed:false})} >Предметы </Link>

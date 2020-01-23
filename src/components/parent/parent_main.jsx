@@ -7,18 +7,18 @@ export default class Parent_Main extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: [[],[]],
+            data: [[],[],[],[],[],[],[]],
             chosenStudent: 0,
         }
     }
-    componentWillMount = () =>{
+    componentDidMount = () =>{
         axios.get("http://192.168.0.55:8080/api/v1/getTheChild/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
         }).then(res => {
             // const data = res.data[0];
-            console.log(res);
+            console.log(res.data);
             const data = res.data;
 
             this.setState({
@@ -71,7 +71,7 @@ export default class Parent_Main extends Component {
                     </div>
                     </Link>
 
-                    <Link to="/parent/student_statistics">
+                    <Link to={{pathname:"/parent/student_statistics", state:{studentID: data[index].pk, studentName: data[index].studentName}}}>
                     <div className="card mt-3">
                         <div className="">
                             <div className="row ">

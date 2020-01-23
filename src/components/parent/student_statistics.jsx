@@ -8,7 +8,9 @@ export default class School_Profile extends Component {
         super(props);
         this.token = localStorage.getItem('token');
         this.state = {
-            studentID: 4,
+            statistics: null,
+            cohortID: this.props.location.state.cohortID,
+            studentID: this.props.location.state.studentID,
             loaded: false,
         }
     }

@@ -31,12 +31,17 @@ h3 {
 h2{
     font-size: 1.8em;
 }
+
+h5{
+  font-size:20px;
+  font-weight: 600;
+}
 p {
     font-size: 16px;
     font-family: 'Noto Serif', serif;
     margin: 0;
     line-height: 24px;
-    font-weight: 600;
+    font-weight: 500;
 }
 
 a {
