@@ -11,7 +11,7 @@ export default class SchoolNavbar extends Component {
         }
     }
     componentWillMount = () =>{
-        axios.get("http://192.168.0.55:8080/api/v1/getTeacherID/",{
+        axios.get("http://diary.putinbyte.com:8000/api/v1/getTeacherID/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

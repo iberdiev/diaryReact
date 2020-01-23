@@ -59,6 +59,7 @@ class App extends Component {
 }
   render() {
     
+    
     const userToken = localStorage.getItem('token');
     const userRole = localStorage.getItem('user_role');
     if (userRole==1){
@@ -128,7 +129,7 @@ class App extends Component {
       token = params.get('token');
       if (token!=null){
         console.log(token)
-        axios.get("http://192.168.0.55:8080/api/v1/getToken/"
+        axios.get("http://diary.putinbyte.com:8000/api/v1/getToken/"
         ).then(res => {
             const data = res.data;
 

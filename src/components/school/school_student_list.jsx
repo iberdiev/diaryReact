@@ -64,7 +64,7 @@ export default class School_student_list extends Component {
                     } );
         
 
-        const url = "http://192.168.0.55:8080/api/v1/students/?cohort=" + this.props.location.state.cohortID;
+        const url = "http://diary.putinbyte.com:8000/api/v1/students/?cohort=" + this.props.location.state.cohortID;
 
         axios.get(url,{
             headers:{

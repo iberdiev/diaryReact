@@ -59,7 +59,7 @@ export default class Shool_Teachers extends Component {
                         } );
                     } );
 
-        axios.get('http://192.168.0.55:8080/api/v1/teachers/',{
+        axios.get('http://diary.putinbyte.com:8000/api/v1/teachers/',{
             headers:{
                 Authorization:'Token ' + this.token,
             }
@@ -76,7 +76,7 @@ export default class Shool_Teachers extends Component {
     }
     addNewTeacher(){
         var data = { "name": this.state.name, "username": this.state.username, "user_role": 2, "password1": "qwe1r", "password2":"qwers"}
-        axios.post('http://192.168.0.55:8080/api/v1/registration/',data,{
+        axios.post('http://diary.putinbyte.com:8000/api/v1/registration/',data,{
             headers:{
                 Authorization:'Token ' + this.token,
             }

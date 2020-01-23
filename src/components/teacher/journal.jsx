@@ -42,7 +42,7 @@ export default class Teacher_Journal extends Component {
         }
     }
     componentWillMount = () =>{
-        axios.get(`http://192.168.0.55:8080/api/v1/cohortRegularGradesOneSubjectView/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}&type=6`,{
+        axios.get(`http://diary.putinbyte.com:8000/api/v1/cohortRegularGradesOneSubjectView/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}&type=6`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -144,7 +144,7 @@ export default class Teacher_Journal extends Component {
         var sendingArray = []
 
         function postGrades(data) {
-            return axios.post('http://192.168.0.55:8080/api/v1/regularGrades/', data,{
+            return axios.post('http://diary.putinbyte.com:8000/api/v1/regularGrades/', data,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }
@@ -172,7 +172,7 @@ export default class Teacher_Journal extends Component {
     // Sending Change grade
     confirmChange(id,mark){
         let data = {"pk":id,"mark":mark}
-        axios.put('http://192.168.0.55:8080/api/v1/regularGrades/', data,{
+        axios.put('http://diary.putinbyte.com:8000/api/v1/regularGrades/', data,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }
@@ -193,7 +193,7 @@ export default class Teacher_Journal extends Component {
             
     }
     confirmDelete(id){
-        axios.delete(`http://192.168.0.55:8080/api/v1/regularGrades/?pk=${id}`,{
+        axios.delete(`http://diary.putinbyte.com:8000/api/v1/regularGrades/?pk=${id}`,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }

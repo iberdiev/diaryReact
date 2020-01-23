@@ -15,7 +15,7 @@ export default class School_Profile extends Component {
         }
     }
     componentDidMount = () =>{
-        axios.get('http://192.168.0.55:8080/api/v1/getStatisticsForStudent/?studentID='+ this.state.studentID,)
+        axios.get('http://diary.putinbyte.com:8000/api/v1/getStatisticsForStudent/?studentID='+ this.state.studentID,)
         .then(res => {
             console.log(res.data)
             this.setState({

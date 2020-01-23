@@ -24,7 +24,7 @@ export default class Student_Subjects extends Component {
 
         // Axios for student list
 
-        axios.get('http://192.168.0.55:8080/api/v1/studedntIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
+        axios.get('http://diary.putinbyte.com:8000/api/v1/studedntIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
             headers:{
                 Authorization:'Token ' + this.token,
             }

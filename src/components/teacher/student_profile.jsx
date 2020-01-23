@@ -12,7 +12,7 @@ export default class School_Profile extends Component {
         };
     }
     componentDidMount = () =>{
-        const url = `http://192.168.0.55:8080/api/v1/getStudentProfile/?studentID=${this.props.location.state.pk}`;
+        const url = `http://diary.putinbyte.com:8000/api/v1/getStudentProfile/?studentID=${this.props.location.state.pk}`;
         axios.get(url,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),

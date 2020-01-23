@@ -12,7 +12,7 @@ export default class Parent_Main extends Component {
         }
     }
     componentDidMount = () =>{
-        axios.get("http://192.168.0.55:8080/api/v1/getTheChild/",{
+        axios.get("http://diary.putinbyte.com:8000/api/v1/getTheChild/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

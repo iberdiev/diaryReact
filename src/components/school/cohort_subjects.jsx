@@ -17,7 +17,7 @@ export default class Shool_Teachers extends Component {
         };
     }
     componentDidMount = () =>{
-        const url = 'http://192.168.0.55:8080/api/v1/subjects/?cohortID=' + this.props.location.state.cohortID;
+        const url = 'http://diary.putinbyte.com:8000/api/v1/subjects/?cohortID=' + this.props.location.state.cohortID;
         axios.get(url,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
@@ -34,7 +34,7 @@ export default class Shool_Teachers extends Component {
         });
 
         // Ajax request for teachers list
-        axios.get('http://192.168.0.55:8080/api/v1/teachers/',{
+        axios.get('http://diary.putinbyte.com:8000/api/v1/teachers/',{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -90,7 +90,7 @@ export default class Shool_Teachers extends Component {
     submitNewSubject = event =>{
         event.preventDefault();
         var data = {"subjectName": this.state.subjectName, "cohortID": this.props.location.state.cohortID, "teacherID": this.state.teacherID}
-        axios.post('http://192.168.0.55:8080/api/v1/subjects/',data,{
+        axios.post('http://diary.putinbyte.com:8000/api/v1/subjects/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -116,7 +116,7 @@ export default class Shool_Teachers extends Component {
     submitChange(event){
         event.preventDefault();
         var data = {"pk":this.state.chosenTeacherID, "subjectName":this.state.chosenTeacherID, "teacherID":this.state.chosenTeacherID}
-        axios.post('http://192.168.0.55:8080/api/v1/subjects/',data,{
+        axios.post('http://diary.putinbyte.com:8000/api/v1/subjects/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -302,7 +302,7 @@ class OneSubject extends Component {
 
     deleteSubject(id,subjectname){
         if (window.confirm("Вы уверены что хотите удалить предмет: " + subjectname + "?")){
-            axios.delete(`http://192.168.0.55:8080/api/v1/subjects/?pk=${id}`,{
+            axios.delete(`http://diary.putinbyte.com:8000/api/v1/subjects/?pk=${id}`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

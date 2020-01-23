@@ -29,7 +29,7 @@ export default class Cohorts extends Component {
     }
     componentDidMount = () =>{
 
-        axios.get('http://192.168.0.55:8080/api/v1/get_cohorts/',{
+        axios.get('http://diary.putinbyte.com:8000/api/v1/get_cohorts/',{
             headers:{
                 Authorization:'Token ' + this.token,
             }
