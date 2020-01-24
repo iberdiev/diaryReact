@@ -11,7 +11,7 @@ export default class Teacher_Main extends Component {
         }
     }
     componentWillMount = () =>{
-        axios.get("http://diary.putinbyte.com:8000/api/v1/getTeacherID/",{
+        axios.get(requestUrl+"/api/v1/getTeacherID/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
