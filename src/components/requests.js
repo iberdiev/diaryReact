@@ -1,1 +1,1 @@
-export const requestUrl = 'http://diary.putinbyte.com:8000'
+export const requestUrl = 'http://192.168.190.60:8080'
