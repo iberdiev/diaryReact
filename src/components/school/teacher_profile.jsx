@@ -1,5 +1,5 @@
 import React, {  Component } from 'react'
-// import axios from 'axios';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import {requestUrl} from '../requests';
 
@@ -11,6 +11,26 @@ export default class Shool_Teachers_Profile extends Component {
         this.state = {
             data : [{class_name: "10-А", pk: 4},{class_name: "11-Б", pk: 4}],
         };
+        
+    }
+    componentDidMount = () =>{
+
+        // Axios for student list
+
+        axios.get(requestUrl + '/api/v1/getTeacherDetails/?pk='+ this.props.location.state.teacherID,{
+            headers:{
+                Authorization:'Token ' + this.token,
+            }
+        }).then(res => {
+            const data = res.data;
+            this.setState({
+                data: data
+            })
+            console.log(data)
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
     }
     render() {
         return(
@@ -19,7 +39,7 @@ export default class Shool_Teachers_Profile extends Component {
                         <div className="card mt-2  center-items center-items">
                             <div className="alert alert-primary text-center mt-4 mb-0" id="profile-info" role="alert">
                                 <h5 className="m-1">
-                                    Hаргиза Супаева
+                                    {this.state.data.teacherName}
                                 </h5>
                             </div>
                             <div className="m-2">
@@ -27,10 +47,10 @@ export default class Shool_Teachers_Profile extends Component {
                                 Учитель Школы № 45
                                 </h6>
                                 <h6 className="m-2">
-                                Классный руководитель: 5-А класса
+                                Классный руководитель: {!(this.state.data.mainCohorts==[])? <span>Нет класса</span>:<span>{this.state.data.mainCohorts}</span>}
                                 </h6>
                                 <h6 className="m-2">
-                                Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>077777777
+                                Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>{this.state.data.teacherPhone}
                                 </h6>
 
                             </div>
