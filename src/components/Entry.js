@@ -24,8 +24,12 @@ class Login extends React.Component{
         event.preventDefault();
         this.setState({ isLoginDisabled: true, })
         localStorage.setItem('school', this.state.username);
-        axios.post(requestUrl + '/api/v1/login/', {"username": this.state.username, "password":this.state.password})
-            .then(res => {
+        console.log(requestUrl)
+        axios.post(requestUrl + '/api/v1/login/', {"username": this.state.username, "password":this.state.password},
+            {headers: {'Content-Type': 'application/json'}}
+        )
+        .then(res => {
+
                 console.log(res.data)
                 if (res.data=='notvalid'){
                     this.setState({
@@ -41,6 +45,7 @@ class Login extends React.Component{
                 window.location.reload();
 
             }).catch(err => {
+                console.log(err)
                 this.error = true;
                 this.setState({isLoginDisabled: false,});
                 this.forceUpdate();
