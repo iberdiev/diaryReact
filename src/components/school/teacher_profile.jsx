@@ -19,7 +19,7 @@ export default class Shool_Teachers_Profile extends Component {
                         <div className="card mt-2  center-items center-items">
                             <div className="alert alert-primary text-center mt-4 mb-0" id="profile-info" role="alert">
                                 <h5 className="m-1">
-                                    Алия Алимбекова
+                                    Hаргиза Супаева
                                 </h5>
                             </div>
                             <div className="m-2">
@@ -27,7 +27,7 @@ export default class Shool_Teachers_Profile extends Component {
                                 Учитель Школы № 45
                                 </h6>
                                 <h6 className="m-2">
-                                Классный руководитель: 4-А класса
+                                Классный руководитель: 5-А класса
                                 </h6>
                                 <h6 className="m-2">
                                 Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>077777777

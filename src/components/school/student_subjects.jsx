@@ -25,7 +25,7 @@ export default class Student_Subjects extends Component {
 
         // Axios for student list
 
-        axios.get(requestUrl + '/api/v1/studedntIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
+        axios.get(requestUrl + '/api/v1/studentIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
             headers:{
                 Authorization:'Token ' + this.token,
             }
