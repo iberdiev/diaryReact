@@ -341,7 +341,7 @@ export default class Teacher_Journal extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                Ученику - <span id="modal-name">Акимжанов Мээрбек</span> 
+                                Оценка для выбранных учеников
                                 <br/>
                                 
                                 <br/> Оценка для всех - {this.state.otsenka.map(otsenka=>
