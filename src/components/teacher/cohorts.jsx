@@ -1,6 +1,7 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
 
 export default class Teacher_Cohorts extends Component {
     constructor(props){
@@ -10,7 +11,7 @@ export default class Teacher_Cohorts extends Component {
         };
     }
     componentWillMount = () =>{
-        axios.get("http://diary.putinbyte.com:8000/api/v1/getUniqueCohortsByTaught/",{
+        axios.get(requestUrl + "/api/v1/getUniqueCohortsByTaught/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

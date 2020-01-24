@@ -8,6 +8,7 @@ import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import ReadMoreReact from 'read-more-react';
+import {requestUrl} from '../requests';
 
 export default class Student_Diary extends Component {
     constructor(props) {
@@ -116,7 +117,7 @@ export default class Student_Diary extends Component {
         this.setState({
             chosenDate: tempcurrentTime,
         });
-        axios.get('http://diary.putinbyte.com:8000/api/v1/teachers/',{
+        axios.get(requestUrl + '/api/v1/teachers/',{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -131,7 +132,7 @@ export default class Student_Diary extends Component {
             console.log(err.error);
         });
 
-        axios.get('http://diary.putinbyte.com:8000/api/v1/subjects/?cohortID=' + this.props.location.state.cohortID,{
+        axios.get(requestUrl + '/api/v1/subjects/?cohortID=' + this.props.location.state.cohortID,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -219,7 +220,7 @@ export default class Student_Diary extends Component {
         if (isAvailable){
             console.log('Есть')
             var data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
-            axios.post('http://diary.putinbyte.com:8000/api/v1/timetableByCohort/',data,{
+            axios.post(requestUrl + '/api/v1/timetableByCohort/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -233,7 +234,7 @@ export default class Student_Diary extends Component {
         }else{
             console.log('Нет')
             var data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
-            axios.post('http://diary.putinbyte.com:8000/api/v1/createSubjectAndTimetable/',data,{
+            axios.post(requestUrl + '/api/v1/createSubjectAndTimetable/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -282,7 +283,7 @@ export default class Student_Diary extends Component {
     submitChangeSubject = event =>{
         event.preventDefault();
         var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID, "endTime": this.state.changeEndTime, "homework": this.state.changeHomeWork}
-        axios.put('http://diary.putinbyte.com:8000/api/v1/timetableByCohort/',data,{
+        axios.put(requestUrl + '/api/v1/timetableByCohort/',data,{
         headers:{
             Authorization:'Token ' + localStorage.getItem('token'),
         }

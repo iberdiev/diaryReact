@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import {requestUrl} from '../requests';
 
 export default class SchoolNavbar extends Component {
       constructor(props){
@@ -11,7 +12,7 @@ export default class SchoolNavbar extends Component {
         }
     }
     componentWillMount = () =>{
-        axios.get("http://diary.putinbyte.com:8000/api/v1/getTeacherID/",{
+        axios.get(requestUrl + "/api/v1/getTeacherID/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

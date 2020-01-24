@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import {requestUrl} from './requests';
 // import {Button} from 'react-bootstrap';
 import { Container } from 'reactstrap';
 class Login extends React.Component{
@@ -8,6 +9,7 @@ class Login extends React.Component{
         super(props);
         this.state = {
             isLoginDisabled: false,
+            isValid: true,
         };
         this.error = false;
 
@@ -22,16 +24,21 @@ class Login extends React.Component{
         event.preventDefault();
         this.setState({ isLoginDisabled: true, })
         localStorage.setItem('school', this.state.username);
-        axios.post('http://192.168.0.55:8080/api/v1/login/', {"username": this.state.username, "password":this.state.password})
+        axios.post(requestUrl + '/api/v1/login/', {"username": this.state.username, "password":this.state.password})
             .then(res => {
                 console.log(res.data)
+                if (res.data=='notvalid'){
+                    this.setState({
+                        isValid:false
+                    })
+                }
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user_role', res.data.user_role);
                 localStorage.setItem('name',res.data.name);
                 if (res.data.user_role == 3){
                     localStorage.setItem('studentIndex', 0);
                 }
-                window.location.reload();
+                // window.location.reload();
 
             }).catch(err => {
                 this.error = true;
@@ -54,7 +61,7 @@ class Login extends React.Component{
     render(){
         return(
             <div>
-                <div className="container center-items mt-5">
+                <div className="container center-items" style={{height:"80vh"}}>
                     <div className="login-form col-lg-6 col-12  p-1">
                         <div className="alert alert-success" role="alert">
                         Добро пожаловать в онлайн дневник!
@@ -62,6 +69,9 @@ class Login extends React.Component{
                         <div className="card p-3">
                         <form onSubmit={this.onSubmit}>
                             <h1 className="text-center m-2">Вход</h1>
+
+                            {!this.state.isValid ? <span className="text-danger mt-2">Неправильный логин или пароль</span> : ""}
+
                             <div className="form-group">
                                 <input type="text" className="form-control" placeholder="Логин" required="required" onChange={e => this.setState({username: e.target.value})} />
                             </div>
@@ -72,14 +82,11 @@ class Login extends React.Component{
                                 <button type='submit' className="btn btn-primary btn-block" disabled={this.state.isLoginDisabled} >{this.state.isLoginDisabled ? 'Подождите...' : 'Войти'}</button>
                             </div>
 
-                            <div><a style={{color:'blue'}} href="fasfsd">Ссылка</a> </div>
+                            <div className="text-center"><a style={{color:'blue'}} href="#">Забыли пароль?</a> </div>
                         </form>
                         </div>
                     </div>
                 </div>
-                <Container>
-
-                </Container>
             </div>
         )
     }

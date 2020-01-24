@@ -1,6 +1,7 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
 
 export default class Student_Subjects extends Component {
     constructor(props){
@@ -24,7 +25,7 @@ export default class Student_Subjects extends Component {
 
         // Axios for student list
 
-        axios.get('http://diary.putinbyte.com:8000/api/v1/studedntIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
+        axios.get(requestUrl + '/api/v1/studedntIDSubjectsRegularFinalGrades/?studentID='+ this.props.location.state.studentID,{
             headers:{
                 Authorization:'Token ' + this.token,
             }

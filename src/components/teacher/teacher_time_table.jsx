@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import DatePicker from 'react-date-picker'
 import ReadMoreReact from 'read-more-react';
+import {requestUrl} from '../requests';
 
 
 
@@ -46,7 +47,7 @@ export default class Student_Diary extends Component {
             isLoaded: false,
             timeTable: [],
         })
-        const url = `http://diary.putinbyte.com:8000/api/v1/timetableByTeacher/?teacherID=${this.props.location.state.teacherID}&date=${this.formatDate(date)}`;
+        const url = requestUrl + `/api/v1/timetableByTeacher/?teacherID=${this.props.location.state.teacherID}&date=${this.formatDate(date)}`;
         axios.get(url,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),

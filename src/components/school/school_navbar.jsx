@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
 
 
 export default class SchoolNavbar extends Component {

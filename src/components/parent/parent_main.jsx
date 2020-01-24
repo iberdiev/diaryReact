@@ -2,6 +2,9 @@ import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Input } from 'reactstrap';
+import {requestUrl} from '../requests';
+
+
 
 export default class Parent_Main extends Component {
     constructor(props){
@@ -12,7 +15,7 @@ export default class Parent_Main extends Component {
         }
     }
     componentDidMount = () =>{
-        axios.get("http://diary.putinbyte.com:8000/api/v1/getTheChild/",{
+        axios.get(requestUrl + "/api/v1/getTheChild/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

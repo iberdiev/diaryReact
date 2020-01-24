@@ -1,6 +1,7 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
 
 export default class Teacher_Choose_Subject extends Component {
     constructor(props){
@@ -13,7 +14,7 @@ export default class Teacher_Choose_Subject extends Component {
     }
     componentDidMount = () =>{
 
-        axios.get('http://192.168.0.55:8080/api/v1/subjects/?cohortID='+ this.props.location.state.cohortID,{
+        axios.get(requestUrl + '/api/v1/subjects/?cohortID='+ this.props.location.state.cohortID,{
             headers:{
                 Authorization:'Token ' + this.token,
             }

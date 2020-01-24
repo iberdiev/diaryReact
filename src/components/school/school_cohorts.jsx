@@ -1,6 +1,7 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
 
 class OneCohort extends Component {
     constructor(props){
@@ -29,7 +30,7 @@ export default class Cohorts extends Component {
     }
     componentDidMount = () =>{
 
-        axios.get('http://diary.putinbyte.com:8000/api/v1/get_cohorts/',{
+        axios.get(requestUrl + '/api/v1/get_cohorts/',{
             headers:{
                 Authorization:'Token ' + this.token,
             }

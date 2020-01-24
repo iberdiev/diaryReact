@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import 'datatables.net/js/jquery.dataTables.min.js'
 import 'datatables.net-dt/css/jquery.dataTables.min.css'
+import {requestUrl} from '../requests';
 
 
 class OneStudent extends Component {
@@ -64,7 +65,7 @@ export default class School_student_list extends Component {
                     } );
         
 
-        const url = "http://diary.putinbyte.com:8000/api/v1/students/?cohort=" + this.props.location.state.cohortID;
+        const url = requestUrl + "/api/v1/students/?cohort=" + this.props.location.state.cohortID;
 
         axios.get(url,{
             headers:{

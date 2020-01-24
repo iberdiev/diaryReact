@@ -1,6 +1,7 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
 
 export default class Teacher_Journal_Grade extends Component {
     constructor(props){
@@ -34,7 +35,7 @@ export default class Teacher_Journal_Grade extends Component {
         }
     }
     componentWillMount = () =>{
-        axios.get(`http://diary.putinbyte.com:8000/api/v1/cohortSubjectFinalGrades/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}`,{
+        axios.get(requestUrl + `/api/v1/cohortSubjectFinalGrades/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
@@ -125,7 +126,7 @@ export default class Teacher_Journal_Grade extends Component {
         var sendingArray = []
 
         function postGrades(data) {
-            return axios.post('http://diary.putinbyte.com:8000/api/v1/cohortSubjectFinalGrades/', data,{
+            return axios.post(requestUrl + '/api/v1/cohortSubjectFinalGrades/', data,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }
@@ -154,7 +155,7 @@ export default class Teacher_Journal_Grade extends Component {
     // Sending Change grade
     confirmChange(id,mark){
         let data = {"pk":id,"mark":mark}
-        axios.put('http://diary.putinbyte.com:8000/api/v1/cohortSubjectFinalGrades/', data,{
+        axios.put(requestUrl + '/api/v1/cohortSubjectFinalGrades/', data,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }
@@ -175,7 +176,7 @@ export default class Teacher_Journal_Grade extends Component {
             
     }
     confirmDelete(id){
-        axios.delete(`http://diary.putinbyte.com:8000/api/v1/cohortSubjectFinalGrades/?pk=${id}`,{
+        axios.delete(requestUrl + `/api/v1/cohortSubjectFinalGrades/?pk=${id}`,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }

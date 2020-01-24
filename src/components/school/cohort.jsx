@@ -1,6 +1,8 @@
 import React, {  Component } from 'react'
 // import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {requestUrl} from '../requests';
+
 
 export default class Shool_Teachers extends Component {
     constructor(props){
