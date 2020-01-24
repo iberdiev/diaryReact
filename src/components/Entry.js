@@ -38,7 +38,7 @@ class Login extends React.Component{
                 if (res.data.user_role == 3){
                     localStorage.setItem('studentIndex', 0);
                 }
-                // window.location.reload();
+                window.location.reload();
 
             }).catch(err => {
                 this.error = true;
