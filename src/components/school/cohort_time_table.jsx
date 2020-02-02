@@ -1,9 +1,7 @@
 
 import React, { Component } from 'react'
 import axios from 'axios';
-import DatePicker from 'react-date-picker'
-import moment from 'moment';
-import TimePicker from 'rc-time-picker';
+import DatePicker from 'react-date-picker';
 import 'rc-time-picker/assets/index.css';
 import ReadMoreReact from 'read-more-react';
 import {requestUrl} from '../requests';
@@ -215,19 +213,19 @@ export default class Student_Diary extends Component {
 
         })
         event.preventDefault();
-        if (this.state.subjectStarttime==null){
+        if (this.state.subjectStarttime===null){
             this.setState({
                 validnumber:"*Вы не выбрали последовательность урока"
             })
             
         }
-        if (this.state.chosenSubject==null){
+        if (this.state.chosenSubject===null){
             this.setState({
                 validSubject:"*Вы не выбрали предмет"
             })
             
         }
-        if (this.state.chosenTeacherID==null){
+        if (this.state.chosenTeacherID===null){
             this.setState({
                 validTeacher:"*Выберите, пожалуйста, учителя"
             })
@@ -489,7 +487,7 @@ export default class Student_Diary extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                  
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                        <div className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</div>
                                                     ))}
                                                     
                                                 </div>
@@ -527,14 +525,14 @@ export default class Student_Diary extends Component {
                                                 <label className="input-group-text" htmlFor="inputGroupSelect01">Номер №</label>
                                             </div>
                                             <select defaultValue={this.state.changeIndex} className="custom-select" id="inputGroupSelect01" onChange={e => this.setState({changeTime: e.target.value})}>
-                                            {this.state.changeIndex==1?<option selected disabled value="8:00">1</option>:<option value="8:00">1</option>}
-                                            {this.state.changeIndex==2?<option  selected disabled value="9:00">2</option>:<option value="9:00">2</option>}
-                                            {this.state.changeIndex==3?<option  selected disabled value="10:00">3</option>:<option value="10:00">3</option>}
-                                            {this.state.changeIndex==4?<option  selected disabled value="11:00">4</option>:<option value="11:00">4</option>}
-                                            {this.state.changeIndex==5?<option  selected disabled value="12:00">5</option>:<option value="12:00">5</option>}
-                                            {this.state.changeIndex==6?<option  selected disabled value="13:00">6</option>:<option value="13:00">6</option>}
-                                            {this.state.changeIndex==7?<option  selected disabled value="14:00">7</option>:<option value="14:00">7</option>}
-                                            {this.state.changeIndex==8?<option  selected disabled value="15:00">8</option>:<option value="15:00">8</option>}
+                                            {this.state.changeIndex===1?<option selected disabled value="8:00">1</option>:<option value="8:00">1</option>}
+                                            {this.state.changeIndex===2?<option  selected disabled value="9:00">2</option>:<option value="9:00">2</option>}
+                                            {this.state.changeIndex===3?<option  selected disabled value="10:00">3</option>:<option value="10:00">3</option>}
+                                            {this.state.changeIndex===4?<option  selected disabled value="11:00">4</option>:<option value="11:00">4</option>}
+                                            {this.state.changeIndex===5?<option  selected disabled value="12:00">5</option>:<option value="12:00">5</option>}
+                                            {this.state.changeIndex===6?<option  selected disabled value="13:00">6</option>:<option value="13:00">6</option>}
+                                            {this.state.changeIndex===7?<option  selected disabled value="14:00">7</option>:<option value="14:00">7</option>}
+                                            {this.state.changeIndex===8?<option  selected disabled value="15:00">8</option>:<option value="15:00">8</option>}
                                                     
                                             </select>
                                             
@@ -564,7 +562,7 @@ export default class Student_Diary extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                 
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                        <div className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</div>
                                                     ))}
                                                     
                                                     

@@ -14,10 +14,10 @@ class OneClass extends Component {
                 <div className="row">
                     <div className="col-4 center-items text-center">
                     <p>{this.props.className}
-                        <br/>
-                        {this.props.time}
                         </p>
                     </div>
+                    
+                    <div className="col-3 center-items">{this.props.subject}</div>
                     <div className="col-5 center-items">
                     <ReadMoreReact text={this.props.homework}
                             min={10}
@@ -26,7 +26,6 @@ class OneClass extends Component {
                             readMoreText={'Читать далее...'}
                             />
                     </div>
-                    <div className="col-3 center-items">{this.props.subject}</div>
 
                 </div>
             </div>
@@ -141,15 +140,16 @@ export default class Student_Diary extends Component {
                             <div className="pl-3 p-2">
                                 <div className="row">
                                     <div className="col-4 btn-link center-items">
-                                        <h6>Класс и Время</h6>
-                                    </div>
-                                    <div className="col-5 btn-link center-items">
-                                        <h6>Д/З</h6>
+                                        <h6>Класс</h6>
                                     </div>
                                     <div className="col-3 btn-link center-items">
                                         <h6>Урок</h6>
                                         
                                     </div>
+                                    <div className="col-5 btn-link center-items">
+                                        <h6>Д/З</h6>
+                                    </div>
+                                    
                                 </div>
                             </div>
 

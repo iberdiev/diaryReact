@@ -11,10 +11,8 @@ class OneClass extends Component {
         return(
             <div className="card p-2 mt-1 ">
                 <div className="row">
-                    <div className="col-4 center-items text-center">
+                    <div className="col-4 center-items text-left">
                         {this.props.subject}
-                        <br/>
-                        {this.props.time}
                     </div>
                     <div className="col-5 center-items">
                         <div className="text-center">
@@ -42,7 +40,7 @@ export default class Student_Diary extends Component {
     constructor(props){
         super(props);
         this.state = {
-            chosenDate: null,
+            chosenDate: new Date(),
             timeTable: [],
             isLoaded: false,
         }
@@ -116,12 +114,6 @@ export default class Student_Diary extends Component {
         this.getTable(chosenDate);
     }
 
-    componentWillMount = () => {
-        var tempcurrentTime = new Date();
-        this.setState({
-            chosenDate: tempcurrentTime,
-        });
-    }
     componentDidMount = () =>{
         this.getTable(this.state.chosenDate);
     }
@@ -147,7 +139,7 @@ export default class Student_Diary extends Component {
                             <div className="pl-3 p-2">
                                 <div className="row">
                                     <div className="col-4 btn-link center-items">
-                                        <h6>Урок и Время</h6>
+                                        <h6>Урок</h6>
                                     </div>
                                     <div className="col-5 btn-link center-items">
                                         <h6>Д/З</h6>
@@ -158,8 +150,8 @@ export default class Student_Diary extends Component {
                                 </div>
                             </div>
 
-                            {this.state.timeTable.map(subject => (
-                                <OneClass subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
+                            {this.state.timeTable.map((subject,i) => (
+                                <OneClass key={i} subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
                             ))}
 
                         </div>

@@ -345,3 +345,7 @@ td:hover,th:hover{
 .navbar-dark .navbar-nav .nav-link:focus, .navbar-dark .navbar-nav .nav-link:hover{
   color:rgb(255,255,255)
 }
+
+.teacherselect:hover{
+  cursor: pointer;
+}

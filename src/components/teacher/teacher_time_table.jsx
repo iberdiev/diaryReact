@@ -14,18 +14,18 @@ class OneClass extends Component {
                 <div className="row">
                     <div className="col-4 center-items text-center">
                     <p>{this.props.className}
-                        <br/>
-                        {this.props.time}
                         </p>
                     </div>
+                    
+                    <div className="col-3 center-items">{this.props.subject}</div>
                     <div className="col-5 center-items">
-                        <ReadMoreReact text={this.props.homework}
+                    <ReadMoreReact text={this.props.homework}
                             min={10}
                             ideal={20}
                             max={200}
                             readMoreText={'Читать далее...'}
-                            /></div>
-                    <div className="col-3 center-items">{this.props.subject}</div>
+                            />
+                    </div>
 
                 </div>
             </div>
@@ -39,7 +39,7 @@ export default class Student_Diary extends Component {
     constructor(props){
         super(props);
         this.state = {
-            chosenDate: null,
+            chosenDate: new Date(),
             timeTable: [],
             isLoaded: false,
         }
@@ -108,12 +108,7 @@ export default class Student_Diary extends Component {
         this.getTable(chosenDate);
     }
 
-    componentWillMount = () => {
-        var tempcurrentTime = new Date();
-        this.setState({
-            chosenDate: tempcurrentTime,
-        });
-    }
+    
     componentDidMount = () =>{
         this.getTable(this.state.chosenDate);
     }
@@ -145,20 +140,21 @@ export default class Student_Diary extends Component {
                             <div className="pl-3 p-2">
                                 <div className="row">
                                     <div className="col-4 btn-link center-items">
-                                        <h6>Класс и Время</h6>
-                                    </div>
-                                    <div className="col-5 btn-link center-items">
-                                        <h6>Д/З</h6>
+                                        <h6>Класс</h6>
                                     </div>
                                     <div className="col-3 btn-link center-items">
                                         <h6>Урок</h6>
                                         
                                     </div>
+                                    <div className="col-5 btn-link center-items">
+                                        <h6>Д/З</h6>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
-                            {this.state.timeTable.map(subject => (
-                                <OneClass subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} homework = {subject.homework} className={subject.className} />
+                            {this.state.timeTable.map((subject,i) => (
+                                <OneClass key={i} subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} homework = {subject.homework} className={subject.className} />
                             ))}
 
                         </div>

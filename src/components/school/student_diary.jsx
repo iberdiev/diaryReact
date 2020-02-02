@@ -11,10 +11,8 @@ class OneClass extends Component {
         return(
             <div className="card p-2 mt-1 ">
                 <div className="row">
-                    <div className="col-4 center-items text-center">
+                    <div className="col-4 center-items text-left">
                         {this.props.subject}
-                        <br/>
-                        {this.props.time}
                     </div>
                     <div className="col-5 center-items">
                         <div className="text-center">
@@ -141,7 +139,7 @@ export default class Student_Diary extends Component {
                             <div className="pl-3 p-2">
                                 <div className="row">
                                     <div className="col-4 btn-link center-items">
-                                        <h6>Урок и Время</h6>
+                                        <h6>Урок</h6>
                                     </div>
                                     <div className="col-5 btn-link center-items">
                                         <h6>Д/З</h6>
