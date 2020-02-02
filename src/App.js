@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { Redirect } from 'react-router-dom';
 import './App.css';
 import axios from 'axios';
 
@@ -60,9 +59,8 @@ class App extends Component {
   render() {
     
     
-    const userToken = localStorage.getItem('token');
     const userRole = localStorage.getItem('user_role');
-    if (userRole==1){
+    if (userRole==='1'){
       return(
         <Router>
           <SchoolNavbar />
@@ -83,7 +81,7 @@ class App extends Component {
         </Router>
       )
     }
-    else if (userRole==2) {
+    else if (userRole==='2') {
       return(
         <Router>
           {/* For teachers */}
@@ -106,7 +104,7 @@ class App extends Component {
         </Router>
       )
     }
-    else if (userRole==3) {
+    else if (userRole==='3') {
       return(
         
         <Router>
@@ -132,6 +130,7 @@ class App extends Component {
         axios.get("http://diary.putinbyte.com:8000/api/v1/getToken/"
         ).then(res => {
             const data = res.data;
+            console(data)
 
         })
         .catch(err =>{

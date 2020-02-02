@@ -26,8 +26,26 @@ export default class Shool_Teachers extends Component {
     }
     componentDidMount = () =>{
 
+        axios.get(requestUrl + '/api/v1/teachers/',{
+            headers:{
+                Authorization:'Token ' + this.token,
+            }
+        }).then(res => {
+            const data = res.data;
+            console.log(data)
+            this.setState({
+                teachers: data,
+            })
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+    }
+
+    componentDidUpdate = () => {
         $(document).ready(function() {
-            var table = $('#table_id').DataTable( {
+            $('#table_id').DataTable( {
+                "bDestroy": true,
                 "bPaginate": false,
                 "bLengthChange": false,
                 "bFilter": true,
@@ -59,21 +77,6 @@ export default class Shool_Teachers extends Component {
                 }
                         } );
                     } );
-
-        axios.get(requestUrl + '/api/v1/teachers/',{
-            headers:{
-                Authorization:'Token ' + this.token,
-            }
-        }).then(res => {
-            const data = res.data;
-            console.log(data)
-            this.setState({
-                teachers: data,
-            })
-        })
-        .catch(err =>{
-            console.log(err.error);
-        });
     }
     addNewTeacher(){
         var data = { "name": this.state.name, "username": this.state.username, "user_role": 2, "password1": "qwe1r", "password2":"qwers"}
@@ -105,7 +108,7 @@ export default class Shool_Teachers extends Component {
 
                     {/* Вызов Модального окна */}
                     <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalScrollable"><i className="fa fa-plus-circle" aria-hidden="true"></i> Добавить нового учителья</button>
-                    <div className="modal" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
+                    <div className="modal" id="exampleModalScrollable" tabIndex="-1" role="dialog" aria-labelledby="exampleModalScrollableLabel" aria-hidden="true">
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
                             <div className="modal-header">
@@ -118,20 +121,20 @@ export default class Shool_Teachers extends Component {
                             <form className="form-signin" onSubmit={()=>this.addNewTeacher()}>
 
                                 
-                                <div class="mb-4 text-left">
-                                    <label for="name">ФИО учителя</label>
+                                <div className="mb-4 text-left">
+                                    <label htmlFor="name">ФИО учителя</label>
                                     <input type="text" className="form-control" id="name" placeholder="Например: Жанетта Октямжонавна" required="" onChange={e => this.setState({name: e.target.value})} />
                                 </div>
-                                <div class="mb-4 text-left">
-                                    <label for="phone">Номер телефона</label>
+                                <div className="mb-4 text-left">
+                                    <label htmlFor="phone">Номер телефона</label>
                                     <input type="text" className="form-control" id="phone" placeholder="Например: 0777123456" required="" onChange={e => this.setState({username: e.target.value})}/>
                                 </div>
-                                <div class="mb-4 text-left">
-                                    <label for="name">Пароль</label>
+                                <div className="mb-4 text-left">
+                                    <label htmlFor="name">Пароль</label>
                                     <input type="password" className="form-control" id="password" placeholder="Придумайте пароль" required="" onChange={e => this.setState({password: e.target.value})}/>
                                 </div>
-                                <div class="mb-4 text-left">
-                                    <label for="name">Подтвердите пароль</label>
+                                <div className="mb-4 text-left">
+                                    <label htmlFor="name">Подтвердите пароль</label>
                                     <input type="password" className="form-control" id="password" placeholder="Подтвердите пароль" required="" onChange={e => this.setState({password2: e.target.value})}/>
                                 </div>
 

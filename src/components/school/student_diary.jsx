@@ -5,7 +5,7 @@ import ReadMoreReact from 'read-more-react';
 import {requestUrl} from '../requests';
 
 
-class One_Class extends Component {
+class OneClass extends Component {
 
     render(){
         return(
@@ -159,7 +159,7 @@ export default class Student_Diary extends Component {
                             </div>
 
                             {this.state.timeTable.map(subject => (
-                                <One_Class subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
+                                <OneClass subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
                             ))}
 
                         </div>

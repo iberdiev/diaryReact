@@ -1,7 +1,4 @@
-import React, {  Component } from 'react'
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import {requestUrl} from '../requests';
+import React, {  Component } from 'react';
 
 export default class Teachers_Cohort_List extends Component {
     constructor(props){
@@ -16,7 +13,7 @@ export default class Teachers_Cohort_List extends Component {
                         Ученики 10-А класса
                     </h6>
                     <div className="card p-3">
-                    <table id="table_id" className="table table-striped table-bordered display" style="width:100%">
+                    <table id="table_id" className="table table-striped table-bordered display" style={{width:'100%'}}>
                         <thead>
                             <tr>
                                 <th>№</th>

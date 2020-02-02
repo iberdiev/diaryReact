@@ -30,8 +30,30 @@ export default class School_student_list extends Component {
     }
     componentDidMount = () =>{
 
+        const url = requestUrl + "/api/v1/students/?cohort=" + this.props.location.state.cohortID;
+
+        axios.get(url,{
+            headers:{
+                Authorization:'Token ' + localStorage.getItem('token'),
+            }
+        }).then(res => {
+            const data = res.data;
+
+            this.setState({
+                isLoaded: true,
+                data: data,
+            });
+            // localStorage.removeItem('className')
+        })
+        .catch(err =>{
+            console.log(err.error);
+        });
+    }
+
+    componentDidUpdate = () => {
         $(document).ready(function() {
-            var table = $('#table_id').DataTable( {
+            $('#table_id').DataTable( {
+                "bDestroy": true,
                 "bPaginate": false,
                 "bLengthChange": false,
                 "bFilter": true,
@@ -63,26 +85,6 @@ export default class School_student_list extends Component {
                 }
                         } );
                     } );
-        
-
-        const url = requestUrl + "/api/v1/students/?cohort=" + this.props.location.state.cohortID;
-
-        axios.get(url,{
-            headers:{
-                Authorization:'Token ' + localStorage.getItem('token'),
-            }
-        }).then(res => {
-            const data = res.data;
-
-            this.setState({
-                isLoaded: true,
-                data: data,
-            });
-            // localStorage.removeItem('className')
-        })
-        .catch(err =>{
-            console.log(err.error);
-        });
     }
     render() {
         const {data} = this.state;

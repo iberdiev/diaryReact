@@ -43,7 +43,7 @@ export default class Shool_Teachers_Profile extends Component {
                             </div>
                             <div className="m-2">
                                 <h6 className="m-2">
-                                Классный руководитель: {!(this.state.data.mainCohorts==[])? <span>Нет класса</span>:<span>{this.state.data.mainCohorts}</span>}
+                                Классный руководитель: {!(this.state.data.mainCohorts===[])? <span>Нет класса</span>:<span>{this.state.data.mainCohorts}</span>}
                                 </h6>
                                 <h6 className="m-2">
                                 Контакты: <i className="fa fa-phone p-1 mr-1 bg-success" style={{color: 'white', borderRadius: '5px'}} aria-hidden="true"></i>{this.state.data.teacherPhone}

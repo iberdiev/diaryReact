@@ -44,8 +44,9 @@ export default class Student_Subjects extends Component {
     getStudentGrades(subjectName,regularGrades,finalGrades){
         var dict = ['-','-','-','-','-'];
         finalGrades.map(grade=>{
-            dict[grade.type-1] = grade.mark
-        })
+            dict[grade.type-1] = grade.mark;
+            return 0
+        });
         this.setState({
             finalGrades: dict,
             regularGrades: regularGrades,
@@ -56,11 +57,10 @@ export default class Student_Subjects extends Component {
     // Changing date format function from database
     changeDateFormat(inputDate){  // expects Y-m-d
         var splitDate = inputDate.split('-');
-        if(splitDate.count == 0){
+        if(splitDate.count === 0){
             return null;
         }
     
-        var year = splitDate[0];
         var month = splitDate[1];
         var day = splitDate[2]; 
     
@@ -83,9 +83,9 @@ export default class Student_Subjects extends Component {
                     
                     <div className="journal mt-2">
                         <div className="names nav flex-column nav-pills card" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                            <a  className="nav-link p-1" ><h6>Предметы:</h6></a>
+                            <div  className="nav-link p-1" ><h6>Предметы:</h6></div>
                             {this.state.data.map((subject,i)=>{
-                                if (i==0){
+                                if (i===0){
                                     return(
                                         <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)}  className="nav-link active p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><p>{subject.subjectName}</p></a>
                                 )}
@@ -100,7 +100,7 @@ export default class Student_Subjects extends Component {
                         <div className="osenki card">
                         <h6 className="text-center"><strong>Предмет:</strong>  {this.state.subjectName}</h6>
                         <br/>
-                        <a  className="nav-link p-1" ><h6><strong>Четвертные оценки:</strong></h6></a>
+                        <div  className="nav-link p-1" ><h6><strong>Четвертные оценки:</strong></h6></div>
 
                             <table id="" className="table table-striped table-bordered " style={{width:"100%"}}>
                                 <thead>

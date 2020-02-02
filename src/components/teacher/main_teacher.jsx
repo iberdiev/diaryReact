@@ -18,7 +18,7 @@ export default class Teacher_Main extends Component {
         }).then(res => {
             const data = res.data;
             this.setState({
-                teacherID: res.data,
+                teacherID: data,
             });
         })
         .catch(err =>{
@@ -41,7 +41,7 @@ export default class Teacher_Main extends Component {
                                         <h5 className="p-2">Расписание</h5>
                                         <p className="p-2">Мои личные расписание уроков</p>
                                     </div>
-                                    <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-list-alt" aria-hidden="true"></i></h1></div>
+                                    <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-list-alt" ></i></h1></div>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +54,7 @@ export default class Teacher_Main extends Component {
                                         <h5 className="p-2">Классы</h5>
                                         <p className="p-2">Классы которых я провожу</p>
                                     </div>
-                                    <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" aria-hidden="true"></i></h1></div>
+                                    <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" ></i></h1></div>
                                 </div>
                             </div>
                         </div>

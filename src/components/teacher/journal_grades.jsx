@@ -56,7 +56,7 @@ export default class Teacher_Journal_Grade extends Component {
     toggle = event => {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i] != event.target)
+            if (checkboxes[i] !== event.target)
                 checkboxes[i].checked = event.target.checked;
         }
 }
@@ -89,7 +89,7 @@ export default class Teacher_Journal_Grade extends Component {
         var items=document.getElementsByName('studentcheckbox');
 		var selectedItems=[];
 		for(var i=0; i<items.length; i++){
-			if(items[i].checked==true)
+			if(items[i].checked===true)
 				selectedItems.push(items[i].id);
         }
         this.setState({
@@ -105,12 +105,13 @@ export default class Teacher_Journal_Grade extends Component {
         var newmark = e.target.value;
         var newarray = []
         this.state.temprGrades.map((grade)=>{
-            if (grade.gradeID==id){
+            if (grade.gradeID===id){
                 newarray.push({gradeID:grade.gradeID, mark: parseInt(newmark)})
             }
             else{
                 newarray.push({gradeID:grade.gradeID, mark: grade.mark})
             }
+            return 0
     })
         this.setState({
             temprGrades: newarray
@@ -140,6 +141,7 @@ export default class Teacher_Journal_Grade extends Component {
         
         this.state.sendingGrades.map(studentGrade=>{
             sendingArray.push(postGrades(studentGrade))
+            return 0
         })
         
         axios.all(sendingArray)
@@ -163,7 +165,7 @@ export default class Teacher_Journal_Grade extends Component {
             .then(res => {
                 const data = res.data;
                 console.log(data)
-                if (data=="OK"){
+                if (data==="OK"){
                     console.log("Good")
                 }else{
                     console.log("Not good")
@@ -184,7 +186,7 @@ export default class Teacher_Journal_Grade extends Component {
             .then(res => {
                 const data = res.data;
                 console.log(data)
-                if (data=="OK"){
+                if (data==="OK"){
                     console.log("Good")
                 }else{
                     console.log("Not good")
@@ -268,12 +270,13 @@ export default class Teacher_Journal_Grade extends Component {
                                                         var dict = [{mark:'-',type:1},{mark:'-',type:2},{mark:'-',type:3},{mark:'-',type:4},{mark:'-',type:5},];
                                                         student.finalGrades.map(grade=>{
                                                             dict[grade.type-1] = {mark:grade.mark, type: grade.type, pk: grade.pk}
+                                                            return 0
                                                         })
                                                         return(
                                                             <tr>
                                                                 {
                                                                     dict.map(grade => (
-                                                                        <td className="p-0" className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(grade.type, student.pk, student.studentName, [{gradeID:grade.pk, mark: grade.mark}])} >
+                                                                        <td className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(grade.type, student.pk, student.studentName, [{gradeID:grade.pk, mark: grade.mark}])} >
                                                                             <p className="mt-1 mb-1 p-2 text-center">{grade.mark}</p>
                                                                         </td>
                                                                     ))
@@ -345,26 +348,32 @@ export default class Teacher_Journal_Grade extends Component {
                         <br/>
                         <br/> Оценки на этот день - 
                             {this.state.oneStudentGrading.grades.map((otsenka, index)=>{
-                                if (otsenka.mark!='-'){
-                                    return(<h6 className="mb-2"> 
+                                if (otsenka.mark!=='-'){
+                                    return(
+                                    <h6 className="mb-2"> 
                                     
-                                    <select onChange={(event)=>{ this.changeMark(event, otsenka.gradeID) }} >
-                                    <option selected={otsenka.mark==5} value="5">5</option>
-                                    <option selected={otsenka.mark==4} value="4">4</option>
-                                    <option selected={otsenka.mark==3} value="3">3</option>
-                                    <option selected={otsenka.mark==2} value="2">2</option>
-                                  </select>   <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark==this.state.temprGrades[index].mark} > Сохранить</button> <a onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</a>  </h6> )
+                                        <select onChange={(event)=>{ this.changeMark(event, otsenka.gradeID) }} >
+                                            <option selected={otsenka.mark===5} value="5">5</option>
+                                            <option selected={otsenka.mark===4} value="4">4</option>
+                                            <option selected={otsenka.mark===3} value="3">3</option>
+                                            <option selected={otsenka.mark===2} value="2">2</option>
+                                        </select>   
+                                        <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark===this.state.temprGrades[index].mark} > Сохранить</button> 
+                                        <Link onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</Link>  
+                                   </h6> )
                                 }
+                                return 0
                             })}
                                     
                         <div className="p-2">
                         {this.state.oneStudentGrading.grades.map((otsenka, index)=>{
-                                if (otsenka.mark=='-'){
+                                if (otsenka.mark==='-'){
                                     return(
                                         <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                                             Добавить новую оценку
                                         </a>
                                     )}
+                                return 0
                             })}
                         
                         </div>

@@ -169,7 +169,7 @@ export default class Student_Diary extends Component {
           }
     
     ifOther(value){
-        if(value=="Другое..."){
+        if(value==="Другое..."){
             var element = document.getElementById('otherinput')
             element.style.display='block';
         }
@@ -181,7 +181,6 @@ export default class Student_Diary extends Component {
     }
 
     changeTeacherValue(name,id){
-        var teacherInput = document.getElementById("teacherID");
         var teacherButton = document.getElementById("teacherButton");
         this.setState({
             chosenTeacherID:id
@@ -204,8 +203,9 @@ export default class Student_Diary extends Component {
         event.preventDefault();
         var isAvailable = false;
         var idSubject = null;
+        var data;
         for (let i=0; i<this.state.subjects.length; i++){
-            if (this.state.subjects[i].subjectName==this.state.chosenSubject){
+            if (this.state.subjects[i].subjectName===this.state.chosenSubject){
                 isAvailable = true;
                 
                 idSubject = this.state.subjects[i].pk
@@ -213,13 +213,12 @@ export default class Student_Diary extends Component {
         }
         if (isAvailable){
             console.log('Есть')
-            var data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
+            data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
             axios.post(requestUrl + '/api/v1/timetableByCohort/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
             }).then(res => {
-                const data = res.data;
                 window.location.reload()
             })
             .catch(err =>{
@@ -227,13 +226,12 @@ export default class Student_Diary extends Component {
             });
         }else{
             console.log('Нет')
-            var data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
+            data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
             axios.post(requestUrl + '/api/v1/createSubjectAndTimetable/',data,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
             }).then(res => {
-                const data = res.data;
                 window.location.reload()
             })
             .catch(err =>{
@@ -282,7 +280,6 @@ export default class Student_Diary extends Component {
             Authorization:'Token ' + localStorage.getItem('token'),
         }
         }).then(res => {
-            const data = res.data;
             window.location.reload()
         })
         .catch(err =>{
@@ -297,7 +294,6 @@ export default class Student_Diary extends Component {
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
             }).then(res => {
-                const data = res.data;
                 window.location.reload()
             })
             .catch(err =>{
@@ -451,7 +447,7 @@ export default class Student_Diary extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                  
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                        <button className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</button>
                                                     ))}
                                                     
                                                 </div>
@@ -517,7 +513,7 @@ export default class Student_Diary extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                 
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                        <button className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</button>
                                                     ))}
                                                     
                                                     

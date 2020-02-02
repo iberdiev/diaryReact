@@ -82,7 +82,6 @@ export default class Shool_Teachers extends Component {
         })
     }
     changeTeacherValue(name,id){
-        var teacherInput = document.getElementById("teacherID");
         var teacherButton = document.getElementById("teacherButton");
         this.setState({
             teacherID:id
@@ -98,6 +97,7 @@ export default class Shool_Teachers extends Component {
             }
         }).then(res => {
             const data = res.data;
+            console.log(data)
         })
         .catch(err =>{
             console.log(err.error);
@@ -124,6 +124,7 @@ export default class Shool_Teachers extends Component {
             }
         }).then(res => {
             const data = res.data;
+            console.log(data)
         })
         .catch(err =>{
             console.log(err.error);

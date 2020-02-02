@@ -19,7 +19,7 @@ export default class SchoolNavbar extends Component {
         }).then(res => {
             const data = res.data;
             this.setState({
-                teacherID: res.data,
+                teacherID: data,
                 
             });
         })
@@ -39,8 +39,8 @@ export default class SchoolNavbar extends Component {
       <header>
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossOrigin="anonymous"></link>
           <nav className="navbar navbar-dark navbar-expand-lg bg-primary text-white p-0">
-              <a className="navbar-brand p-2 center-items" href="/"><i className="fa fa-book ml-4 ml-1" style={{fontSize:"40px"}}></i> Дневник
-              </a>
+              <Link to="/" className="navbar-brand p-2 center-items" onClick={()=>this.setState({collapsed:false})}><i className="fa fa-book ml-4 ml-1" style={{fontSize:"40px"}}></i> Дневник
+              </Link>
               <button className="navbar-toggler m-2" type="button" onClick={()=>this.setState({collapsed:true})} data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
               </button>
@@ -55,7 +55,7 @@ export default class SchoolNavbar extends Component {
                   <li className="nav-item ">
                     <Link  to="/teacher/cohorts" className="nav-link p-3" onClick={()=>this.setState({collapsed:false})}>Классы</Link>
                   </li>
-                  <li className="nav-item "><a className="nav-link p-3" onClick={this.logout} href="#" disabled={!token} >Выйти</a> </li>
+                  <li className="nav-item "><Link className="nav-link p-3" onClick={this.logout} to="#" disabled={!token} >Выйти</Link> </li>
                 </ul>
                 
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import {requestUrl} from './requests';
+import { Link } from 'react-router-dom';
+
 // import {Button} from 'react-bootstrap';
 class Login extends React.Component{
 
@@ -30,7 +32,7 @@ class Login extends React.Component{
         .then(res => {
 
                 console.log(res.data)
-                if (res.data=='notvalid'){
+                if (res.data==='notvalid'){
                     this.setState({
                         isValid:false
                     })
@@ -38,7 +40,7 @@ class Login extends React.Component{
                 localStorage.setItem('token', res.data.token);
                 localStorage.setItem('user_role', res.data.user_role);
                 localStorage.setItem('name',res.data.name);
-                if (res.data.user_role == 3){
+                if (res.data.user_role === 3){
                     localStorage.setItem('studentIndex', 0);
                 }
                 window.location.reload();
@@ -86,7 +88,7 @@ class Login extends React.Component{
                                 <button type='submit' className="btn btn-primary btn-block" disabled={this.state.isLoginDisabled} >{this.state.isLoginDisabled ? 'Подождите...' : 'Войти'}</button>
                             </div>
 
-                            <div className="text-center"><a style={{color:'blue'}} href="#">Забыли пароль?</a> </div>
+                            <div className="text-center"><Link style={{color:'blue'}} href="#">Забыли пароль?</Link> </div>
                         </form>
                         </div>
                     </div>

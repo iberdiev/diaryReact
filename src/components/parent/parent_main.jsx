@@ -53,7 +53,7 @@ export default class Parent_Main extends Component {
                     <select class="custom-select mb-3"  onChange={this.changeStudent}>
                         {this.state.data.map(function(student, i){
                             return (
-                                <option  selected={i==index} value={i}>{student.studentName} </option>)
+                                <option  selected={i===index} value={i}>{student.studentName} </option>)
                         })}
                     </select>
 
@@ -65,7 +65,7 @@ export default class Parent_Main extends Component {
                                 <h5 className="p-2">Дневник</h5>
                                 <p className="p-2">Расписание <br/> Оценки <br/> Домашние задания</p>
                             </div>
-                            <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-address-book" aria-hidden="true"></i></h1></div>
+                            <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-address-book" ></i></h1></div>
 
                         </div>
 
@@ -81,7 +81,7 @@ export default class Parent_Main extends Component {
                                     <h5 className="p-2">Успеваемость вашего ребёнка</h5>
                                     <p className="p-2">Статистики <br/> Рекомендации</p>
                                 </div>
-                                <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-line-chart" aria-hidden="true"></i></h1></div>
+                                <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-line-chart" ></i></h1></div>
 
                             </div>
 
@@ -97,7 +97,7 @@ export default class Parent_Main extends Component {
                                     <h5 className="p-2">Предметы</h5>
                                     <p className="p-2">Рейтиннги <br/> Оценивания учителей</p>
                                 </div>
-                                <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" aria-hidden="true"></i></h1></div>
+                                <div className="col-4 center-items"><h1 className="card-title"><i className="fa fa-users" ></i></h1></div>
                             </div>
                         </div>
                     </div>
