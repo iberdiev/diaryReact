@@ -111,7 +111,7 @@ export default class School_student_list extends Component {
                         </thead>
                         <tbody>
                             {data.map((student, i) => (
-                                <OneStudent number={i+1} name={student.studentName} pk={student.pk} cohortID={this.props.location.state.cohortID} />
+                                <OneStudent key={i} number={i+1} name={student.studentName} pk={student.pk} cohortID={this.props.location.state.cohortID} />
                             ))}
 
 

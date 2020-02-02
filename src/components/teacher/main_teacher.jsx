@@ -10,7 +10,7 @@ export default class Teacher_Main extends Component {
             teacherID: null,
         }
     }
-    componentWillMount = () =>{
+    componentDidMount = () =>{
         axios.get(requestUrl+"/api/v1/getTeacherID/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),

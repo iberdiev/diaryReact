@@ -21,7 +21,7 @@ export default class Student_Diary extends Component {
             chosenTeacherName:  "Выберите учителя",
             chosenTeacherID: null,
             subjectStarttime: null,
-            subjectEndTime: null,
+            subjectEndTime: "9:00",
 
 
             // For changing modal
@@ -148,7 +148,11 @@ export default class Student_Diary extends Component {
         });
     }
     componentDidMount = () => {
+
+        
+        
         this.getTable(this.state.chosenDate);
+        
         
     }
     filterFunction(){
@@ -169,6 +173,9 @@ export default class Student_Diary extends Component {
           }
     
     ifOther(value){
+        this.setState({
+            validSubject:""
+        });
         if(value==="Другое..."){
             var element = document.getElementById('otherinput')
             element.style.display='block';
@@ -183,7 +190,8 @@ export default class Student_Diary extends Component {
     changeTeacherValue(name,id){
         var teacherButton = document.getElementById("teacherButton");
         this.setState({
-            chosenTeacherID:id
+            chosenTeacherID:id,
+            validTeacher: ""
         })
 
         teacherButton.innerHTML = (name);
@@ -200,43 +208,69 @@ export default class Student_Diary extends Component {
     
 
     submitNewSubject = event =>{
+        this.setState({
+            validnumber:"",
+            validSubject:"",
+            validTeacher:""
+
+        })
         event.preventDefault();
-        var isAvailable = false;
-        var idSubject = null;
-        var data;
-        for (let i=0; i<this.state.subjects.length; i++){
-            if (this.state.subjects[i].subjectName===this.state.chosenSubject){
-                isAvailable = true;
-                
-                idSubject = this.state.subjects[i].pk
-            }
+        if (this.state.subjectStarttime==null){
+            this.setState({
+                validnumber:"*Вы не выбрали последовательность урока"
+            })
+            
         }
-        if (isAvailable){
-            console.log('Есть')
-            data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
-            axios.post(requestUrl + '/api/v1/timetableByCohort/',data,{
-            headers:{
-                Authorization:'Token ' + localStorage.getItem('token'),
-            }
-            }).then(res => {
-                window.location.reload()
+        if (this.state.chosenSubject==null){
+            this.setState({
+                validSubject:"*Вы не выбрали предмет"
             })
-            .catch(err =>{
-                console.log(err.error);
-            });
-        }else{
-            console.log('Нет')
-            data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
-            axios.post(requestUrl + '/api/v1/createSubjectAndTimetable/',data,{
-            headers:{
-                Authorization:'Token ' + localStorage.getItem('token'),
-            }
-            }).then(res => {
-                window.location.reload()
+            
+        }
+        if (this.state.chosenTeacherID==null){
+            this.setState({
+                validTeacher:"*Выберите, пожалуйста, учителя"
             })
-            .catch(err =>{
-                console.log(err.error);
-            });
+            
+        }
+        else{
+            var isAvailable = false;
+            var idSubject = null;
+            var data;
+            for (let i=0; i<this.state.subjects.length; i++){
+                if (this.state.subjects[i].subjectName===this.state.chosenSubject){
+                    isAvailable = true;
+                    
+                    idSubject = this.state.subjects[i].pk
+                }
+            }
+            if (isAvailable){
+                console.log('Есть')
+                data = {"teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "subjectID": idSubject, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
+                axios.post(requestUrl + '/api/v1/timetableByCohort/',data,{
+                headers:{
+                    Authorization:'Token ' + localStorage.getItem('token'),
+                }
+                }).then(res => {
+                    window.location.reload()
+                })
+                .catch(err =>{
+                    console.log(err.error);
+                });
+            }else{
+                console.log('Нет')
+                data = {"newSubject": this.state.chosenSubject, "teacher":this.state.chosenTeacherID, "cohortID": this.props.location.state.cohortID, "date" : this.formatDate(this.state.chosenDate), "startTime": this.state.subjectStarttime, "endTime": this.state.subjectEndTime}
+                axios.post(requestUrl + '/api/v1/createSubjectAndTimetable/',data,{
+                headers:{
+                    Authorization:'Token ' + localStorage.getItem('token'),
+                }
+                }).then(res => {
+                    window.location.reload()
+                })
+                .catch(err =>{
+                    console.log(err.error);
+                });
+            }
         }
 
     }
@@ -335,15 +369,16 @@ export default class Student_Diary extends Component {
                             </div>
                             <div className="pl-3 p-2">
                                 <div className="row">
-                                    <div className="col-3 btn-link center-items">
-                                        <h6>Время</h6>
-                                    </div>
-                                    <div className="col-3 btn-link center-items">
-                                        <h6>Д/З</h6>
+                                    <div className="col-2 btn-link center-items">
+                                        <h6>№</h6>
                                     </div>
                                     <div className="col-4 btn-link center-items">
                                         <h6>Урок</h6>
                                     </div>
+                                    <div className="col-4 btn-link center-items">
+                                        <h6>Д/З</h6>
+                                    </div>
+                                    
                                 </div>
                             </div>
 
@@ -351,10 +386,11 @@ export default class Student_Diary extends Component {
 
                                 <div className="card">
                                     <div className="row">
-                                        <div className="col-3 center-items text-center">
-                                        {subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)}
+                                        <div className="col-2 center-items text-center">
+                                        {index+1}
                                         </div>
-                                        <div className="col-3 center-items text-center">
+                                        <div className="col-4 center-items">{subject.subjectName}</div>
+                                        <div className="col-4 center-items text-center">
                                             <ReadMoreReact text={subject.homework}
                                                 min={10}
                                                 ideal={20}
@@ -362,7 +398,7 @@ export default class Student_Diary extends Component {
                                                 readMoreText={'Развернуть...'}
                                                 />
                                         </div>
-                                        <div className="col-4 center-items">{subject.subjectName}</div>
+                                        
                                         <div className="col-2 text-left center-items">
                                             <div className="btn btn-primary m-1 p-1" data-toggle="modal" data-target="#ChangeModal" onClick={() => this.changeValue(subject.startTime.slice(0, -3), subject.endTime.slice(0, -3), subject.subjectName, subject.teacher, subject.teacherName, subject.pk, index+1, subject.homework)} ><i className="fa fa-pencil"></i></div>
                                             <div className="btn btn-danger m-1 p-1" onClick={()=>this.deleteSubject(subject.pk,subject.subjectName)} ><i className="fa fa-trash"></i></div>
@@ -388,24 +424,29 @@ export default class Student_Diary extends Component {
                             <div className="modal-body">
                                 <div className="p-2 ">
                                     <div className="row">
-                                    <div className="input-group mb-3 col-12 m-0 p-0">
+                                        <div className="input-group col-12 m-0 p-0">
                                             <div className="input-group-prepend">
-                                                Начало:
+                                                <label className="input-group-text" htmlFor="inputGroupSelect01">Номер №</label>
                                             </div>
-                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4"  showSecond={false} onChange={e => this.setState({subjectStarttime: e.format("HH:mm")})} />
-                                            <div className="input-group-prepend">
-                                                Конец:
-                                            </div>
-                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4"  showSecond={false} onChange={e => this.setState({subjectEndTime: e.format("HH:mm")})} />
-                                    </div>
+                                            <select defaultValue="Веберите последовательность" className="custom-select" id="inputGroupSelect01" onChange={e => this.setState({subjectStarttime: e.target.value,validnumber:""})}>
+                                                    <option disabled>Веберите последовательность</option>
+                                                    <option value="8:00">1</option>
+                                                    <option value="9:00">2</option>
+                                                    <option value="10:00">3</option>
+                                                    <option value="11:00">5</option>
+                                                    <option value="12:00">6</option>
+                                                    <option value="13:00">7</option>
+                                                    <option value="14:00">8</option>
+                                            </select>
                                             
+
+                                        </div>
+                                        <span style={{color:"red"}}>{this.state.validnumber}</span>
 
                                             
                                             
                                             
-                                            <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/css/bootstrap-select.min.css" />
-                                            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
-                                        <div className="input-group col-12 m-0 p-0">
+                                        <div className="input-group col-12 m-0 mt-3  p-0">
                                             <div className="input-group-prepend">
                                                 <label className="input-group-text" for="inputGroupSelect01">Предмет</label>
                                             </div>
@@ -430,6 +471,7 @@ export default class Student_Diary extends Component {
 
                                         </div>
                                         <input type="text" style={{display:'none'}} onChange={e => this.setState({chosenSubject: e.target.value})} id="otherinput" className="form-control mt-1" placeholder="Пишите название нового предмета"/>
+                                        <span style={{color:"red"}}>{this.state.validSubject}</span>
                                         <div className="input-group col-12 m-0 p-0 mt-3">
                                             <div className="input-group-prepend">
                                                 <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
@@ -447,12 +489,13 @@ export default class Student_Diary extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                  
                                                     {this.state.teachers.map(teacher=>(
-                                                        <button className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</button>
+                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
                                                     ))}
                                                     
                                                 </div>
                                             </div>
                                         </div>
+                                        <span style={{color:"red"}}>{this.state.validTeacher}</span>
                                     </div>
                                 </div>
                             </div>
@@ -478,17 +521,25 @@ export default class Student_Diary extends Component {
                             <div className="modal-body">
                                 <div className="p-2 ">
                                     <div className="row">
-                                    <div className="input-group mb-3 col-12 m-0 p-0">
+                                    
+                                        <div className="input-group col-12 m-0 mb-3 p-0">
                                             <div className="input-group-prepend">
-                                                Начало:
+                                                <label className="input-group-text" htmlFor="inputGroupSelect01">Номер №</label>
                                             </div>
-                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4" value={moment().hour(this.state.changeTime.slice(0,2)).minute(this.state.changeTime.slice(3,5))}  showSecond={false} onChange={e => this.setState({changeTime: e.format("HH:mm")})} />
-                                            <br/>
-                                            <div className="input-group-prepend">
-                                                Конец:
-                                            </div>
-                                            <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4" value={moment().hour(this.state.changeEndtime.slice(0,2)).minute(this.state.changeEndtime.slice(3,5))}  showSecond={false} onChange={e => this.setState({changeEndtime: e.format("HH:mm")})} />
-                                    </div>
+                                            <select defaultValue={this.state.changeIndex} className="custom-select" id="inputGroupSelect01" onChange={e => this.setState({changeTime: e.target.value})}>
+                                            {this.state.changeIndex==1?<option selected disabled value="8:00">1</option>:<option value="8:00">1</option>}
+                                            {this.state.changeIndex==2?<option  selected disabled value="9:00">2</option>:<option value="9:00">2</option>}
+                                            {this.state.changeIndex==3?<option  selected disabled value="10:00">3</option>:<option value="10:00">3</option>}
+                                            {this.state.changeIndex==4?<option  selected disabled value="11:00">4</option>:<option value="11:00">4</option>}
+                                            {this.state.changeIndex==5?<option  selected disabled value="12:00">5</option>:<option value="12:00">5</option>}
+                                            {this.state.changeIndex==6?<option  selected disabled value="13:00">6</option>:<option value="13:00">6</option>}
+                                            {this.state.changeIndex==7?<option  selected disabled value="14:00">7</option>:<option value="14:00">7</option>}
+                                            {this.state.changeIndex==8?<option  selected disabled value="15:00">8</option>:<option value="15:00">8</option>}
+                                                    
+                                            </select>
+                                            
+
+                                        </div>
                                     
                                     <div className="input-group col-12 m-0 p-0">
                                         <div className="input-group-prepend">
@@ -513,7 +564,7 @@ export default class Student_Diary extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                 
                                                     {this.state.teachers.map(teacher=>(
-                                                        <button className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</button>
+                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
                                                     ))}
                                                     
                                                     

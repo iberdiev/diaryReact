@@ -1,6 +1,8 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import {requestUrl} from '../requests';
+import { Link } from 'react-router-dom';
+
 
 // import { Link } from 'react-router-dom';
 
@@ -168,19 +170,19 @@ export default class Shool_Teachers extends Component {
                                                 <button type="button" className="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Имя предмета &nbsp;
                                                 </button>
                                                 <div className="dropdown-menu">
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Математика')}>Математика</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Русский-яз.')}>Русский-яз.</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Английский-яз.')}>Английский-яз.</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('История')}>История</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('География')}>География</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Биология')}>Биология</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Информатика')}>Информатика</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Обществознание')}>Обществознание</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Алгебра')}>Алгебра</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Геометрия')}>Геометрия</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Физика')}>Физика</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Химия')}>Химия</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Черчение')}>Черчение</a>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Математика')}>Математика</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Русский-яз.')}>Русский-яз.</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Английский-яз.')}>Английский-яз.</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('История')}>История</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('География')}>География</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Биология')}>Биология</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Информатика')}>Информатика</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Обществознание')}>Обществознание</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Алгебра')}>Алгебра</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Геометрия')}>Геометрия</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Физика')}>Физика</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Химия')}>Химия</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Черчение')}>Черчение</Link>
                                                 
                                                 </div>
                                             </div>
@@ -205,7 +207,7 @@ export default class Shool_Teachers extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
 
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                        <Link className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</Link>
                                                     ))}
                                                     
                                                     
@@ -241,19 +243,19 @@ export default class Shool_Teachers extends Component {
                                                 <button type="button" className="btn btn-outline-info dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Имя предмета &nbsp;
                                                 </button>
                                                 <div className="dropdown-menu">
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Математика')}>Математика</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Русский-яз.')}>Русский-яз.</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Английский-яз.')}>Английский-яз.</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('История')}>История</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('География')}>География</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Биология')}>Биология</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Информатика')}>Информатика</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Обществознание')}>Обществознание</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Алгебра')}>Алгебра</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Геометрия')}>Геометрия</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Физика')}>Физика</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Химия')}>Химия</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changesubjectValue('Черчение')}>Черчение</a>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Математика')}>Математика</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Русский-яз.')}>Русский-яз.</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Английский-яз.')}>Английский-яз.</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('История')}>История</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('География')}>География</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Биология')}>Биология</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Информатика')}>Информатика</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Обществознание')}>Обществознание</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Алгебра')}>Алгебра</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Геометрия')}>Геометрия</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Физика')}>Физика</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Химия')}>Химия</Link>
+                                                    <Link className="dropdown-item" onClick={()=>this.changesubjectValue('Черчение')}>Черчение</Link>
                                                 
                                                 </div>
                                             </div>
@@ -278,7 +280,7 @@ export default class Shool_Teachers extends Component {
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
 
                                                     {this.state.teachers.map(teacher=>(
-                                                        <a className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</a>
+                                                        <Link className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</Link>
                                                     ))}
                                                     
                                                     
@@ -311,6 +313,7 @@ class OneSubject extends Component {
             }
             }).then(res => {
                 const data = res.data;
+                console.log(data)
             })
             .catch(err =>{
                 console.log(err.error);

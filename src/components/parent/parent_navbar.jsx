@@ -17,7 +17,7 @@ export default class SchoolNavbar extends Component {
           data: [{pk:"",cohort:""}],
       }
   }
-  componentWillMount = () =>{
+  componentDidMount = () =>{
       axios.get(requestUrl + "/api/v1/getTheChild/",{
           headers:{
               Authorization:'Token ' + localStorage.getItem('token'),
@@ -59,7 +59,7 @@ export default class SchoolNavbar extends Component {
                     <Link to={{pathname:"/parent/student_subjects", state:{cohortID: this.state.data.cohort}}} className="nav-link p-3" onClick={()=>this.setState({collapsed:false})} >Предметы </Link>
                   </li>
                   
-                  <li className="nav-item "><Link className="nav-link p-3" onClick={this.logout} href="#" disabled={!token} >Выйти</Link> </li>
+                  <li className="nav-item "><Link className="nav-link p-3" onClick={this.logout} to="#" disabled={!token} >Выйти</Link> </li>
                 </ul>
                 
 

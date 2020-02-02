@@ -11,7 +11,7 @@ export default class SchoolNavbar extends Component {
             collapsed: false
         }
     }
-    componentWillMount = () =>{
+    componentDidMount = () =>{
         axios.get(requestUrl + "/api/v1/getTeacherID/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),

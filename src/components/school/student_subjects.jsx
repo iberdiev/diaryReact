@@ -87,11 +87,11 @@ export default class Student_Subjects extends Component {
                             {this.state.data.map((subject,i)=>{
                                 if (i===0){
                                     return(
-                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)}  className="nav-link active p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><p>{subject.subjectName}</p></a>
+                                        <a key={i} onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)}  className="nav-link active p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true"><p>{subject.subjectName}</p></a>
                                 )}
                                 else{
                                     return(
-                                        <a onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)} className="nav-link p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false"><p>{subject.subjectName}</p></a>
+                                        <a key={i} onClick={() => this.getStudentGrades(subject.subjectName, subject.regularGrades, subject.finalGrades)} className="nav-link p-3" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false"><p>{subject.subjectName}</p></a>
                                 )
                                 }
                             })}
@@ -115,8 +115,8 @@ export default class Student_Subjects extends Component {
                                 <tbody>
                                     <tr>
                                         {
-                                            this.state.finalGrades.map(grade => (
-                                                <td className="p-0">
+                                            this.state.finalGrades.map((grade,i) => (
+                                                <td key={i} className="p-0">
                                                     <p className="mt-1 mb-1 text-center">{grade}</p>
                                                 </td>
                                             ))
@@ -137,8 +137,8 @@ export default class Student_Subjects extends Component {
                                 <tbody>
                                     
                                         
-                                        {this.state.regularGrades.map(grade=>(
-                                            <tr>
+                                        {this.state.regularGrades.map((grade,i)=>(
+                                            <tr key={i}>
                                                 <td className="p-0">
                                                     <p className="mt-1 mb-1 text-center">{this.changeDateFormat(grade.date)}</p>
                                                 </td>

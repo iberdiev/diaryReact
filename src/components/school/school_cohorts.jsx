@@ -82,7 +82,7 @@ export default class Cohorts extends Component {
                         <div className="centering">
                             <div className="row" id="row">
                             {data.map(cohort => (
-                                    <OneCohort mainTeacherName={cohort.mainTeacherID.teacherName} class_name={cohort.class_name} cohort_ID={cohort.pk} />
+                                    <OneCohort key={cohort.pk} mainTeacherName={cohort.mainTeacherID.teacherName} class_name={cohort.class_name} cohort_ID={cohort.pk} />
                             ))}
                             </div>
                         </div>

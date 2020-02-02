@@ -20,6 +20,7 @@ export default class Shool_Teachers extends Component {
     constructor(props){
         super(props);
         this.state = {
+            isLoaded: false,
             teachers: [],
         }
         this.token = localStorage.getItem('token');
@@ -35,7 +36,9 @@ export default class Shool_Teachers extends Component {
             console.log(data)
             this.setState({
                 teachers: data,
+                isLoaded: true,
             })
+            
         })
         .catch(err =>{
             console.log(err.error);
@@ -100,6 +103,12 @@ export default class Shool_Teachers extends Component {
         return(
             <div className="d-flex justify-content-center mt-2">
         <div className="col-lg-6 col-12  p-1 ">
+            {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                                <div className="lds-dual-ring"></div>
+                            </div>
+                        </div> : ""}
             <h6 className="text-center mb-2">
                 Учителя Школы {localStorage.getItem('school')}
             </h6>
@@ -159,7 +168,7 @@ export default class Shool_Teachers extends Component {
                     </thead>
                     <tbody>
                     {teachers.map((teacher, i) => (
-                        <OneTeacher number={i+1} name={teacher.teacherName} pk={teacher.pk} overall="4.5"/>
+                        <OneTeacher key={i} number={i+1} name={teacher.teacherName} pk={teacher.pk} overall="4.5"/>
                     ))}
 
 

@@ -42,7 +42,7 @@ export default class Student_Diary extends Component {
     constructor(props){
         super(props);
         this.state = {
-            chosenDate: null,
+            chosenDate: new Date(),
             timeTable: [],
             isLoaded: false,
         }
@@ -116,12 +116,6 @@ export default class Student_Diary extends Component {
         this.getTable(chosenDate);
     }
 
-    componentWillMount = () => {
-        var tempcurrentTime = new Date();
-        this.setState({
-            chosenDate: tempcurrentTime,
-        });
-    }
     componentDidMount = () =>{
         this.getTable(this.state.chosenDate);
     }

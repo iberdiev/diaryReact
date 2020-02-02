@@ -40,7 +40,7 @@ export default class Student_Diary extends Component {
     constructor(props){
         super(props);
         this.state = {
-            chosenDate: null,
+            chosenDate: new Date(),
             timeTable: [],
             isLoaded: false,
         }
@@ -109,12 +109,7 @@ export default class Student_Diary extends Component {
         this.getTable(chosenDate);
     }
 
-    componentWillMount = () => {
-        var tempcurrentTime = new Date();
-        this.setState({
-            chosenDate: tempcurrentTime,
-        });
-    }
+    
     componentDidMount = () =>{
         this.getTable(this.state.chosenDate);
     }
@@ -158,8 +153,8 @@ export default class Student_Diary extends Component {
                                 </div>
                             </div>
 
-                            {this.state.timeTable.map(subject => (
-                                <OneClass subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} homework = {subject.homework} className={subject.className} />
+                            {this.state.timeTable.map((subject,i) => (
+                                <OneClass key={i} subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} homework = {subject.homework} className={subject.className} />
                             ))}
 
                         </div>

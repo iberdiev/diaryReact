@@ -7,10 +7,10 @@ export default class Teacher_Cohorts extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data : {cohortName:'',cohortID:null}
+            data : [{cohortName:'',cohortID:null}]
         };
     }
-    componentWillMount = () =>{
+    componentDidMount = () =>{
         axios.get(requestUrl + "/api/v1/getUniqueCohortsByTaught/",{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
@@ -29,6 +29,7 @@ export default class Teacher_Cohorts extends Component {
             this.setState({
                 data: filteredData,
             });
+            console.log(filteredData)
 
         })
         .catch(err =>{
@@ -44,9 +45,9 @@ export default class Teacher_Cohorts extends Component {
                             Мои классы
                 </h2>
 
-                {this.state.data.map(cohort => (
-                    <Link to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, cohortName: cohort.cohortName}}}>
-                        <div className="card m-3 p-5 ">
+                {this.state.data.map((cohort,i) => (
+                    <Link key={i} to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, cohortName: cohort.cohortName}}}>
+                        <div className="card m-3 p-4 ">
                             <h4 className="">
                                {cohort.cohortName}
                             </h4>

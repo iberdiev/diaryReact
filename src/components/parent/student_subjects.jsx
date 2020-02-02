@@ -17,7 +17,8 @@ export default class Student_Subjects extends Component {
                     "lesson": '-',
                     "date": "-"
                 }],
-            subjectName: ""
+            subjectName: "",
+            isLoaded: false,
         };
     }
     componentDidMount = () =>{
@@ -31,7 +32,8 @@ export default class Student_Subjects extends Component {
         }).then(res => {
             const data = res.data;
             this.setState({
-                data: data
+                data: data,
+                isLoaded: true,
             })
             this.getStudentGrades(data[0].subjectName, data[0].regularGrades, data[0].finalGrades)
         })
@@ -74,6 +76,14 @@ export default class Student_Subjects extends Component {
         return (
             <div className="mt-2 center-items">
                 <div className="col-12 col-lg-10  p-1 ">
+                    {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                                <div className="lds-dual-ring"></div>
+                            </div>
+                        </div> : 
+                        ""
+                    }
                     <h6 className="text-center m-2">
                         Журнал ученика {this.props.location.state.studentName}
                     </h6>

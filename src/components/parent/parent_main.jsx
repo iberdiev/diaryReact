@@ -50,10 +50,10 @@ export default class Parent_Main extends Component {
                         Здравствуйте, родитель ученика {data[index].studentName}
                     </div>
 
-                    <select class="custom-select mb-3"  onChange={this.changeStudent}>
+                    <select className="custom-select mb-3"  onChange={this.changeStudent}>
                         {this.state.data.map(function(student, i){
                             return (
-                                <option  selected={i===index} value={i}>{student.studentName} </option>)
+                                <option key={i} selected={i===index} value={i}>{student.studentName} </option>)
                         })}
                     </select>
 
