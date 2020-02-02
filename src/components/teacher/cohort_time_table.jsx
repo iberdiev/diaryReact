@@ -1,14 +1,13 @@
 
 import React, { Component } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import $ from 'jquery';
 import DatePicker from 'react-date-picker'
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
 import ReadMoreReact from 'read-more-react';
 import {requestUrl} from '../requests';
+
 
 export default class Student_Diary extends Component {
     constructor(props) {
@@ -44,7 +43,7 @@ export default class Student_Diary extends Component {
             isLoaded: false,
             timeTable: [],
         })
-        const url = `http://diary.putinbyte.com:8000/api/v1/timetableByCohort/?cohortID=${this.props.location.state.cohortID}&date=${this.formatDate(date)}`;
+        const url = requestUrl + `/api/v1/timetableByCohort/?cohortID=${this.props.location.state.cohortID}&date=${this.formatDate(date)}`;
         axios.get(url, {
             headers: {
                 Authorization: 'Token ' + localStorage.getItem('token'),
@@ -153,7 +152,6 @@ export default class Student_Diary extends Component {
         
         
         this.getTable(this.state.chosenDate);
-        var data = {"subjectName": this.state.subjectName, "cohortID": this.props.location.state.cohortID, "teacherID": this.state.chosenTeacherID}
         
         
     }
@@ -298,7 +296,7 @@ export default class Student_Diary extends Component {
 
     deleteSubject(id,subjectname){
         if (window.confirm("Вы уверены что хотите удалить урок: " + subjectname + "?")){
-            axios.delete(`http://diary.putinbyte.com:8000/api/v1/timetableByCohort/?pk=${id}`,{
+            axios.delete(requestUrl + `/api/v1/timetableByCohort/?pk=${id}`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }

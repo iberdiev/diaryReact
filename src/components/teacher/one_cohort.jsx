@@ -1,7 +1,5 @@
 import React, {  Component } from 'react'
-import axios from 'axios';
 import { Link } from 'react-router-dom';
-import {requestUrl} from '../requests';
 
 export default class Teacher_One_Cohort extends Component {
     constructor(props){
@@ -9,13 +7,11 @@ export default class Teacher_One_Cohort extends Component {
         this.state = {
             cohort_ID: props.location.state.cohortID,
             className: props.location.state.className,
-            data : [{class_name: "10-А", pk: 4},{class_name: "11-Б", pk: 4}],
         };
         
     };
     
     render() {
-        const hello = "hello";
 
         return(
             <div className="container d-flex justify-content-center mt-2">

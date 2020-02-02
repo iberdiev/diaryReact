@@ -14,7 +14,7 @@ export default class SchoolNavbar extends Component {
     constructor(props){
       super(props);
       this.state = {
-          data: [{pk:5,cohort:5}],
+          data: [{pk:"",cohort:""}],
       }
   }
   componentWillMount = () =>{

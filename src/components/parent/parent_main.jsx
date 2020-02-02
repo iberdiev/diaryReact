@@ -1,7 +1,6 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Input } from 'reactstrap';
 import {requestUrl} from '../requests';
 
 
@@ -10,7 +9,7 @@ export default class Parent_Main extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data: [[],[],[],[],[],[],[]],
+            data: [[],[],[],[],[],[],[],[]],
             chosenStudent: 0,
         }
     }

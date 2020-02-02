@@ -7,7 +7,7 @@ export default class Teacher_Cohorts extends Component {
     constructor(props){
         super(props);
         this.state = {
-            data : [{class_name: "10-А", pk: 4},{class_name: "11-Б", pk: 4}],
+            data : {cohortName:'',cohortID:null}
         };
     }
     componentWillMount = () =>{

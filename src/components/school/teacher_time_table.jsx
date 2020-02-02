@@ -1,14 +1,12 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import $ from 'jquery';
 import DatePicker from 'react-date-picker'
 import ReadMoreReact from 'read-more-react';
 import {requestUrl} from '../requests';
 
 
 
-class One_Class extends Component {
+class OneClass extends Component {
 
     render(){
         return(
@@ -20,7 +18,14 @@ class One_Class extends Component {
                         {this.props.time}
                         </p>
                     </div>
-                    <div className="col-5 center-items">{this.props.homework}</div>
+                    <div className="col-5 center-items">
+                    <ReadMoreReact text={this.props.homework}
+                            min={10}
+                            ideal={20}
+                            max={200}
+                            readMoreText={'Читать далее...'}
+                            />
+                    </div>
                     <div className="col-3 center-items">{this.props.subject}</div>
 
                 </div>
@@ -154,7 +159,7 @@ export default class Student_Diary extends Component {
                             </div>
 
                             {this.state.timeTable.map(subject => (
-                                <One_Class subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} homework = {subject.homework} className={subject.className} />
+                                <OneClass subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} homework = {subject.homework} className={subject.className} />
                             ))}
 
                         </div>

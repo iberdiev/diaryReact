@@ -9,7 +9,7 @@ export default class Shool_Teachers_Profile extends Component {
         super(props);
         this.token = localStorage.getItem('token');
         this.state = {
-            data : [{class_name: "10-А", pk: 4},{class_name: "11-Б", pk: 4}],
+            data : {mainCohorts: "", teacherName: ""}
         };
         
     }
@@ -26,7 +26,6 @@ export default class Shool_Teachers_Profile extends Component {
             this.setState({
                 data: data
             })
-            console.log(data)
         })
         .catch(err =>{
             console.log(err.error);
@@ -43,9 +42,6 @@ export default class Shool_Teachers_Profile extends Component {
                                 </h5>
                             </div>
                             <div className="m-2">
-                                <h6 className="m-2">
-                                Учитель Школы № 45
-                                </h6>
                                 <h6 className="m-2">
                                 Классный руководитель: {!(this.state.data.mainCohorts==[])? <span>Нет класса</span>:<span>{this.state.data.mainCohorts}</span>}
                                 </h6>

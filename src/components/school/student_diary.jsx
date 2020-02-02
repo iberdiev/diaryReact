@@ -1,7 +1,5 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import $ from 'jquery';
 import DatePicker from 'react-date-picker'
 import ReadMoreReact from 'read-more-react';
 import {requestUrl} from '../requests';

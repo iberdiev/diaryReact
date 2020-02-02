@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import {requestUrl} from './requests';
 // import {Button} from 'react-bootstrap';
-import { Container } from 'reactstrap';
 class Login extends React.Component{
 
     constructor(props){

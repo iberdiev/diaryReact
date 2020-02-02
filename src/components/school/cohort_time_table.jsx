@@ -1,8 +1,6 @@
 
 import React, { Component } from 'react'
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import $ from 'jquery';
 import DatePicker from 'react-date-picker'
 import moment from 'moment';
 import TimePicker from 'rc-time-picker';
@@ -150,12 +148,7 @@ export default class Student_Diary extends Component {
         });
     }
     componentDidMount = () => {
-
-        
-        
         this.getTable(this.state.chosenDate);
-        var data = {"subjectName": this.state.subjectName, "cohortID": this.props.location.state.cohortID, "teacherID": this.state.chosenTeacherID}
-        
         
     }
     filterFunction(){
@@ -409,18 +402,7 @@ export default class Student_Diary extends Component {
                                             </div>
                                             <TimePicker minuteStep={5} placeholder={'Выберите время'} className="col-4"  showSecond={false} onChange={e => this.setState({subjectEndTime: e.format("HH:mm")})} />
                                     </div>
-                                            {/* <div className="input-group-prepend">
-                                                <button type="button" className="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Время &nbsp;
-                                                </button>
-                                                <div className="dropdown-menu">
-                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('8:00-8:45')}>8:00-8:45</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('8:55-9:40')}>8:55-9:40</a>
-                                                    <a className="dropdown-item" onClick={()=>this.changeTimeValue('9:50-10:35')}>9:50-10:35</a>
-                                                </div>
-                                            </div> 
-                                            <input type="text" id="subjectInput" name="subject" onChange={e => this.setState({subjectStarttime: e.target.value.slice(0, -3)})} className="form-control" />
-
-                                            */}
+                                            
 
                                             
                                             
