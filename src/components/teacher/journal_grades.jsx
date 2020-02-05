@@ -1,5 +1,6 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
+import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import {requestUrl} from '../requests';
 
@@ -11,7 +12,7 @@ export default class Teacher_Journal_Grade extends Component {
             cohortName: this.props.location.state.cohortName,
             cohortID: this.props.location.state.cohortID,
             subjectID: this.props.location.state.subjectID,
-            isLoaded: true,
+            isLoaded: false,
             checkedStudents: [],
             data:[
                 {
@@ -34,7 +35,8 @@ export default class Teacher_Journal_Grade extends Component {
             chosenLessonID: null,
         }
     }
-    componentWillMount = () =>{
+
+    getTable(){
         axios.get(requestUrl + `/api/v1/cohortSubjectFinalGrades/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
@@ -42,6 +44,7 @@ export default class Teacher_Journal_Grade extends Component {
         }).then(res => {
             const data = res.data;
             this.setState({
+                isLoaded:true,
                 data: data,
             });
             console.log(data)
@@ -49,7 +52,9 @@ export default class Teacher_Journal_Grade extends Component {
         .catch(err =>{
             console.log(err.error);
         });
-        
+    }
+    componentWillMount = () =>{
+        this.getTable()
     }
 
     // This function check all if check all is clicked
@@ -124,6 +129,9 @@ export default class Teacher_Journal_Grade extends Component {
 
     // Adding grade to database function
     sendGrade(){
+        this.setState({
+            isLoaded:false
+        })
         var sendingArray = []
 
         function postGrades(data) {
@@ -145,9 +153,11 @@ export default class Teacher_Journal_Grade extends Component {
         })
         
         axios.all(sendingArray)
-        .then(axios.spread(function (acct, perms) {
-            window.location.reload();
-          }))
+        .then(res =>{
+            console.log(res.data)
+            $('#oneStudentModal').modal('hide');
+            this.getTable()
+        })
         .catch(err =>{
             console.log(err.error);
         });
@@ -156,6 +166,9 @@ export default class Teacher_Journal_Grade extends Component {
 
     // Sending Change grade
     confirmChange(id,mark){
+        this.setState({
+            isLoaded:false
+        })
         let data = {"pk":id,"mark":mark}
         axios.put(requestUrl + '/api/v1/cohortSubjectFinalGrades/', data,{
                 headers:{
@@ -170,7 +183,9 @@ export default class Teacher_Journal_Grade extends Component {
                 }else{
                     console.log("Not good")
                 }
-                window.location.reload();
+                this.getTable()
+                $('#oneStudentModal').modal('hide');
+
             })
             .catch(err =>{
                 console.log("Not good")
@@ -178,6 +193,9 @@ export default class Teacher_Journal_Grade extends Component {
             
     }
     confirmDelete(id){
+        this.setState({
+            isLoaded:false
+        })
         axios.delete(requestUrl + `/api/v1/cohortSubjectFinalGrades/?pk=${id}`,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
@@ -191,7 +209,10 @@ export default class Teacher_Journal_Grade extends Component {
                 }else{
                     console.log("Not good")
                 }
-                window.location.reload();
+                this.getTable()
+                $('#oneStudentModal').modal('hide');
+
+
             })
             .catch(err =>{
                 console.log("Not good")
@@ -294,6 +315,12 @@ export default class Teacher_Journal_Grade extends Component {
                 {/* Modal for all students grading */}
 
                 <div className="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""}
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -336,6 +363,12 @@ export default class Teacher_Journal_Grade extends Component {
                 {/* Modal for one student grading */}
 
                 <div id="oneStudentModal" class="modal fade" role="dialog">
+                    {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""}
                 <div class="modal-dialog">
 
                     <div class="modal-content">
@@ -359,10 +392,10 @@ export default class Teacher_Journal_Grade extends Component {
                                             <option selected={otsenka.mark===2} value="2">2</option>
                                         </select>   
                                         <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark===this.state.temprGrades[index].mark} > Сохранить</button> 
-                                        <Link onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</Link>  
+                                        <button onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</button>  
                                    </h6> )
                                 }
-                                return 0
+                                return ""
                             })}
                                     
                         <div className="p-2">
@@ -373,7 +406,7 @@ export default class Teacher_Journal_Grade extends Component {
                                             Добавить новую оценку
                                         </a>
                                     )}
-                                return 0
+                                return ""
                             })}
                         
                         </div>

@@ -1,5 +1,6 @@
 import React, {  Component } from 'react'
 import axios from 'axios';
+import $ from 'jquery';
 import { Link } from 'react-router-dom';
 import {requestUrl} from '../requests';
 
@@ -8,11 +9,12 @@ export default class Teacher_Journal extends Component {
     constructor(props){
         super(props);
         this.state = {
+
             subjectName: this.props.location.state.subjectName,
             cohortName: this.props.location.state.cohortName,
             cohortID: this.props.location.state.cohortID,
             subjectID: this.props.location.state.subjectID,
-            isLoaded: true,
+            isLoaded: false,
             checkedStudents: [],
             data:{
                 "grades": [
@@ -42,7 +44,8 @@ export default class Teacher_Journal extends Component {
             chosenLessonID: 10,
         }
     }
-    componentWillMount = () =>{
+
+    getTable(){
         axios.get(requestUrl + `/api/v1/cohortRegularGradesOneSubjectView/?subjectID=${this.state.subjectID}&cohortID=${this.state.cohortID}&type=6`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
@@ -59,7 +62,9 @@ export default class Teacher_Journal extends Component {
         .catch(err =>{
             console.log(err.error);
         });
-        
+    }
+    componentWillMount = () =>{
+        this.getTable()
     }
     changeDateFormat(inputDate){  // expects Y-m-d
         var splitDate = inputDate.split('-');
@@ -143,6 +148,7 @@ export default class Teacher_Journal extends Component {
 
     // Adding grade to database function
     sendGrade(){
+        this.setState({isLoaded:false});
         var sendingArray = []
 
         function postGrades(data) {
@@ -163,10 +169,11 @@ export default class Teacher_Journal extends Component {
         })
         
         axios.all(sendingArray)
-        .then(axios.spread(function (acct, perms) {
-            // window.location.reload();
-            
-          }))
+        .then(res =>{
+            console.log(res.data)
+            $('#oneStudentModal').modal('hide');
+            this.getTable()
+        })
         .catch(err =>{
             console.log(err.error);
         });
@@ -175,6 +182,7 @@ export default class Teacher_Journal extends Component {
 
     // Sending Change grade
     confirmChange(id,mark){
+        this.setState({isLoaded:false});
         let data = {"pk":id,"mark":mark}
         axios.put(requestUrl + '/api/v1/regularGrades/', data,{
                 headers:{
@@ -188,8 +196,10 @@ export default class Teacher_Journal extends Component {
                     console.log("Good")
                 }else{
                     console.log("Not good")
+
                 }
-                window.location.reload();
+                $('#oneStudentModal').modal('hide');
+                this.getTable()
             })
             .catch(err =>{
                 console.log("Not good")
@@ -197,6 +207,7 @@ export default class Teacher_Journal extends Component {
             
     }
     confirmDelete(id){
+        this.setState({isLoaded:false});
         axios.delete(requestUrl + `/api/v1/regularGrades/?pk=${id}`,{
                 headers:{
                     Authorization:'Token ' + localStorage.getItem('token'),
@@ -207,10 +218,12 @@ export default class Teacher_Journal extends Component {
                 console.log(data)
                 if (data==="OK"){
                     console.log("Good")
+                    
                 }else{
                     console.log("Not good")
                 }
-                window.location.reload();
+                $('#oneStudentModal').modal('hide');
+                this.getTable()
             })
             
             .catch(err =>{
@@ -262,12 +275,12 @@ export default class Teacher_Journal extends Component {
                                 <Link to={{pathname:"journal_grades", state:{cohortID: this.state.cohortID, subjectID:this.state.subjectID, cohortName:this.state.cohortName, subjectName:this.state.subjectName}}} className="swipe-button grades center-items">Итоговые</Link>
                             </div>
                         </div>
-                        <div className="col-5" >
-                            <label htmlFor="all_check" className="singleLabel pl-1">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span className="checkmark checkmark-all ml-3"></span> </label>
+                        <div className="col-5">
+                            <label htmlFor="all_check" className="singleLabel">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span className="checkmark checkmark-all ml-3"></span> </label>
 
                         </div>
                         
-                        <div className="journal" style={{height:'80vh'}}>
+                        <div className="journal" >
                             
                             <div className="names p-0 ">
                             
@@ -350,6 +363,12 @@ export default class Teacher_Journal extends Component {
                 {/* Modal for all students grading */}
 
                 <div className="modal" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""}
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -392,6 +411,12 @@ export default class Teacher_Journal extends Component {
                 {/* Modal for one student grading */}
 
                 <div id="oneStudentModal" className="modal fade" role="dialog">
+                {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""}
                 <div className="modal-dialog">
 
                     <div className="modal-content">
@@ -410,7 +435,7 @@ export default class Teacher_Journal extends Component {
                                     <option selected={otsenka.mark===4} value="4">4</option>
                                     <option selected={otsenka.mark===3} value="3">3</option>
                                     <option selected={otsenka.mark===2} value="2">2</option>
-                                  </select>   <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark===this.state.temprGrades[index].mark} > Сохранить</button> <Link onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</Link>  </h6> )
+                                  </select>   <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark===this.state.temprGrades[index].mark} > Сохранить</button> <button onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</button>  </h6> )
                                 )}                        
                         <div className="p-2">
                         <a className="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
