@@ -247,7 +247,7 @@ export default class Teacher_Journal_Grade extends Component {
                         </div>
                         </div>
                         <div className="col-5">
-                            <label htmlFor="all_check" className="singleLabel">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span class="checkmark checkmark-all ml-3"></span> </label>
+                            <label htmlFor="all_check" className="singleLabel pl-1">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span class="checkmark checkmark-all ml-3"></span> </label>
 
                         </div>
                         <div className="journal">

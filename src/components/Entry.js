@@ -53,16 +53,6 @@ class Login extends React.Component{
             });
     }
 
-    wrongCredentials = () => {
-        if (this.error){
-            return (
-                <div>
-                    <h3>Неверные данные.</h3>
-                    <h4>Попробуйте ввести снова.</h4>
-                </div>
-            )
-        }
-    }
 
     render(){
         return(
