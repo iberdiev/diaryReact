@@ -56,7 +56,10 @@ export default class Teacher_Journal_Grade extends Component {
     componentWillMount = () =>{
         this.getTable()
     }
-
+    
+    componentDidUpdate = () =>{
+        $( "#osenkitable" ).scrollLeft( 500 );
+    }
     // This function check all if check all is clicked
     toggle = event => {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');

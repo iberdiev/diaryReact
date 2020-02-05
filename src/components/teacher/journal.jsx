@@ -66,6 +66,9 @@ export default class Teacher_Journal extends Component {
     componentWillMount = () =>{
         this.getTable()
     }
+    componentDidUpdate = () =>{
+        $( "#osenkitable" ).scrollLeft( 500 );
+    }
     changeDateFormat(inputDate){  // expects Y-m-d
         var splitDate = inputDate.split('-');
         if(splitDate.count === 0){
@@ -126,6 +129,7 @@ export default class Teacher_Journal extends Component {
 
 
     changeMark(e,id){
+        
         var newmark = e.target.value;
         var newarray = []
         this.state.temprGrades.map((grade)=>{
@@ -148,6 +152,7 @@ export default class Teacher_Journal extends Component {
 
     // Adding grade to database function
     sendGrade(){
+
         this.setState({isLoaded:false});
         var sendingArray = []
 
@@ -251,6 +256,8 @@ export default class Teacher_Journal extends Component {
     }
 
     render() {
+        
+
         return (
             <div>
                 <div className="mt-2 center-items">
@@ -305,8 +312,8 @@ export default class Teacher_Journal extends Component {
                                 </table>
                             </div>
                             <div className="line"></div>
-                            <div className="osenki ">
-                                <table id="" className="table table-striped table-bordered display " style={{width:'100%'}}>
+                            <div className="osenki " id="osenkitable">
+                                <table  className="table table-striped table-bordered display " style={{width:'100%'}}>
                                     <thead>
                                         <tr>
                                             
