@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import axios from 'axios';
+import $ from 'jquery';
 import DatePicker from 'react-date-picker';
 import 'rc-time-picker/assets/index.css';
 import ReadMoreReact from 'read-more-react';
@@ -29,7 +30,10 @@ export default class Student_Diary extends Component {
             changeTeacherID: null,
             changeTeacherName: null,
             changeIndex: null,
-            changeHomeWork: null,
+            changeHomeWork: '',
+
+
+            // For refreshing 
         }
         this.changeValue = this.changeValue.bind(this)
     }
@@ -188,6 +192,7 @@ export default class Student_Diary extends Component {
     changeTeacherValue(name,id){
         var teacherButton = document.getElementById("teacherButton");
         this.setState({
+            chosenTeacherName:name,
             chosenTeacherID:id,
             validTeacher: ""
         })
@@ -213,25 +218,27 @@ export default class Student_Diary extends Component {
 
         })
         event.preventDefault();
-        if (this.state.subjectStarttime===null){
+        if (this.state.subjectStarttime==null){
             this.setState({
                 validnumber:"*Вы не выбрали последовательность урока"
             })
             
         }
-        if (this.state.chosenSubject===null){
+        else if (this.state.chosenSubject===null){
             this.setState({
                 validSubject:"*Вы не выбрали предмет"
             })
             
         }
-        if (this.state.chosenTeacherID===null){
+        else if (this.state.chosenTeacherID===null){
             this.setState({
                 validTeacher:"*Выберите, пожалуйста, учителя"
             })
             
         }
         else{
+            this.setState({isLoaded:false});
+            $('#exampleModalCenter').modal('hide');
             var isAvailable = false;
             var idSubject = null;
             var data;
@@ -250,7 +257,9 @@ export default class Student_Diary extends Component {
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }
                 }).then(res => {
-                    window.location.reload()
+                    this.setState({chosenTeacherID:null, chosenSubject:null, subjectStarttime:null})
+                    this.getTable(this.state.chosenDate);
+                   
                 })
                 .catch(err =>{
                     console.log(err.error);
@@ -263,7 +272,8 @@ export default class Student_Diary extends Component {
                     Authorization:'Token ' + localStorage.getItem('token'),
                 }
                 }).then(res => {
-                    window.location.reload()
+                    this.getTable(this.state.chosenDate);
+                    $('#exampleModalCenter').modal('hide')
                 })
                 .catch(err =>{
                     console.log(err.error);
@@ -305,6 +315,8 @@ export default class Student_Diary extends Component {
     }
 
     submitChangeSubject = event =>{
+        $('#ChangeModal').modal('hide')
+        this.setState({isLoaded:false})
         event.preventDefault();
         var data = {"pk":this.state.changesubjectID,"startTime":this.state.changeTime,"teacher":this.state.changeTeacherID, "endTime": this.state.changeEndTime, "homework": this.state.changeHomeWork}
         axios.put(requestUrl + '/api/v1/timetableByCohort/',data,{
@@ -312,7 +324,7 @@ export default class Student_Diary extends Component {
             Authorization:'Token ' + localStorage.getItem('token'),
         }
         }).then(res => {
-            window.location.reload()
+            this.getTable(this.state.chosenDate);
         })
         .catch(err =>{
             console.log(err.error);
@@ -320,13 +332,16 @@ export default class Student_Diary extends Component {
     }
 
     deleteSubject(id,subjectname){
+        this.setState({
+            isLoaded:false
+        })
         if (window.confirm("Вы уверены что хотите удалить урок: " + subjectname + "?")){
             axios.delete(requestUrl + `/api/v1/timetableByCohort/?pk=${id}`,{
             headers:{
                 Authorization:'Token ' + localStorage.getItem('token'),
             }
             }).then(res => {
-                window.location.reload()
+                this.getTable(this.state.chosenDate);
             })
             .catch(err =>{
                 console.log(err.error);
@@ -337,7 +352,11 @@ export default class Student_Diary extends Component {
 
     render() {
         
-        
+        $('#exampleModalCenter').on('hidden.bs.modal', function (e) {
+            $('#inputGroupSelect03').val('none');
+            $('#inputGroupSelect02').val('none');
+            $("#teacherButton").text("Выберите учителя")
+          })
         return (
             <div className="d-flex justify-content-center mt-2">
                 <div className="col-lg-6 col-12  p-1 ">
@@ -382,7 +401,7 @@ export default class Student_Diary extends Component {
 
                             {this.state.timeTable.map((subject, index) => (
 
-                                <div className="card">
+                                <div key={index} className="card">
                                     <div className="row">
                                         <div className="col-2 center-items text-center">
                                         {index+1}
@@ -405,12 +424,12 @@ export default class Student_Diary extends Component {
                                 </div>
                             ))}
 
-                            <div className="center-items m-3"><button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">Добавить новый урок</button></div>
+                            <div className="center-items m-3"><button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter" onClick={() => this.setState({chosenTeacherName: "Выберите учителя"})} >Добавить новый урок</button></div>
 
                         </div>
                     </div>
                 </div>
-                <div className="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <form className="modal-content" onSubmit={this.submitNewSubject}>
                             <div className="modal-header">
@@ -424,10 +443,10 @@ export default class Student_Diary extends Component {
                                     <div className="row">
                                         <div className="input-group col-12 m-0 p-0">
                                             <div className="input-group-prepend">
-                                                <label className="input-group-text" htmlFor="inputGroupSelect01">Номер №</label>
+                                                <label className="input-group-text" htmlFor="inputGroupSelect02">Номер №</label>
                                             </div>
-                                            <select defaultValue="Веберите последовательность" className="custom-select" id="inputGroupSelect01" onChange={e => this.setState({subjectStarttime: e.target.value,validnumber:""})}>
-                                                    <option disabled>Веберите последовательность</option>
+                                            <select className="custom-select" defaultValue={'none'} id="inputGroupSelect02" onChange={e => this.setState({subjectStarttime: e.target.value,validnumber:""})}>
+                                                    <option value="none" disabled>Веберите последовательность</option>
                                                     <option value="8:00">1</option>
                                                     <option value="9:00">2</option>
                                                     <option value="10:00">3</option>
@@ -446,10 +465,10 @@ export default class Student_Diary extends Component {
                                             
                                         <div className="input-group col-12 m-0 mt-3  p-0">
                                             <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Предмет</label>
+                                                <label className="input-group-text"htmlFor="inputGroupSelect03">Предмет</label>
                                             </div>
-                                            <select className="custom-select" id="inputGroupSelect01" onChange={e => this.ifOther(e.target.value)}>
-                                                    <option selected disabled>Веберите Предмет</option>
+                                            <select  className="custom-select" defaultValue="none" id="inputGroupSelect03" onChange={e => this.ifOther(e.target.value)}>
+                                                    <option disabled value="none">Выберите Предмет</option>
                                                     <option value="Математика">Математика</option>
                                                     <option value="Русский-яз.">Русский-яз.</option>
                                                     <option value="Английский-яз.">Английский-яз.</option>
@@ -472,7 +491,7 @@ export default class Student_Diary extends Component {
                                         <span style={{color:"red"}}>{this.state.validSubject}</span>
                                         <div className="input-group col-12 m-0 p-0 mt-3">
                                             <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
+                                                <label className="input-group-text"htmlFor="inputGroupSelect01">Учитель</label>
                                             </div>
                                             <div className="dropdown form-control center-items p-0" id="inputGroupSelect01">
                                                 <button className="btn dropdown-toggle w-100"
@@ -481,13 +500,13 @@ export default class Student_Diary extends Component {
                                                 <div id="myDropdown" className="dropdown-menu" aria-labelledby="teacherButton" style={{maxHeight:'400px', overflow:'scroll'}}>
                                                     <div className="p-1 input-group">
                                                     <div className="input-group-prepend ">
-                                                    <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>
+                                                    <label className="input-group-text"htmlFor="inputGroupSelect01"><i className="fa fa-search"></i></label>
                                                     
                                                     </div>
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                  
-                                                    {this.state.teachers.map(teacher=>(
-                                                        <div className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</div>
+                                                    {this.state.teachers.map((teacher,i)=>(
+                                                        <div key={i} className="dropdown-item teacherselect" onClick={()=>this.changeTeacherValue(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</div>
                                                     ))}
                                                     
                                                 </div>
@@ -507,7 +526,7 @@ export default class Student_Diary extends Component {
                 
                 
                 {/* Modal for changing */}
-                <div className="modal fade" id="ChangeModal" tabindex="-1" role="dialog" aria-labelledby="ChangeModal" aria-hidden="true">
+                <div className="modal fade" id="ChangeModal" tabIndex="-1" role="dialog" aria-labelledby="ChangeModal" aria-hidden="true">
                     <div className="modal-dialog modal-dialog-centered" role="document">
                         <form className="modal-content" onSubmit={this.submitChangeSubject}>
                             <div className="modal-header">
@@ -541,13 +560,13 @@ export default class Student_Diary extends Component {
                                     
                                     <div className="input-group col-12 m-0 p-0">
                                         <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Д/З</label>
+                                                <label className="input-group-text"htmlFor="inputGroupSelect01">Д/З</label>
                                         </div>
                                         <input type="text" className="form-control" value={this.state.changeHomeWork} onChange={e => this.setState({changeHomeWork: e.target.value})}/>
                                     </div>
                                         <div className="input-group col-12 m-0 p-0 mt-3">
                                             <div className="input-group-prepend">
-                                                <label className="input-group-text" for="inputGroupSelect01">Учитель</label>
+                                                <label className="input-group-text"htmlFor="inputGroupSelect01">Учитель</label>
                                             </div>
                                             <div className="dropdown form-control center-items p-0" id="inputGroupSelect01">
                                                 <button className="btn dropdown-toggle w-100"
@@ -556,13 +575,13 @@ export default class Student_Diary extends Component {
                                                 <div id="myDropdown" className="dropdown-menu" aria-labelledby="changeTeacherButton" style={{maxHeight:'400px', overflow:'scroll'}}>
                                                     <div className="p-1 input-group">
                                                     <div className="input-group-prepend ">
-                                                    <label className="input-group-text" for="inputGroupSelect01"><i className="fa fa-search"></i></label>
+                                                    <label className="input-group-text"htmlFor="inputGroupSelect01"><i className="fa fa-search"></i></label>
                                                     
                                             </div>
                                                 <input type="text" className="form-control" placeholder="Искать..." id="myInput" onKeyUp={()=>this.filterFunction()}/></div>
                                 
-                                                    {this.state.teachers.map(teacher=>(
-                                                        <div className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</div>
+                                                    {this.state.teachers.map((teacher,i)=>(
+                                                        <div key={i} className="dropdown-item teacherselect" onClick={()=>this.changeTeacher(teacher.teacherName,teacher.pk)} >{teacher.teacherName}</div>
                                                     ))}
                                                     
                                                     

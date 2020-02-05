@@ -6,12 +6,26 @@ import {requestUrl} from '../requests';
 
 
 class OneClass extends Component {
+    slash(array){
+        var string = "";
+        array.map(function(mark,i){
+            if (array.length === i+1){
+                string += (mark.mark+ ' ')
+            }
+            else{
+                string += (mark.mark+ ' / ')
+            }
+            return 0;
+        })
+        return(<span>{string}</span>)
+        
+    }
 
     render(){
         return(
-            <div className="card p-2 mt-1 ">
+            <div className="card p-2 mt-1 pt-3 pb-3">
                 <div className="row">
-                    <div className="col-4 center-items text-left">
+                    <div className="col-4 center-items ">
                         {this.props.subject}
                     </div>
                     <div className="col-5 center-items">
@@ -21,12 +35,11 @@ class OneClass extends Component {
                             ideal={20}
                             max={200}
                             readMoreText={'Читать далее...'}
-                            /></div>
+                            />
+                        </div>
                         
                     </div>
-                    <div className="col-3 center-items">{this.props.grades.map(function(mark){
-                        return (mark.mark+ ' ')
-                    })}</div>
+                    <div className="col-3 center-items">{this.slash(this.props.grades)}</div>
 
                 </div>
             </div>

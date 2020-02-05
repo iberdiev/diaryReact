@@ -164,7 +164,8 @@ export default class Teacher_Journal extends Component {
         
         axios.all(sendingArray)
         .then(axios.spread(function (acct, perms) {
-            window.location.reload();
+            // window.location.reload();
+            
           }))
         .catch(err =>{
             console.log(err.error);
@@ -218,6 +219,24 @@ export default class Teacher_Journal extends Component {
             
     }
 
+
+    // Putting slash between grades
+    slash(array){
+        var string = "";
+        array.map(function(mark,i){
+            if (array.length === i+1){
+                string += (mark.mark+ ' ')
+            }
+            else{
+                string += (mark.mark+ ' / ')
+            }
+            return 0
+            
+        })
+        return(<span>{string}</span>)
+        
+    }
+
     render() {
         return (
             <div>
@@ -243,12 +262,12 @@ export default class Teacher_Journal extends Component {
                                 <Link to={{pathname:"journal_grades", state:{cohortID: this.state.cohortID, subjectID:this.state.subjectID, cohortName:this.state.cohortName, subjectName:this.state.subjectName}}} className="swipe-button grades center-items">Итоговые</Link>
                             </div>
                         </div>
-                        <div className="col-5">
-                            <label htmlFor="all_check" className="singleLabel">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span class="checkmark checkmark-all ml-3"></span> </label>
+                        <div className="col-5" >
+                            <label htmlFor="all_check" className="singleLabel pl-1">Выбрать всех <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/> <span className="checkmark checkmark-all ml-3"></span> </label>
 
                         </div>
                         
-                        <div className="journal">
+                        <div className="journal" style={{height:'80vh'}}>
                             
                             <div className="names p-0 ">
                             
@@ -256,7 +275,7 @@ export default class Teacher_Journal extends Component {
                                     
                                     <thead>
                                         <tr>
-                                            <th  className="p-1 bg-secondary text-white"><label htmlFor="all_check" className="m-0 d-block singleLabel" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/><span class="checkmark"></span> ФИО</label> </th>
+                                            <th  className="p-1 bg-secondary text-white"><label htmlFor="all_check" className="m-0 d-block singleLabel" > <input type="checkbox" onChange={(e)=>this.toggle(e)} id="all_check" className="mr-1"/><span className="checkmark"></span> ФИО</label> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -264,7 +283,7 @@ export default class Teacher_Journal extends Component {
                                         {this.state.data.grades.map(student => (
                                             <tr>
                                                 <td className="p-2">
-                                                    <label htmlFor={student.pk} className="d-block m-0 singleLabel"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/><span class="checkmark"></span>{student.studentName}</p></label>
+                                                    <label htmlFor={student.pk} className="d-block m-0 singleLabel"><p className="mt-1 mb-1"><input type="checkbox" id={student.pk} className="mr-1" name="studentcheckbox"/><span className="checkmark"></span>{student.studentName}</p></label>
                                                 </td>
                                             </tr>
                                             ))}
@@ -306,13 +325,9 @@ export default class Teacher_Journal extends Component {
                                                             })
                                                             return(
                                                                 <td className="p-0" data-toggle="modal" data-target="#oneStudentModal" onClick={()=>this.grade(one_date.pk, student.pk, student.studentName, gradearray)}>
-                                                                <p className="mt-1 mb-1 p-2 text-center" >&nbsp; {
-                                                                    gradearray.map(grade=>{
-                                                                        return(
-                                                                            <span id="mark"> {grade.mark} </span>
-                                                                        )
+                                                                <p className="mt-1 mb-1 p-2 text-center" >&nbsp; { 
+                                                                    this.slash(gradearray)
                                                                     }
-                                                                    )}
                                                                 </p>
                                                                 </td>
                                                             )
@@ -334,7 +349,7 @@ export default class Teacher_Journal extends Component {
 
                 {/* Modal for all students grading */}
 
-                <div className="modal" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div className="modal" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -376,15 +391,15 @@ export default class Teacher_Journal extends Component {
 
                 {/* Modal for one student grading */}
 
-                <div id="oneStudentModal" class="modal fade" role="dialog">
-                <div class="modal-dialog">
+                <div id="oneStudentModal" className="modal fade" role="dialog">
+                <div className="modal-dialog">
 
-                    <div class="modal-content">
-                    <div class="modal-header">
-                    <h5 class="modal-title">Оценка ученику</h5>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div className="modal-content">
+                    <div className="modal-header">
+                    <h5 className="modal-title">Оценка ученику</h5>
+                        <button type="button" className="close" data-dismiss="modal">&times;</button>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                         Ученику - <span id="modal-name">{this.state.oneStudentGrading.name}</span> 
                         <br/>
                         <br/> Оценки на этот день - 
@@ -398,7 +413,7 @@ export default class Teacher_Journal extends Component {
                                   </select>   <button className="fa fa-trash btn btn-primary text-white" onClick={()=>this.confirmChange(otsenka.gradeID, this.state.temprGrades[index].mark)} disabled={otsenka.mark===this.state.temprGrades[index].mark} > Сохранить</button> <Link onClick={()=>this.confirmDelete(otsenka.gradeID)} className="fa fa-trash btn btn-danger text-white"> Удалить</Link>  </h6> )
                                 )}                        
                         <div className="p-2">
-                        <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <a className="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                             Добавить новую оценку
                         </a>
                         </div>
@@ -423,7 +438,7 @@ export default class Teacher_Journal extends Component {
                         </div>
                         
                     </div>
-                    <div class="modal-footer">
+                    <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Закрыть</button>
                         <button type="button" className="btn btn-primary" onClick={()=>this.sendGrade()} >Сохранить</button>
                     </div>
