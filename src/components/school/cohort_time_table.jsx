@@ -470,8 +470,8 @@ export default class Student_Diary extends Component {
                                             <select  className="custom-select" defaultValue="none" id="inputGroupSelect03" onChange={e => this.ifOther(e.target.value)}>
                                                     <option disabled value="none">Выберите Предмет</option>
                                                     <option value="Математика">Математика</option>
-                                                    <option value="Русский-яз.">Русский-яз.</option>
-                                                    <option value="Английский-яз.">Английский-яз.</option>
+                                                    <option value="Русский">Русский</option>
+                                                    <option value="Английский">Английский</option>
                                                     <option value="История">История</option>
                                                     <option value="География">География</option>
                                                     <option value="Биология">Биология</option>

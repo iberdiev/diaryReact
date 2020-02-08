@@ -8,6 +8,7 @@ export default class Teacher_Choose_Subject extends Component {
         super(props);
         this.token = localStorage.getItem('token');
         this.state = {
+            isLoaded: false,
             cohortID: this.props.location.state.cohortID,
             data : [],
         };
@@ -33,6 +34,7 @@ export default class Teacher_Choose_Subject extends Component {
         return(
             <div className="container d-flex justify-content-center mt-2">
                 <div className="login-form col-lg-6 col-10  p-1">
+                    
                     
                     <h6 className="m-2 text-center">
                         

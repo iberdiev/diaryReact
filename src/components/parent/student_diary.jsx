@@ -25,21 +25,24 @@ class OneClass extends Component {
         return(
             <div className="card p-2 mt-1 pt-3 pb-3">
                 <div className="row">
+                <div className="col-1 center-items p-0 m-0 pl-1">
+                        {this.props.index}
+                    </div>
                     <div className="col-4 center-items ">
                         {this.props.subject}
                     </div>
                     <div className="col-5 center-items">
                         <div className="text-center">
                             <ReadMoreReact text={this.props.task}
-                            min={10}
-                            ideal={20}
+                            min={15}
+                            ideal={30}
                             max={200}
                             readMoreText={'Читать далее...'}
                             />
                         </div>
                         
                     </div>
-                    <div className="col-3 center-items">{this.slash(this.props.grades)}</div>
+                    <div className="col-2 center-items p-0 m-0">{this.slash(this.props.grades)}</div>
 
                 </div>
             </div>
@@ -151,20 +154,23 @@ export default class Student_Diary extends Component {
                             </div>
                             <div className="pl-3 p-2">
                                 <div className="row">
+                                    <div className="col-1 btn-link center-items p-0 m-0">
+                                        <h6>№</h6>
+                                    </div>
                                     <div className="col-4 btn-link center-items">
                                         <h6>Урок</h6>
                                     </div>
                                     <div className="col-5 btn-link center-items">
                                         <h6>Д/З</h6>
                                     </div>
-                                    <div className="col-3 btn-link center-items">
+                                    <div className="col-1 btn-link center-items p-0 m-0">
                                         <h6>Оценки</h6>
                                     </div>
                                 </div>
                             </div>
 
                             {this.state.timeTable.map((subject,i) => (
-                                <OneClass key={i} subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
+                                <OneClass key={i} index={i+1} subject={subject.subjectName} time={subject.startTime.slice(0,-3)+'-'+subject.endTime.slice(0,-3)} task = {subject.homework} grades={subject.regularGrades} />
                             ))}
 
                         </div>

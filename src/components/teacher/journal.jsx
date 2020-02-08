@@ -67,7 +67,7 @@ export default class Teacher_Journal extends Component {
         this.getTable()
     }
     componentDidUpdate = () =>{
-        $( "#osenkitable" ).scrollLeft( 500 );
+        $( "#osenkitable" ).scrollLeft( $(".table").width() );
     }
     changeDateFormat(inputDate){  // expects Y-m-d
         var splitDate = inputDate.split('-');

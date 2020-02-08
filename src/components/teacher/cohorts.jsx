@@ -7,6 +7,7 @@ export default class Teacher_Cohorts extends Component {
     constructor(props){
         super(props);
         this.state = {
+            isLoaded:false,
             data : [{cohortName:'',cohortID:null}]
         };
     }
@@ -28,6 +29,7 @@ export default class Teacher_Cohorts extends Component {
             } 
             this.setState({
                 data: filteredData,
+                isLoaded:true
             });
             console.log(filteredData)
 
@@ -44,6 +46,12 @@ export default class Teacher_Cohorts extends Component {
                 <h2 >
                             Мои классы
                 </h2>
+                {!this.state.isLoaded ?
+                        <div>
+                            <div className="preloader center-items">
+                            <div className="lds-dual-ring"></div>
+                        </div>
+                    </div> : ""}
 
                 {this.state.data.map((cohort,i) => (
                     <Link key={i} to={{pathname: '/teacher/one_cohort', state: { cohortID: cohort.cohortID, cohortName: cohort.cohortName}}}>
