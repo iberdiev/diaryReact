@@ -5,6 +5,17 @@ import axios from 'axios';
 
 
 import Login from './components/Entry';
+import EmailLogin from './components/emailEntry';
+import Register from './components/register/register';
+import EmailRegister from './components/register/emailregister';
+import Confirm from './components/register/confirm';
+
+// Forgot Password
+import ForgotPassword from './components/forgotpassword/register';
+import EmailForgotPassword from './components/forgotpassword/emailregister';
+import ForgotConfirm from './components/forgotpassword/confirm';
+
+
 
 
 // NEED CHANGE
@@ -142,7 +153,16 @@ class App extends Component {
         return(
           <Router>
           <Switch>
-            <Route path='/' exact component={Login}/>
+          <Route path='/' exact component={Login}/>
+          <Route path='/emailentry' exact component={EmailLogin}/>
+            <Route path='/register' exact component={Register}/>
+            <Route path='/emailregister' exact component={EmailRegister}/>
+            <Route path='/confirm' exact component={Confirm}/>
+            
+            <Route path='/forgotpassword' exact component={ForgotPassword}/>
+            <Route path='/emailforgotpassword' exact component={EmailForgotPassword}/>
+            <Route path='/forgotconfirm' exact component={ForgotConfirm}/>
+
             <Route path='*' exact component={Login}/>
           </Switch>
           </Router>

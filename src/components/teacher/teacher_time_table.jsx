@@ -20,7 +20,7 @@ class OneClass extends Component {
                     <div className="col-3 center-items">{this.props.subject}</div>
                     <div className="col-5 center-items">
                     <ReadMoreReact text={this.props.homework}
-                            min={10}
+                            min={0}
                             ideal={20}
                             max={200}
                             readMoreText={'Читать далее...'}

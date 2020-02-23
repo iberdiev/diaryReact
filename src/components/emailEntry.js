@@ -4,7 +4,7 @@ import {requestUrl} from './requests';
 import { Link } from 'react-router-dom';
 
 // import {Button} from 'react-bootstrap';
-class Login extends React.Component{
+class EmailLogin extends React.Component{
 
     constructor(props){
         super(props);
@@ -35,7 +35,7 @@ class Login extends React.Component{
 
         localStorage.setItem('school', this.state.username);
         
-        axios.post(requestUrl + '/api/v1/login/', {"type": this.state.type,"info": "996"+this.state.username, "password":this.state.password},
+        axios.post(requestUrl + '/api/v1/login/', {"type": this.state.type,"info": this.state.username, "password":this.state.password},
             {headers: {'Content-Type': 'application/json'}}
         )
         .then(res => {
@@ -80,13 +80,11 @@ class Login extends React.Component{
                         <form onSubmit={this.onSubmit}>
                             <h1 className="text-center m-2">Вход</h1>
 
-                            {!this.state.isValid ? <span className="text-danger mt-2">Неправильный логин или пароль. Проверьте свои ведённые данные<br/></span> : ""}
-                            <label className="mt-3" for="basic-url">Номер телефона: </label>
+                            {!this.state.isValid ? <span className="text-danger mt-2">Неправильный логин или пароль</span> : ""}
+                            <br/>
+                            <label className="mt-3" for="basic-url">Адрес электронный почты</label>
                             <div className="form-group input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text" id="basic-addon1">+996</span>
-                                </div>
-                                <input type="text" className="form-control" placeholder="Пример: 777123456" autoFocus required="required" onChange={e => this.setState({username: e.target.value})} />
+                                <input type="text" className="form-control" placeholder="Пример: name.example@gmail.com" autoFocus required="required" onChange={e => this.setState({username: e.target.value})} />
                             </div>
                             <label className="mt-1" for="basic-url">Пароль: </label>
                             <div className="form-group">
@@ -102,7 +100,7 @@ class Login extends React.Component{
                             </div>
                             
 
-                            <div className="text-center"><Link to="/emailentry" style={{color:'blue'}} href="#">Вход с помощью электронной почты</Link> </div>
+                            <div className="text-center"><Link to="/" style={{color:'blue'}} href="#">Вход с помощью номер телефона</Link> </div>
                             <div className="text-center"><Link to="/forgotpassword" style={{color:'blue'}} href="#">Забыли пароль?</Link> </div>
                         </form>
                         </div>
@@ -113,4 +111,4 @@ class Login extends React.Component{
     }
 }
 
-export default Login;
+export default EmailLogin;
